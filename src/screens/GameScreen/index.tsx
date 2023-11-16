@@ -8,10 +8,14 @@ import Information from './Information';
 import Board from './Board';
 
 const Container = styled.div`
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	max-width: 480px;
-	height: 900px; //모바일에 맞게 수정 필요
-	background-color: pink;
+	height: 100vh;
+	max-height: 900px;
+	padding: 20px 20px 30px;
+	background-color: var(--sub-color-blue);
 `;
 
 interface GameScreenProps {
