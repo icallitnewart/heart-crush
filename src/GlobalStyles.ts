@@ -14,6 +14,13 @@ const GlobalStyles = createGlobalStyle`
 
     --main-font: Agbalumo;
     --sub-font: Calistoga;
+
+    --heart-color-pink: #ed7fd0;
+    --heart-color-orange: #ffab3f;
+    --heart-color-green: #50cb86;
+    --heart-color-blue: #7fd7f3;
+    --heart-color-white: #f5fffa;
+    --heart-color-purple: #ADA2FF;
   }
 
   * {
