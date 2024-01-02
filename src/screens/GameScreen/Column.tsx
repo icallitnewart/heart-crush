@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import Cell from './Cell';
 
 const Container = styled.li`
-	transform: translateY(-50%);
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	width: calc(100% / 8);
 	height: 100%;
+	padding-bottom: 3px;
+	transform: translateY(calc(-50% + 5px));
 `;
 
-function Column(): React.ReactElement {
+function Column(props: any, ref: React.Ref<HTMLLIElement>): React.ReactElement {
 	return (
-		<Container>
-			{new Array(20).fill(0).map(_ => (
+		<Container ref={ref}>
+			{new Array(20).fill(0).map(__ => (
 				// 추후 key값 추가 예정
 				<Cell />
 			))}
@@ -23,4 +24,4 @@ function Column(): React.ReactElement {
 	);
 }
 
-export default Column;
+export default forwardRef<HTMLLIElement, any>(Column);
