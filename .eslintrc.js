@@ -35,6 +35,7 @@ module.exports = {
 	plugins: ['@typescript-eslint', 'react'],
 	rules: {
 		'@typescript-eslint/no-unused-vars': 'warn',
-		'react/no-unused-prop-types': 'warn'
+		'react/no-unused-prop-types': 'warn',
+		'import/prefer-default-export': 'off'
 	},
 };
