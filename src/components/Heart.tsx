@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 
-import { HeartIconsTypes } from '../types/heart';
+import { HeartIconType } from '../types/heart';
 
 interface HeartIconStyleProps {
-	$heartColor: HeartIconsTypes;
+	$heartColor: HeartIconType;
 }
 
 const HeartIcon = styled(FaHeart)<HeartIconStyleProps>`
@@ -14,7 +14,7 @@ const HeartIcon = styled(FaHeart)<HeartIconStyleProps>`
 
 	color: var(--heart-color-${props => props.$heartColor});
 	stroke: #555;
-	stroke-width: 20;
+	stroke-width: 15;
 	filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
 	cursor: pointer;
 
@@ -24,7 +24,7 @@ const HeartIcon = styled(FaHeart)<HeartIconStyleProps>`
 `;
 
 interface HeartProps {
-	heartColor: HeartIconsTypes;
+	heartColor: HeartIconType;
 }
 
 function Heart({ heartColor }: HeartProps): React.ReactElement {

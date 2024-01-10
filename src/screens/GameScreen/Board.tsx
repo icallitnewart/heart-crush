@@ -1,5 +1,7 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
+
+import { GamePlayContext } from '../../states/GamePlayContext';
 
 import Column from './Column';
 
@@ -11,13 +13,19 @@ const Container = styled.main`
 	flex-grow: 1;
 `;
 
-const Wrapper = styled.div`
+interface WrapperStyleProps {
+	$isBoardReady?: boolean;
+}
+
+const Wrapper = styled.div<WrapperStyleProps>`
+	opacity: ${props => (props.$isBoardReady ? 1 : 0)};
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
 	max-width: 480px;
 	padding: 12px;
+	transition: opacity 1s;
 
 	background: repeating-linear-gradient(
 		45deg,
@@ -34,17 +42,17 @@ const Wrapper = styled.div`
 	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 `;
 
-interface GameBoardStyleProps {
-	$gameBoardHeight: number;
+interface BoardBoxStyleProps {
+	$boardBoxHeight: number;
 }
 
-const GameBoard = styled.ul<GameBoardStyleProps>`
+const BoardBox = styled.ul<BoardBoxStyleProps>`
 	position: relative;
 	display: flex;
 	width: 100%;
 	height: ${props =>
-		props.$gameBoardHeight
-			? `calc(${props.$gameBoardHeight}px + 5px)`
+		props.$boardBoxHeight > 0
+			? `calc(${props.$boardBoxHeight}px + 5px)`
 			: '100%'};
 	padding: 0px 5px;
 	overflow: hidden;
@@ -56,25 +64,30 @@ const GameBoard = styled.ul<GameBoardStyleProps>`
 `;
 
 function Board() {
-	const [gameBoardHeight, setGameBoardHeight] = useState<number>(0);
+	const { board } = useContext(GamePlayContext);
+	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
 	useLayoutEffect(() => {
-		if (columnRef.current) {
+		if (board.length > 0 && columnRef.current) {
 			const columnHeight = columnRef.current.offsetHeight;
-			setGameBoardHeight(columnHeight / 2);
+			setBoardBoxHeight(columnHeight / 2);
 		}
-	}, [columnRef]);
+	}, [columnRef, board]);
 
 	return (
 		<Container>
-			<Wrapper>
-				<GameBoard $gameBoardHeight={gameBoardHeight}>
-					{new Array(8).fill(0).map(_ => (
-						// 추후 key값 추가 예정
-						<Column ref={columnRef} />
+			<Wrapper $isBoardReady={boardBoxHeight > 0}>
+				<BoardBox $boardBoxHeight={boardBoxHeight}>
+					{board.map(columnData => (
+						<Column
+							key={columnData.id}
+							ref={columnRef}
+							columnData={columnData}
+							columnLength={board.length}
+						/>
 					))}
-				</GameBoard>
+				</BoardBox>
 			</Wrapper>
 		</Container>
 	);

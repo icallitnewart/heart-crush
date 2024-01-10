@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Status } from '../../types/status';
+import { START_GAME } from '../../constants/gamePlay';
+import { GamePlayContext } from '../../states/GamePlayContext';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -23,6 +25,19 @@ interface GameScreenProps {
 }
 
 function GameScreen(props: GameScreenProps): React.ReactElement {
+	const { dispatch } = useContext(GamePlayContext);
+
+	useEffect(() => {
+		dispatch({
+			type: START_GAME,
+			stage: {
+				columns: 8, // 고정
+				rows: 20, // 수정 가능
+				move: 20,
+			},
+		});
+	}, [dispatch]);
+
 	return (
 		<Container>
 			<Navigation />

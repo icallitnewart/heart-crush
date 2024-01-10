@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import HEART_ICONS from '../../constants/heart';
+import { CellType } from '../../types/board';
+
 import Heart from '../../components/Heart';
 
 const Container = styled.div`
@@ -9,12 +12,18 @@ const Container = styled.div`
 	padding: 5px;
 `;
 
-function Cell(): React.ReactElement {
+interface CellProps {
+	cellData: CellType;
+}
+
+function Cell({ cellData }: CellProps): React.ReactElement {
+	const heartColor = HEART_ICONS[cellData.heart];
+
 	return (
 		<Container>
-			<Heart heartColor="purple" />
+			<Heart heartColor={heartColor} />
 		</Container>
 	);
 }
 
-export default Cell;
+export default React.memo(Cell);
