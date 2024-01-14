@@ -1,26 +1,102 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useContext } from 'react';
+import styled, { css, keyframes } from 'styled-components';
 
+import { GamePlayContext } from '../../states/GamePlayContext';
 import HEART_ICONS from '../../constants/heart';
 import { CellType } from '../../types/board';
+import { HeartInfoType, HeartMovingDirectionType } from '../../types/heart';
+import useSwapHearts from '../../hooks/useSwapHearts';
 
 import Heart from '../../components/Heart';
 
-const Container = styled.div`
+type MoveAnimationType = {
+	[key in HeartMovingDirectionType]: ReturnType<typeof keyframes>;
+};
+
+const moveAnimation: MoveAnimationType = {
+	right: keyframes`
+				0% { transform: translateX(0); }
+				50% { transform: translateX(50%); }
+				100% { transform: translateX(100%); }`,
+	left: keyframes`
+				0% { transform: translateX(0); }
+				50% { transform: translateX(-50%); }
+				100% { transform: translateX(-100%); }`,
+	up: keyframes`
+				0% { transform: translateY(0); }
+				50% { transform: translateY(-50%); }
+				100% { transform: translateY(-100%); }`,
+	down: keyframes`
+				0% { transform: translateY(0); }
+				50% { transform: translateY(50%); }
+				100% { transform: translateY(100%); }`,
+};
+
+const animationDuration = 200;
+
+interface ContainerStylePropsType {
+	$isMoving: boolean;
+	$direction: HeartMovingDirectionType | null;
+}
+
+const Container = styled.div<ContainerStylePropsType>`
 	width: 100%;
 	aspect-ratio: 1 / 1;
 	padding: 5px;
+	cursor: pointer;
+	animation: ${({ $isMoving, $direction }) =>
+		$isMoving && $direction
+			? css`
+					${moveAnimation[$direction]} ${animationDuration / 1000}s forwards
+			  `
+			: 'none'};
+
+	&:hover svg {
+		transform: scale(1.15);
+	}
 `;
 
-interface CellProps {
+interface CellPropsType {
 	cellData: CellType;
+	columnIndex: number;
+	cellIndex: number;
+	rows: number;
 }
 
-function Cell({ cellData }: CellProps): React.ReactElement {
+function Cell({
+	cellData,
+	columnIndex,
+	cellIndex,
+	rows,
+}: CellPropsType): React.ReactElement {
+	const heartInfo: HeartInfoType = {
+		id: cellData.id,
+		location: {
+			columnIndex,
+			cellIndex,
+		},
+	};
 	const heartColor = HEART_ICONS[cellData.heart];
 
+	const { movingHearts } = useContext(GamePlayContext);
+	const heartMovingStatus = movingHearts && movingHearts[heartInfo.id];
+	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwapHearts(
+		heartInfo,
+		rows,
+		animationDuration,
+	);
+
 	return (
-		<Container>
+		<Container
+			$isMoving={!!heartMovingStatus}
+			$direction={heartMovingStatus}
+			onTouchStart={handleSwipeStart}
+			onTouchMove={handleSwipeMove}
+			onTouchEnd={handleSwipeEnd}
+			onMouseDown={handleSwipeStart}
+			onMouseMove={handleSwipeMove}
+			onMouseLeave={handleSwipeEnd}
+		>
 			<Heart heartColor={heartColor} />
 		</Container>
 	);

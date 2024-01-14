@@ -1,9 +1,12 @@
 import { BoardType } from './board';
+import { MovingHeartsType } from './heart';
 
 export interface GamePlayStateType {
 	board: BoardType;
 	score: number;
 	move: number;
+	movingHearts: MovingHeartsType | null;
+	isSwiping: boolean;
 	goal: {
 		score?: number;
 	};
@@ -20,4 +23,5 @@ export interface GamePlayActionType {
 		rows: number;
 		move: number;
 	};
+	movingHearts?: MovingHeartsType | null;
 }

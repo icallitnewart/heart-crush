@@ -79,12 +79,13 @@ function Board() {
 		<Container>
 			<Wrapper $isBoardReady={boardBoxHeight > 0}>
 				<BoardBox $boardBoxHeight={boardBoxHeight}>
-					{board.map(columnData => (
+					{board.map((columnData, columnIndex) => (
 						<Column
 							key={columnData.id}
 							ref={columnRef}
 							columnData={columnData}
-							columnLength={board.length}
+							columns={board.length}
+							columnIndex={columnIndex}
 						/>
 					))}
 				</BoardBox>

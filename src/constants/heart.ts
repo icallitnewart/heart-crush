@@ -8,3 +8,10 @@ const HEART_ICONS = {
 } as const;
 
 export default HEART_ICONS;
+
+export const MOVE_HEART = {
+	UP: 'up',
+	DOWN: 'down',
+	LEFT: 'left',
+	RIGHT: 'right',
+} as const;

@@ -6,14 +6,14 @@ import { ColumnType } from '../../types/board';
 import Cell from './Cell';
 
 interface ColumnStyleProps {
-	$columnLength: number;
+	$columns: number;
 }
 
 const Container = styled.li<ColumnStyleProps>`
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	width: ${({ $columnLength }) => `calc(100% / ${$columnLength})`};
+	width: ${({ $columns }) => `calc(100% / ${$columns})`};
 	height: 100%;
 	padding-bottom: 3px;
 	transform: translateY(calc(-50% + 5px));
@@ -21,17 +21,24 @@ const Container = styled.li<ColumnStyleProps>`
 
 interface ColumnProps {
 	columnData: ColumnType;
-	columnLength: number;
+	columns: number;
+	columnIndex: number;
 }
 
 function Column(
-	{ columnData, columnLength }: ColumnProps,
+	{ columnData, columns, columnIndex }: ColumnProps,
 	ref: React.Ref<HTMLLIElement>,
 ): React.ReactElement {
 	return (
-		<Container ref={ref} $columnLength={columnLength}>
-			{columnData.cells.map(cellData => (
-				<Cell key={cellData.id} cellData={cellData} />
+		<Container ref={ref} $columns={columns}>
+			{columnData.cells.map((cellData, cellIndex) => (
+				<Cell
+					key={cellData.id}
+					cellData={cellData}
+					columnIndex={columnIndex}
+					cellIndex={cellIndex}
+					rows={columnData.cells.length}
+				/>
 			))}
 		</Container>
 	);

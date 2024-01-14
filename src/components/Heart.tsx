@@ -16,11 +16,11 @@ const HeartIcon = styled(FaHeart)<HeartIconStyleProps>`
 	stroke: #555;
 	stroke-width: 15;
 	filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
-	cursor: pointer;
+	transition: transform 0.3s;
 
-	&:hover {
+	/* &:hover {
 		transform: scale(1.15);
-	}
+	}  */
 `;
 
 interface HeartProps {

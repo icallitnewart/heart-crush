@@ -1,5 +1,5 @@
 import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay';
-import { START_GAME } from '../constants/gamePlay';
+import { START_GAME, SWAP_HEARTS } from '../constants/gamePlay';
 import { initialiseBoard } from '../features/board';
 
 const gamePlayReducer = (
@@ -23,6 +23,19 @@ const gamePlayReducer = (
 				goal: {
 					score: 1000,
 				},
+			};
+		}
+
+		case SWAP_HEARTS: {
+			if (action.movingHearts === undefined) {
+				throw new Error(
+					'MOVE_HEARTS action을 위한 movingHearts 정보가 존재하지 않습니다.',
+				);
+			}
+
+			return {
+				...state,
+				movingHearts: action.movingHearts,
 			};
 		}
 
