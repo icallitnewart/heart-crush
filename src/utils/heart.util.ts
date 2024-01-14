@@ -1,6 +1,6 @@
-import { MOVE_HEART } from '../constants/heart';
-import { BoardType } from '../types/board';
-import { HeartCoordsType, HeartMovingDirectionType } from '../types/heart';
+import { MOVE_HEART } from '../constants/heart.contsant';
+import { BoardType } from '../types/board.type';
+import { HeartCoordsType, HeartMovingDirectionType } from '../types/heart.type';
 
 export function getMovingDirection(
 	x1: number,

@@ -1,4 +1,4 @@
-import { HeartType } from './heart';
+import { HeartType } from './heart.type';
 
 export interface CellType {
 	id: string;

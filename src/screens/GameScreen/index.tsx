@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Status } from '../../types/status';
-import { START_GAME } from '../../constants/gamePlay';
+import { Status } from '../../types/status.type';
+import { START_GAME } from '../../constants/gamePlay.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
 
 import Navigation from './Navigation';

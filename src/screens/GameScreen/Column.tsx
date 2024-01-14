@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
-import { ColumnType } from '../../types/board';
+import { ColumnType } from '../../types/board.type';
 
 import Cell from './Cell';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 
-import { HeartIconType } from '../types/heart';
+import { HeartIconType } from '../types/heart.type';
 
 interface HeartIconStyleProps {
 	$heartColor: HeartIconType;

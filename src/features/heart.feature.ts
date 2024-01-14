@@ -1,6 +1,6 @@
-import HEART_ICONS from '../constants/heart';
-import { BoardType } from '../types/board';
-import { HeartType } from '../types/heart';
+import HEART_ICONS from '../constants/heart.contsant';
+import { BoardType } from '../types/board.type';
+import { HeartType } from '../types/heart.type';
 
 export function getRandomHeart(): HeartType {
 	const hearts: HeartType[] = Object.keys(HEART_ICONS).map(

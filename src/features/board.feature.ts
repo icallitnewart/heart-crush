@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { BoardType } from '../types/board';
-import { getRandomHeart, isHeartsMatch } from './heart';
+import { BoardType } from '../types/board.type';
+import { getRandomHeart, isHeartsMatch } from './heart.feature';
 
 export function initialiseBoard(columns: number, rows: number): BoardType {
 	const board = new Array(columns);

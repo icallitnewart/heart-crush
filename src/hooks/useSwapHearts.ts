@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useRef } from 'react';
 
-import { SWAP_HEARTS } from '../constants/gamePlay';
+import { SWAP_HEARTS } from '../constants/gamePlay.constant';
 import {
 	getCoords,
 	getMovingDirection,
 	getNearHeart,
 	getOppositeMovingDirection,
-} from '../utils/heart';
+} from '../utils/heart.util';
 import {
 	HeartCoordsType,
 	HeartInfoType,
 	MovingHeartsType,
-} from '../types/heart';
+} from '../types/heart.type';
 import { GamePlayContext } from '../states/GamePlayContext';
 
 function useSwapHearts(

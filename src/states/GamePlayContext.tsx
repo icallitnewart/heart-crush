@@ -4,7 +4,7 @@ import {
 	GamePlayActionType,
 	GamePlayContextType,
 	GamePlayStateType,
-} from '../types/gamePlay';
+} from '../types/gamePlay.type';
 import gamePlayReducer from './gamePlayReducer';
 
 const initialState: GamePlayStateType = {

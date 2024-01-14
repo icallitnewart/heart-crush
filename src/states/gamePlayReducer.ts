@@ -1,6 +1,6 @@
-import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay';
-import { START_GAME, SWAP_HEARTS } from '../constants/gamePlay';
-import { initialiseBoard } from '../features/board';
+import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
+import { START_GAME, SWAP_HEARTS } from '../constants/gamePlay.constant';
+import { initialiseBoard } from '../features/board.feature';
 
 const gamePlayReducer = (
 	state: GamePlayStateType,

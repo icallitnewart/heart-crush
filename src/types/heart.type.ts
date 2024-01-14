@@ -1,4 +1,4 @@
-import HEART_ICONS, { MOVE_HEART } from '../constants/heart';
+import HEART_ICONS, { MOVE_HEART } from '../constants/heart.contsant';
 
 // value
 export type HeartIconType = (typeof HEART_ICONS)[keyof typeof HEART_ICONS];

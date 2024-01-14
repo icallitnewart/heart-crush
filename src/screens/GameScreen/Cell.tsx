@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import HEART_ICONS from '../../constants/heart';
-import { CellType } from '../../types/board';
-import { HeartInfoType, HeartMovingDirectionType } from '../../types/heart';
+import HEART_ICONS from '../../constants/heart.contsant';
+import { CellType } from '../../types/board.type';
+import {
+	HeartInfoType,
+	HeartMovingDirectionType,
+} from '../../types/heart.type';
 import useSwapHearts from '../../hooks/useSwapHearts';
 
 import Heart from '../../components/Heart';

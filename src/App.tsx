@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import GlobalStyles from './GlobalStyles';
 
-import { PLAYING, STANDBY } from './constants/status';
-import { SwitchStatusFunction } from './types/status';
+import { PLAYING, STANDBY } from './constants/status.contsant';
+import { SwitchStatusFunction } from './types/status.type';
 
 import { GamePlayProvider } from './states/GamePlayContext';
 import GameScreen from './screens/GameScreen';

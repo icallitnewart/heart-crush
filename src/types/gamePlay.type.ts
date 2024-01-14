@@ -1,5 +1,5 @@
-import { BoardType } from './board';
-import { MovingHeartsType } from './heart';
+import { BoardType } from './board.type';
+import { MovingHeartsType } from './heart.type';
 
 export interface GamePlayStateType {
 	board: BoardType;
