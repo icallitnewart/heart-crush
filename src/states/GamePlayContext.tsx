@@ -13,7 +13,12 @@ const initialState: GamePlayStateType = {
 	move: 0,
 	goal: {},
 	movingHearts: null,
-	isSwiping: false,
+	isSwipeEnabled: true,
+	settings: {
+		animationDuration: {
+			movingHearts: 0,
+		},
+	},
 };
 
 const initialContextValue: GamePlayContextType = {
@@ -27,10 +32,20 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 	const [state, dispatch] = useReducer<
 		Reducer<GamePlayStateType, GamePlayActionType>
 	>(gamePlayReducer, initialState);
-	const { board, score, move, goal, isSwiping, movingHearts } = state;
+	const { board, score, move, goal, isSwipeEnabled, movingHearts, settings } =
+		state;
 	const value = useMemo(
-		() => ({ board, score, move, goal, isSwiping, movingHearts, dispatch }),
-		[board, score, move, goal, isSwiping, movingHearts],
+		() => ({
+			board,
+			score,
+			move,
+			goal,
+			isSwipeEnabled,
+			movingHearts,
+			dispatch,
+			settings,
+		}),
+		[board, score, move, goal, isSwipeEnabled, settings, movingHearts],
 	);
 
 	return (

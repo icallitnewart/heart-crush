@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 
-import { SWAP_HEARTS } from '../constants/gamePlay.constant';
+import { MOVE_HEARTS } from '../constants/gamePlay.constant';
 import {
 	getCoords,
 	getMovingDirection,
 	getNearHeart,
+	getNearHeartPosition,
 	getOppositeMovingDirection,
 } from '../utils/heart.util';
 import {
@@ -14,22 +15,17 @@ import {
 } from '../types/heart.type';
 import { GamePlayContext } from '../states/GamePlayContext';
 
-function useSwapHearts(
-	heartInfo: HeartInfoType,
-	rows: number,
-	animationDuration: number,
-) {
-	const { id, location } = heartInfo;
+function useSwipeHearts(heartInfo: HeartInfoType, rows: number) {
+	const { id, position } = heartInfo;
 	const initialCoords: HeartCoordsType = { x: 0, y: 0 };
 
 	const swipeStartRef = useRef<HeartCoordsType>(initialCoords);
 	const swipeEndRef = useRef<HeartCoordsType>(initialCoords);
-	const { board, dispatch, isSwiping, movingHearts } =
-		useContext(GamePlayContext);
+	const { board, dispatch, isSwipeEnabled } = useContext(GamePlayContext);
 
-	const swapHearts = (movingHeartsInfo: MovingHeartsType) => {
+	const moveHearts = (movingHeartsInfo: MovingHeartsType) => {
 		dispatch({
-			type: SWAP_HEARTS,
+			type: MOVE_HEARTS,
 			movingHearts: movingHeartsInfo,
 		});
 	};
@@ -37,11 +33,10 @@ function useSwapHearts(
 	const handleSwipeStart = (
 		e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>,
 	): void => {
-		// if (isSwiping) return;
+		if (!isSwipeEnabled) return;
 
 		const { x, y } = getCoords(e);
 		swipeStartRef.current = { x, y };
-		// isSwiping true
 		// console.log('Start', swipeStartRef.current, swipeEndRef.current);
 	};
 
@@ -49,8 +44,8 @@ function useSwapHearts(
 		e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>,
 	): void => {
 		if (e.nativeEvent instanceof MouseEvent) {
-			const isMouseMoveValid = e.nativeEvent.buttons === 1;
-			if (!isMouseMoveValid) return;
+			const isMouseClicked = e.nativeEvent.buttons === 1;
+			if (!isMouseClicked) return;
 		}
 
 		const { x, y } = getCoords(e);
@@ -66,39 +61,33 @@ function useSwapHearts(
 		const isSwipeValid = !((!x1 && !y1) || (!x2 && !y2));
 		if (!isSwipeValid) return;
 
+		// TODO: isSwipingEnabled 비활성화 작업 필요
+
 		const direction = getMovingDirection(x1, x2, y1, y2);
 		if (direction) {
-			const nearHeart = getNearHeart(board, location, rows, direction);
+			const nearHeart = getNearHeart(board, position, rows, direction);
 			if (!nearHeart) return;
 
+			const oppositeDirection = getOppositeMovingDirection(direction);
+			const nearHeartPosition = getNearHeartPosition(position, direction);
 			const movingHeartsInfo: MovingHeartsType = {
-				[id]: direction,
-				[nearHeart.id]: getOppositeMovingDirection(direction),
+				[id]: {
+					direction,
+					position,
+					isReturning: false,
+				},
+				[nearHeart.id]: {
+					direction: oppositeDirection,
+					position: nearHeartPosition,
+					isReturning: false,
+				},
 			};
-			swapHearts(movingHeartsInfo);
 
+			moveHearts(movingHeartsInfo);
 			swipeStartRef.current = initialCoords;
 			swipeEndRef.current = initialCoords;
 		}
 	};
-
-	useEffect(() => {
-		let animationTimer: ReturnType<typeof setTimeout> | undefined;
-
-		if (movingHearts && Object.keys(movingHearts).length === 2) {
-			animationTimer = setTimeout(() => {
-				dispatch({
-					type: SWAP_HEARTS,
-					movingHearts: null,
-				});
-			}, animationDuration);
-		}
-
-		return () => {
-			if (animationTimer) clearTimeout(animationTimer);
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [movingHearts]);
 
 	return {
 		handleSwipeStart,
@@ -107,4 +96,4 @@ function useSwapHearts(
 	};
 }
 
-export default useSwapHearts;
+export default useSwipeHearts;

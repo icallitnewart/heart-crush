@@ -1,9 +1,19 @@
-import React, { useRef, useLayoutEffect, useState, useContext } from 'react';
+import React, {
+	useRef,
+	useLayoutEffect,
+	useState,
+	useContext,
+	useEffect,
+} from 'react';
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 
 import Column from './Column';
+import {
+	STOP_MOVING_HEARTS,
+	SWAP_HEARTS,
+} from '../../constants/gamePlay.constant';
 
 const Container = styled.main`
 	display: flex;
@@ -64,16 +74,46 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 `;
 
 function Board() {
-	const { board } = useContext(GamePlayContext);
+	const { board, movingHearts, dispatch, settings } =
+		useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
+	// 게임 보드 높이 설정
 	useLayoutEffect(() => {
 		if (board.length > 0 && columnRef.current) {
 			const columnHeight = columnRef.current.offsetHeight;
 			setBoardBoxHeight(columnHeight / 2);
 		}
 	}, [columnRef, board]);
+
+	// 하트 이동 애니메이션 모션
+	useEffect(() => {
+		let animationTimer: ReturnType<typeof setTimeout> | undefined;
+		const animationDuration = settings.animationDuration.movingHearts;
+		const isHeartsMoving =
+			movingHearts && Object.keys(movingHearts).length === 2;
+
+		if (isHeartsMoving) {
+			animationTimer = setTimeout(() => {
+				const [first, second] = Object.keys(movingHearts);
+				if (
+					movingHearts[first].isReturning &&
+					movingHearts[second].isReturning
+				) {
+					dispatch({ type: STOP_MOVING_HEARTS });
+				} else {
+					dispatch({ type: SWAP_HEARTS });
+				}
+			}, animationDuration);
+		}
+
+		return () => {
+			if (animationTimer) clearTimeout(animationTimer);
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [movingHearts, settings.animationDuration.movingHearts]);
 
 	return (
 		<Container>

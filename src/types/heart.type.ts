@@ -10,8 +10,19 @@ export type HeartType = keyof typeof HEART_ICONS;
 export type HeartMovingDirectionType =
 	(typeof MOVE_HEART)[keyof typeof MOVE_HEART];
 
+export interface HeartPositionType {
+	columnIndex: number;
+	cellIndex: number;
+}
+
+export interface MovingHeartInfoType {
+	direction: HeartMovingDirectionType;
+	position: HeartPositionType;
+	isReturning: boolean;
+}
+
 export interface MovingHeartsType {
-	[x: string]: HeartMovingDirectionType;
+	[id: string]: MovingHeartInfoType;
 }
 
 export interface HeartCoordsType {
@@ -21,7 +32,7 @@ export interface HeartCoordsType {
 
 export interface HeartInfoType {
 	id: string;
-	location: {
+	position: {
 		columnIndex: number;
 		cellIndex: number;
 	};

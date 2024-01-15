@@ -1,6 +1,10 @@
 import { MOVE_HEART } from '../constants/heart.contsant';
 import { BoardType } from '../types/board.type';
-import { HeartCoordsType, HeartMovingDirectionType } from '../types/heart.type';
+import {
+	HeartCoordsType,
+	HeartMovingDirectionType,
+	HeartPositionType,
+} from '../types/heart.type';
 
 export function getMovingDirection(
 	x1: number,
@@ -60,14 +64,11 @@ export function getCoords(
 
 export function getNearHeart(
 	board: BoardType,
-	location: {
-		columnIndex: number;
-		cellIndex: number;
-	},
+	position: HeartPositionType,
 	rows: number,
 	direction: HeartMovingDirectionType,
 ) {
-	const { columnIndex, cellIndex } = location;
+	const { columnIndex, cellIndex } = position;
 	let nearHeart;
 
 	// TODO: checkIsInVisibleArea 함수 만들기
@@ -87,4 +88,39 @@ export function getNearHeart(
 	}
 
 	return nearHeart;
+}
+
+export function getNearHeartPosition(
+	position: HeartPositionType,
+	direction: HeartMovingDirectionType,
+) {
+	const { columnIndex, cellIndex } = position;
+	const newPosition: HeartPositionType = {
+		columnIndex,
+		cellIndex,
+	};
+
+	switch (direction) {
+		case MOVE_HEART.UP: {
+			newPosition.cellIndex -= 1;
+			break;
+		}
+		case MOVE_HEART.DOWN: {
+			newPosition.cellIndex += 1;
+			break;
+		}
+		case MOVE_HEART.RIGHT: {
+			newPosition.columnIndex += 1;
+			break;
+		}
+		case MOVE_HEART.LEFT: {
+			newPosition.columnIndex -= 1;
+			break;
+		}
+		default: {
+			break;
+		}
+	}
+
+	return newPosition;
 }

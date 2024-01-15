@@ -8,7 +8,7 @@ import {
 	HeartInfoType,
 	HeartMovingDirectionType,
 } from '../../types/heart.type';
-import useSwapHearts from '../../hooks/useSwapHearts';
+import useSwipeHearts from '../../hooks/useSwipeHearts';
 
 import Heart from '../../components/Heart';
 
@@ -35,11 +35,30 @@ const moveAnimation: MoveAnimationType = {
 				100% { transform: translateY(100%); }`,
 };
 
-const animationDuration = 200;
+const reverseMoveAnimation: MoveAnimationType = {
+	right: keyframes`
+				0% { transform: translateX(100%); }
+				50% { transform: translateX(50%); }
+				100% { transform: translateX(0); }`,
+	left: keyframes`
+				0% { transform: translateX(-100%); }
+				50% { transform: translateX(-50%); }
+				100% { transform: translateX(0); }`,
+	up: keyframes`
+				0% { transform: translateY(-100%); }
+				50% { transform: translateY(-50%); }
+				100% { transform: translateY(0); }`,
+	down: keyframes`
+				0% { transform: translateY(100%); }
+				50% { transform: translateY(50%); }
+				100% { transform: translateY(0); }`,
+};
 
 interface ContainerStylePropsType {
 	$isMoving: boolean;
-	$direction: HeartMovingDirectionType | null;
+	$isReturning: boolean;
+	$direction: HeartMovingDirectionType | undefined;
+	$animationDuration: number;
 }
 
 const Container = styled.div<ContainerStylePropsType>`
@@ -47,10 +66,12 @@ const Container = styled.div<ContainerStylePropsType>`
 	aspect-ratio: 1 / 1;
 	padding: 5px;
 	cursor: pointer;
-	animation: ${({ $isMoving, $direction }) =>
+	animation: ${({ $isMoving, $isReturning, $direction, $animationDuration }) =>
 		$isMoving && $direction
 			? css`
-					${moveAnimation[$direction]} ${animationDuration / 1000}s forwards
+					${$isReturning
+						? reverseMoveAnimation[$direction]
+						: moveAnimation[$direction]} ${$animationDuration / 1000}s forwards
 			  `
 			: 'none'};
 
@@ -72,27 +93,29 @@ function Cell({
 	cellIndex,
 	rows,
 }: CellPropsType): React.ReactElement {
+	const heartColor = HEART_ICONS[cellData.heart];
 	const heartInfo: HeartInfoType = {
 		id: cellData.id,
-		location: {
+		position: {
 			columnIndex,
 			cellIndex,
 		},
 	};
-	const heartColor = HEART_ICONS[cellData.heart];
 
-	const { movingHearts } = useContext(GamePlayContext);
-	const heartMovingStatus = movingHearts && movingHearts[heartInfo.id];
-	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwapHearts(
+	const { movingHearts, settings } = useContext(GamePlayContext);
+	const movingStatus = movingHearts?.[heartInfo.id];
+	const animationDuration = settings.animationDuration.movingHearts;
+	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwipeHearts(
 		heartInfo,
 		rows,
-		animationDuration,
 	);
 
 	return (
 		<Container
-			$isMoving={!!heartMovingStatus}
-			$direction={heartMovingStatus}
+			$isMoving={!!movingStatus}
+			$isReturning={!!movingStatus?.isReturning}
+			$direction={movingStatus?.direction}
+			$animationDuration={animationDuration}
 			onTouchStart={handleSwipeStart}
 			onTouchMove={handleSwipeMove}
 			onTouchEnd={handleSwipeEnd}
