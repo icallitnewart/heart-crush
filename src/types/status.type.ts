@@ -1,4 +1,4 @@
-import { PLAYING, STANDBY } from '../constants/status.contsant';
+import { PLAYING, STANDBY } from '../constants/status.constant';
 
 export type Status = typeof PLAYING | typeof STANDBY;
 

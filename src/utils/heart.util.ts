@@ -1,4 +1,4 @@
-import { MOVE_HEART } from '../constants/heart.contsant';
+import { MOVE_HEART } from '../constants/heart.constant';
 import { BoardType, CellType } from '../types/board.type';
 import {
 	HeartCoordsType,

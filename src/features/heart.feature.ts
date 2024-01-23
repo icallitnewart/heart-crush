@@ -1,4 +1,4 @@
-import HEART_ICONS from '../constants/heart.contsant';
+import HEART_ICONS from '../constants/heart.constant';
 import { BoardType } from '../types/board.type';
 import { HeartType, MovingHeartsType } from '../types/heart.type';
 import { checkMatching } from '../utils/heart.util';

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import HEART_ICONS from '../../constants/heart.contsant';
+import HEART_ICONS from '../../constants/heart.constant';
 import { CellType } from '../../types/board.type';
 import {
 	HeartInfoType,
