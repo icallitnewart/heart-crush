@@ -74,6 +74,7 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 `;
 
 function Board() {
+	const isMountedRef = useRef(false);
 	const { board, movingHearts, dispatch, settings } =
 		useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
@@ -81,11 +82,12 @@ function Board() {
 
 	// 게임 보드 높이 설정
 	useLayoutEffect(() => {
-		if (board.length > 0 && columnRef.current) {
+		if (!isMountedRef.current && board.length > 0 && columnRef.current) {
 			const columnHeight = columnRef.current.offsetHeight;
 			setBoardBoxHeight(columnHeight / 2);
+			isMountedRef.current = true;
 		}
-	}, [columnRef, board]);
+	}, [isMountedRef, columnRef, board]);
 
 	// 하트 이동 애니메이션 모션
 	useEffect(() => {
