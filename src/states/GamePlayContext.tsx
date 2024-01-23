@@ -15,13 +15,6 @@ const initialState: GamePlayStateType = {
 	crushedHearts: [],
 	movingHearts: null,
 	isSwipeEnabled: true,
-	settings: {
-		// TODO: 상수로 분리
-		animationDuration: {
-			movingHearts: 200,
-			crushedHearts: 1000,
-		},
-	},
 };
 
 const initialContextValue: GamePlayContextType = {
@@ -42,7 +35,6 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 		goal,
 		isSwipeEnabled,
 		movingHearts,
-		settings,
 		crushedHearts,
 	} = state;
 	const value = useMemo(
@@ -55,18 +47,8 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 			movingHearts,
 			crushedHearts,
 			dispatch,
-			settings,
 		}),
-		[
-			board,
-			score,
-			move,
-			goal,
-			isSwipeEnabled,
-			settings,
-			movingHearts,
-			crushedHearts,
-		],
+		[board, score, move, goal, isSwipeEnabled, movingHearts, crushedHearts],
 	);
 
 	return (

@@ -3,6 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { FaHeart, FaHeartBroken } from 'react-icons/fa';
 
 import { HeartIconType } from '../types/heart.type';
+import { ANIMATION_DURATION } from '../constants/settings.constant';
 
 const CrushedAnimation = keyframes`
 	0% {
@@ -22,7 +23,6 @@ interface HeartIconStyleProps {
 const HeartIconCommonStyle = css<HeartIconStyleProps>`
 	width: 100%;
 	height: 100%;
-
 	color: var(--heart-color-${props => props.$heartColor});
 	stroke: #555;
 	stroke-width: 15;
@@ -36,7 +36,7 @@ const HeartIcon = styled(FaHeart)<HeartIconStyleProps>`
 
 const CrushedHeartIcon = styled(FaHeartBroken)<HeartIconStyleProps>`
 	${HeartIconCommonStyle}
-	animation: ${CrushedAnimation} 600ms forwards 100ms;
+	animation: ${CrushedAnimation} ${ANIMATION_DURATION.CRUSHED_HEART}ms forwards 100ms;
 `;
 
 interface HeartProps {

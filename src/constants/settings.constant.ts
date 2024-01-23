@@ -1,0 +1,4 @@
+export const ANIMATION_DURATION = {
+	MOVING_HEART: 200,
+	CRUSHED_HEART: 600,
+};

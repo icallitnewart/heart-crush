@@ -8,12 +8,13 @@ import React, {
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-
-import Column from './Column';
 import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../../constants/gamePlay.constant';
+import { ANIMATION_DURATION } from '../../constants/settings.constant';
+
+import Column from './Column';
 
 const Container = styled.main`
 	display: flex;
@@ -75,8 +76,7 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 
 function Board() {
 	const isMountedRef = useRef(false);
-	const { board, movingHearts, dispatch, settings } =
-		useContext(GamePlayContext);
+	const { board, movingHearts, dispatch } = useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
@@ -92,7 +92,7 @@ function Board() {
 	// 하트 이동 애니메이션 모션
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
-		const animationDuration = settings.animationDuration.movingHearts;
+		const animationDuration = ANIMATION_DURATION.MOVING_HEART;
 		const isHeartsMoving =
 			movingHearts && Object.keys(movingHearts).length === 2;
 
@@ -115,7 +115,7 @@ function Board() {
 		};
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [movingHearts, settings.animationDuration.movingHearts]);
+	}, [movingHearts]);
 
 	return (
 		<Container>

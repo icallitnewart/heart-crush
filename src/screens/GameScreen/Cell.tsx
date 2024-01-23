@@ -3,6 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import HEART_ICONS from '../../constants/heart.constant';
+import { ANIMATION_DURATION } from '../../constants/settings.constant';
 import { CellType } from '../../types/board.type';
 import {
 	HeartInfoType,
@@ -103,9 +104,9 @@ function Cell({
 		},
 	};
 
-	const { movingHearts, crushedHearts, settings } = useContext(GamePlayContext);
+	const { movingHearts, crushedHearts } = useContext(GamePlayContext);
 	const movingStatus = movingHearts?.[heartInfo.id];
-	const animationDuration = settings.animationDuration.movingHearts;
+	const animationDuration = ANIMATION_DURATION.MOVING_HEART;
 	const isCrushed = crushedHearts.find(heart => heart.id === heartInfo.id);
 	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwipeHearts(
 		heartInfo,
