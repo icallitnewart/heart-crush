@@ -5,7 +5,14 @@ import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../constants/gamePlay.constant';
-import { initialiseBoard } from '../features/board.feature';
+import {
+	initialiseBoard,
+	updateBoardWithSwappedHearts,
+} from '../features/board.feature';
+import {
+	findMatchedHearts,
+	swapMovingHeartsPosition,
+} from '../features/heart.feature';
 
 const gamePlayReducer = (
 	state: GamePlayStateType,
@@ -18,11 +25,6 @@ const gamePlayReducer = (
 					'START_GAME action을 위한 stage 정보가 존재하지 않습니다.',
 				);
 			}
-			if (!action.settings) {
-				throw new Error(
-					'START_GAME action을 위한 settings 정보가 존재하지 않습니다.',
-				);
-			}
 
 			const { columns, rows, move } = action.stage;
 			return {
@@ -33,7 +35,6 @@ const gamePlayReducer = (
 				goal: {
 					score: 1000,
 				},
-				settings: action.settings,
 			};
 		}
 
@@ -53,23 +54,27 @@ const gamePlayReducer = (
 
 		// 하트 교환 시도 (실패시 되돌아오는 애니메이션 효과)
 		case SWAP_HEARTS: {
-			const { movingHearts } = state;
+			const { movingHearts, board } = state;
 			if (!movingHearts) {
 				throw new Error(
 					'SWAP_HEARTS action을 위한 movingHearts 정보가 존재하지 않습니다.',
 				);
 			}
 
-			// TODO: 하트 매칭 검사 추가 예정
-			const isMatchFound = false;
-			if (isMatchFound) {
-				// TODO: 수정 예정 (임시)
+			const updatedBoard = updateBoardWithSwappedHearts(movingHearts, board);
+			const swappedHearts = swapMovingHeartsPosition(movingHearts);
+			const matchedHearts = findMatchedHearts(updatedBoard, swappedHearts);
+
+			if (matchedHearts.length > 0) {
 				return {
 					...state,
+					board: updatedBoard,
+					crushedHearts: matchedHearts,
 					movingHearts: null,
 				};
 			}
 
+			// 매칭 실패시 원위치로 복구
 			const [first, second] = Object.keys(movingHearts);
 			movingHearts[first].isReturning = true;
 			movingHearts[second].isReturning = true;

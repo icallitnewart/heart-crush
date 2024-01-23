@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 
 import { BoardType } from '../types/board.type';
+import { MovingHeartsType } from '../types/heart.type';
 import { getRandomHeart, isHeartsMatch } from './heart.feature';
 
 export function initialiseBoard(columns: number, rows: number): BoardType {
@@ -29,4 +30,29 @@ export function initialiseBoard(columns: number, rows: number): BoardType {
 	}
 
 	return board;
+}
+
+export function updateBoardWithSwappedHearts(
+	targetHearts: MovingHeartsType,
+	board: BoardType,
+) {
+	const newBoard = board.map(column => ({
+		...column,
+		cells: [...column.cells],
+	}));
+	const [first, second] = Object.keys(targetHearts);
+	const { columnIndex: columnIndex1, cellIndex: cellIndex1 } =
+		targetHearts[first].position;
+	const { columnIndex: columnIndex2, cellIndex: cellIndex2 } =
+		targetHearts[second].position;
+
+	[
+		newBoard[columnIndex1].cells[cellIndex1],
+		newBoard[columnIndex2].cells[cellIndex2],
+	] = [
+		newBoard[columnIndex2].cells[cellIndex2],
+		newBoard[columnIndex1].cells[cellIndex1],
+	];
+
+	return newBoard;
 }

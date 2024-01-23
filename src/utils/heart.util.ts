@@ -1,9 +1,11 @@
 import { MOVE_HEART } from '../constants/heart.contsant';
-import { BoardType } from '../types/board.type';
+import { BoardType, CellType } from '../types/board.type';
 import {
 	HeartCoordsType,
+	HeartDistanceType,
 	HeartMovingDirectionType,
 	HeartPositionType,
+	MovingHeartInfoType,
 } from '../types/heart.type';
 
 export function getMovingDirection(
@@ -123,4 +125,70 @@ export function getNearHeartPosition(
 	}
 
 	return newPosition;
+}
+
+function findSameHearts(
+	currentHeartInfo: MovingHeartInfoType,
+	direction: HeartDistanceType,
+	board: BoardType,
+) {
+	const { dx, dy } = direction;
+	const { heart: currentHeart, position } = currentHeartInfo;
+	let { columnIndex, cellIndex } = position;
+	const sameHearts: CellType[] = [];
+
+	while (true) {
+		columnIndex += dx;
+		cellIndex += dy;
+
+		const isPositionValid =
+			columnIndex >= 0 &&
+			columnIndex < board.length &&
+			cellIndex >= board[columnIndex].cells.length / 2 &&
+			cellIndex < board[columnIndex].cells.length;
+		if (!isPositionValid) break;
+
+		const cell = board[columnIndex].cells[cellIndex];
+		if (cell.heart !== currentHeart) break;
+		sameHearts.push(cell);
+	}
+
+	return sameHearts;
+}
+
+export function checkMatching(
+	currentHeartInfo: MovingHeartInfoType,
+	board: BoardType,
+) {
+	const matchedHearts = [];
+	const verticalDirections: HeartDistanceType[] = [
+		{ dx: 0, dy: -1 },
+		{ dx: 0, dy: 1 },
+	];
+	const horizontalDirections: HeartDistanceType[] = [
+		{ dx: -1, dy: 0 },
+		{ dx: 1, dy: 0 },
+	];
+
+	const checkDirections = (directions: HeartDistanceType[]) =>
+		directions.reduce(
+			(sameHearts: CellType[], direction: HeartDistanceType) =>
+				sameHearts.concat(findSameHearts(currentHeartInfo, direction, board)),
+			[],
+		);
+
+	const sameHeartsInColumn: CellType[] = checkDirections(verticalDirections);
+	const sameHeartsInRow: CellType[] = checkDirections(horizontalDirections);
+	const isMatched = (sameHearts: CellType[]) => sameHearts.length > 1;
+
+	if (isMatched(sameHeartsInColumn)) matchedHearts.push(...sameHeartsInColumn);
+	if (isMatched(sameHeartsInRow)) matchedHearts.push(...sameHeartsInRow);
+
+	if (matchedHearts.length > 0) {
+		const { columnIndex, cellIndex } = currentHeartInfo.position;
+		const currentHeart: CellType = board[columnIndex].cells[cellIndex];
+		matchedHearts.push(currentHeart);
+	}
+
+	return matchedHearts;
 }

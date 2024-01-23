@@ -71,7 +71,7 @@ const Container = styled.div<ContainerStylePropsType>`
 			? css`
 					${$isReturning
 						? reverseMoveAnimation[$direction]
-						: moveAnimation[$direction]} ${$animationDuration / 1000}s forwards
+						: moveAnimation[$direction]} ${$animationDuration}ms forwards
 			  `
 			: 'none'};
 
@@ -96,15 +96,17 @@ function Cell({
 	const heartColor = HEART_ICONS[cellData.heart];
 	const heartInfo: HeartInfoType = {
 		id: cellData.id,
+		heart: cellData.heart,
 		position: {
 			columnIndex,
 			cellIndex,
 		},
 	};
 
-	const { movingHearts, settings } = useContext(GamePlayContext);
+	const { movingHearts, crushedHearts, settings } = useContext(GamePlayContext);
 	const movingStatus = movingHearts?.[heartInfo.id];
 	const animationDuration = settings.animationDuration.movingHearts;
+	const isCrushed = crushedHearts.find(heart => heart.id === heartInfo.id);
 	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwipeHearts(
 		heartInfo,
 		rows,
@@ -123,7 +125,7 @@ function Cell({
 			onMouseMove={handleSwipeMove}
 			onMouseLeave={handleSwipeEnd}
 		>
-			<Heart heartColor={heartColor} />
+			<Heart heartColor={heartColor} isCrushed={!!isCrushed} />
 		</Container>
 	);
 }

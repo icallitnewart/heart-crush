@@ -1,6 +1,7 @@
 import HEART_ICONS from '../constants/heart.contsant';
 import { BoardType } from '../types/board.type';
-import { HeartType } from '../types/heart.type';
+import { HeartType, MovingHeartsType } from '../types/heart.type';
+import { checkMatching } from '../utils/heart.util';
 
 export function getRandomHeart(): HeartType {
 	const hearts: HeartType[] = Object.keys(HEART_ICONS).map(
@@ -28,4 +29,33 @@ export function isHeartsMatch(
 		currentHeart === board[column].cells[row - 2].heart;
 
 	return isMatchInColumn || isMatchInRow;
+}
+
+export function swapMovingHeartsPosition(movingHearts: MovingHeartsType) {
+	const newMovingHearts: MovingHeartsType = Object.keys(movingHearts).reduce(
+		(acc, key) => {
+			acc[key] = { ...movingHearts[key] };
+			return acc;
+		},
+		{} as MovingHeartsType,
+	);
+	const [first, second] = Object.keys(newMovingHearts);
+
+	newMovingHearts[first].position = movingHearts[second].position;
+	newMovingHearts[second].position = movingHearts[first].position;
+
+	return newMovingHearts;
+}
+
+export function findMatchedHearts(
+	board: BoardType,
+	swappedHearts: MovingHeartsType,
+) {
+	const [first, second] = Object.keys(swappedHearts);
+	const matchedHearts = new Set([
+		...checkMatching(swappedHearts[first], board),
+		...checkMatching(swappedHearts[second], board),
+	]);
+
+	return Array.from(matchedHearts);
 }

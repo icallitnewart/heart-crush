@@ -35,11 +35,6 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 				rows: 20, // 수정 가능
 				move: 20,
 			},
-			settings: {
-				animationDuration: {
-					movingHearts: 200,
-				},
-			},
 		});
 	}, [dispatch]);
 

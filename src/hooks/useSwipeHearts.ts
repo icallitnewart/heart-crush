@@ -16,7 +16,7 @@ import {
 import { GamePlayContext } from '../states/GamePlayContext';
 
 function useSwipeHearts(heartInfo: HeartInfoType, rows: number) {
-	const { id, position } = heartInfo;
+	const { id, position, heart } = heartInfo;
 	const initialCoords: HeartCoordsType = { x: 0, y: 0 };
 
 	const swipeStartRef = useRef<HeartCoordsType>(initialCoords);
@@ -72,11 +72,13 @@ function useSwipeHearts(heartInfo: HeartInfoType, rows: number) {
 			const nearHeartPosition = getNearHeartPosition(position, direction);
 			const movingHeartsInfo: MovingHeartsType = {
 				[id]: {
+					heart,
 					direction,
 					position,
 					isReturning: false,
 				},
 				[nearHeart.id]: {
+					heart: nearHeart.heart,
 					direction: oppositeDirection,
 					position: nearHeartPosition,
 					isReturning: false,

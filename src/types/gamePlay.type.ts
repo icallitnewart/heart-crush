@@ -1,9 +1,10 @@
-import { BoardType } from './board.type';
+import { BoardType, CellType } from './board.type';
 import { MovingHeartsType } from './heart.type';
 
 interface GamePlaySettingsType {
 	animationDuration: {
 		movingHearts: number;
+		crushedHearts: number;
 	};
 }
 
@@ -11,6 +12,7 @@ export interface GamePlayStateType {
 	board: BoardType;
 	score: number;
 	move: number;
+	crushedHearts: CellType[] | [];
 	movingHearts: MovingHeartsType | null;
 	isSwipeEnabled: boolean;
 	goal: {
