@@ -1,8 +1,14 @@
-import { HeartType } from './heart.type';
+import { HeartInfoType } from './common.type';
 
-export interface CellType {
-	id: string;
-	heart: HeartType;
+export type CellType = HeartInfoType;
+
+export interface CellPositionType {
+	columnIndex: number;
+	cellIndex: number;
+}
+
+export interface CellInfoType extends CellType {
+	position: CellPositionType;
 }
 
 export interface ColumnType {

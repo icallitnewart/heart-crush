@@ -4,11 +4,8 @@ import styled, { css, keyframes } from 'styled-components';
 import { GamePlayContext } from '../../states/GamePlayContext';
 import HEART_ICONS from '../../constants/heart.constant';
 import { ANIMATION_DURATION } from '../../constants/settings.constant';
-import { CellType } from '../../types/board.type';
-import {
-	HeartInfoType,
-	HeartMovingDirectionType,
-} from '../../types/heart.type';
+import { CellInfoType, CellType } from '../../types/board.type';
+import { HeartMovingDirectionType } from '../../types/heart.type';
 import useSwipeHearts from '../../hooks/useSwipeHearts';
 
 import Heart from '../../components/Heart';
@@ -95,7 +92,7 @@ function Cell({
 	rows,
 }: CellPropsType): React.ReactElement {
 	const heartColor = HEART_ICONS[cellData.heart];
-	const heartInfo: HeartInfoType = {
+	const cellInfo: CellInfoType = {
 		id: cellData.id,
 		heart: cellData.heart,
 		position: {
@@ -105,11 +102,11 @@ function Cell({
 	};
 
 	const { movingHearts, crushedHearts } = useContext(GamePlayContext);
-	const movingStatus = movingHearts?.[heartInfo.id];
+	const movingStatus = movingHearts?.[cellInfo.id];
 	const animationDuration = ANIMATION_DURATION.MOVING_HEART;
-	const isCrushed = crushedHearts.find(heart => heart.id === heartInfo.id);
+	const isCrushed = crushedHearts.find(heart => heart.id === cellInfo.id);
 	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwipeHearts(
-		heartInfo,
+		cellInfo,
 		rows,
 	);
 

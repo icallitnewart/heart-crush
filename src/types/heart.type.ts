@@ -1,34 +1,19 @@
 import HEART_ICONS, { MOVE_HEART } from '../constants/heart.constant';
+import { CellInfoType } from './board.type';
 
 // value
 export type HeartIconType = (typeof HEART_ICONS)[keyof typeof HEART_ICONS];
 
-// key
-export type HeartType = keyof typeof HEART_ICONS;
-
 export type HeartMovingDirectionType =
 	(typeof MOVE_HEART)[keyof typeof MOVE_HEART];
 
-export interface HeartPositionType {
-	columnIndex: number;
-	cellIndex: number;
-}
-
-export interface MovingHeartInfoType {
-	heart: HeartType;
+export type MovingHeartInfoType = Omit<CellInfoType, 'id'> & {
 	direction: HeartMovingDirectionType;
-	position: HeartPositionType;
 	isReturning: boolean;
-}
+};
 
 export interface MovingHeartsType {
 	[id: string]: MovingHeartInfoType;
-}
-
-export interface HeartInfoType {
-	id: string;
-	heart: HeartType;
-	position: HeartPositionType;
 }
 
 export interface HeartCoordsType {

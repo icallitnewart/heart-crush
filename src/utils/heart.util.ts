@@ -1,10 +1,10 @@
 import { MOVE_HEART } from '../constants/heart.constant';
-import { BoardType, CellType } from '../types/board.type';
+import { BoardType, CellPositionType } from '../types/board.type';
+import { HeartInfoType } from '../types/common.type';
 import {
 	HeartCoordsType,
 	HeartDistanceType,
 	HeartMovingDirectionType,
-	HeartPositionType,
 	MovingHeartInfoType,
 } from '../types/heart.type';
 
@@ -16,13 +16,13 @@ export function getMovingDirection(
 ) {
 	let direction;
 	const sensitivity = 0;
-	const dX = x1 - x2;
-	const dY = y1 - y2;
+	const dx = x1 - x2;
+	const dy = y1 - y2;
 
-	if (Math.abs(dX) > Math.abs(dY)) {
-		direction = dX > sensitivity ? MOVE_HEART.LEFT : MOVE_HEART.RIGHT;
+	if (Math.abs(dx) > Math.abs(dy)) {
+		direction = dx > sensitivity ? MOVE_HEART.LEFT : MOVE_HEART.RIGHT;
 	} else {
-		direction = dY > sensitivity ? MOVE_HEART.UP : MOVE_HEART.DOWN;
+		direction = dy > sensitivity ? MOVE_HEART.UP : MOVE_HEART.DOWN;
 	}
 
 	return direction;
@@ -66,7 +66,7 @@ export function getCoords(
 
 export function getNearHeart(
 	board: BoardType,
-	position: HeartPositionType,
+	position: CellPositionType,
 	rows: number,
 	direction: HeartMovingDirectionType,
 ) {
@@ -93,11 +93,11 @@ export function getNearHeart(
 }
 
 export function getNearHeartPosition(
-	position: HeartPositionType,
+	position: CellPositionType,
 	direction: HeartMovingDirectionType,
 ) {
 	const { columnIndex, cellIndex } = position;
-	const newPosition: HeartPositionType = {
+	const newPosition: CellPositionType = {
 		columnIndex,
 		cellIndex,
 	};
@@ -135,7 +135,7 @@ function findSameHearts(
 	const { dx, dy } = direction;
 	const { heart: currentHeart, position } = currentHeartInfo;
 	let { columnIndex, cellIndex } = position;
-	const sameHearts: CellType[] = [];
+	const sameHearts: HeartInfoType[] = [];
 
 	while (true) {
 		columnIndex += dx;
@@ -172,21 +172,23 @@ export function checkMatching(
 
 	const checkDirections = (directions: HeartDistanceType[]) =>
 		directions.reduce(
-			(sameHearts: CellType[], direction: HeartDistanceType) =>
+			(sameHearts: HeartInfoType[], direction: HeartDistanceType) =>
 				sameHearts.concat(findSameHearts(currentHeartInfo, direction, board)),
 			[],
 		);
 
-	const sameHeartsInColumn: CellType[] = checkDirections(verticalDirections);
-	const sameHeartsInRow: CellType[] = checkDirections(horizontalDirections);
-	const isMatched = (sameHearts: CellType[]) => sameHearts.length > 1;
+	const sameHeartsInColumn: HeartInfoType[] =
+		checkDirections(verticalDirections);
+	const sameHeartsInRow: HeartInfoType[] =
+		checkDirections(horizontalDirections);
+	const isMatched = (sameHearts: HeartInfoType[]) => sameHearts.length > 1;
 
 	if (isMatched(sameHeartsInColumn)) matchedHearts.push(...sameHeartsInColumn);
 	if (isMatched(sameHeartsInRow)) matchedHearts.push(...sameHeartsInRow);
 
 	if (matchedHearts.length > 0) {
 		const { columnIndex, cellIndex } = currentHeartInfo.position;
-		const currentHeart: CellType = board[columnIndex].cells[cellIndex];
+		const currentHeart: HeartInfoType = board[columnIndex].cells[cellIndex];
 		matchedHearts.push(currentHeart);
 	}
 

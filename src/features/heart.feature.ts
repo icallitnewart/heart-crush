@@ -1,6 +1,7 @@
 import HEART_ICONS from '../constants/heart.constant';
 import { BoardType } from '../types/board.type';
-import { HeartType, MovingHeartsType } from '../types/heart.type';
+import { HeartType } from '../types/common.type';
+import { MovingHeartsType } from '../types/heart.type';
 import { checkMatching } from '../utils/heart.util';
 
 export function getRandomHeart(): HeartType {

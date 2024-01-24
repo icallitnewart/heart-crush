@@ -8,15 +8,12 @@ import {
 	getNearHeartPosition,
 	getOppositeMovingDirection,
 } from '../utils/heart.util';
-import {
-	HeartCoordsType,
-	HeartInfoType,
-	MovingHeartsType,
-} from '../types/heart.type';
+import { CellInfoType } from '../types/board.type';
+import { HeartCoordsType, MovingHeartsType } from '../types/heart.type';
 import { GamePlayContext } from '../states/GamePlayContext';
 
-function useSwipeHearts(heartInfo: HeartInfoType, rows: number) {
-	const { id, position, heart } = heartInfo;
+function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
+	const { id, position, heart } = cellInfo;
 	const initialCoords: HeartCoordsType = { x: 0, y: 0 };
 
 	const swipeStartRef = useRef<HeartCoordsType>(initialCoords);
