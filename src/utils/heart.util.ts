@@ -70,20 +70,20 @@ export function getNearHeart(
 	rows: number,
 	direction: HeartMovingDirectionType,
 ) {
-	const { columnIndex, cellIndex } = position;
+	const { columnIndex, rowIndex } = position;
 	let nearHeart;
 
 	// TODO: checkIsInVisibleArea 함수 만들기
 	const isNearHeartInVisibleArea = !(
-		direction === MOVE_HEART.UP && cellIndex - 1 <= rows / 2 - 1
+		direction === MOVE_HEART.UP && rowIndex - 1 <= rows / 2 - 1
 	);
 
 	if (isNearHeartInVisibleArea) {
 		const targetHeart = {
-			up: board[columnIndex]?.cells[cellIndex - 1],
-			down: board[columnIndex]?.cells[cellIndex + 1],
-			right: board[columnIndex + 1]?.cells[cellIndex],
-			left: board[columnIndex - 1]?.cells[cellIndex],
+			up: board[columnIndex]?.cells[rowIndex - 1],
+			down: board[columnIndex]?.cells[rowIndex + 1],
+			right: board[columnIndex + 1]?.cells[rowIndex],
+			left: board[columnIndex - 1]?.cells[rowIndex],
 		};
 
 		nearHeart = targetHeart[direction];
@@ -96,19 +96,19 @@ export function getNearHeartPosition(
 	position: CellPositionType,
 	direction: HeartMovingDirectionType,
 ) {
-	const { columnIndex, cellIndex } = position;
+	const { columnIndex, rowIndex } = position;
 	const newPosition: CellPositionType = {
 		columnIndex,
-		cellIndex,
+		rowIndex,
 	};
 
 	switch (direction) {
 		case MOVE_HEART.UP: {
-			newPosition.cellIndex -= 1;
+			newPosition.rowIndex -= 1;
 			break;
 		}
 		case MOVE_HEART.DOWN: {
-			newPosition.cellIndex += 1;
+			newPosition.rowIndex += 1;
 			break;
 		}
 		case MOVE_HEART.RIGHT: {
@@ -134,21 +134,21 @@ function findSameHearts(
 ) {
 	const { dx, dy } = direction;
 	const { heart: currentHeart, position } = currentHeartInfo;
-	let { columnIndex, cellIndex } = position;
+	let { columnIndex, rowIndex } = position;
 	const sameHearts: HeartInfoType[] = [];
 
 	while (true) {
 		columnIndex += dx;
-		cellIndex += dy;
+		rowIndex += dy;
 
 		const isPositionValid =
 			columnIndex >= 0 &&
 			columnIndex < board.length &&
-			cellIndex >= board[columnIndex].cells.length / 2 &&
-			cellIndex < board[columnIndex].cells.length;
+			rowIndex >= board[columnIndex].cells.length / 2 &&
+			rowIndex < board[columnIndex].cells.length;
 		if (!isPositionValid) break;
 
-		const cell = board[columnIndex].cells[cellIndex];
+		const cell = board[columnIndex].cells[rowIndex];
 		if (cell.heart !== currentHeart) break;
 		sameHearts.push(cell);
 	}
@@ -187,8 +187,8 @@ export function checkMatching(
 	if (isMatched(sameHeartsInRow)) matchedHearts.push(...sameHeartsInRow);
 
 	if (matchedHearts.length > 0) {
-		const { columnIndex, cellIndex } = currentHeartInfo.position;
-		const currentHeart: HeartInfoType = board[columnIndex].cells[cellIndex];
+		const { columnIndex, rowIndex } = currentHeartInfo.position;
+		const currentHeart: HeartInfoType = board[columnIndex].cells[rowIndex];
 		matchedHearts.push(currentHeart);
 	}
 

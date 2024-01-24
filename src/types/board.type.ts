@@ -4,7 +4,7 @@ export type CellType = HeartInfoType;
 
 export interface CellPositionType {
 	columnIndex: number;
-	cellIndex: number;
+	rowIndex: number;
 }
 
 export interface CellInfoType extends CellType {

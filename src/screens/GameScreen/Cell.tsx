@@ -81,14 +81,14 @@ const Container = styled.div<ContainerStylePropsType>`
 interface CellPropsType {
 	cellData: CellType;
 	columnIndex: number;
-	cellIndex: number;
+	rowIndex: number;
 	rows: number;
 }
 
 function Cell({
 	cellData,
 	columnIndex,
-	cellIndex,
+	rowIndex,
 	rows,
 }: CellPropsType): React.ReactElement {
 	const heartColor = HEART_ICONS[cellData.heart];
@@ -97,7 +97,7 @@ function Cell({
 		heart: cellData.heart,
 		position: {
 			columnIndex,
-			cellIndex,
+			rowIndex,
 		},
 	};
 

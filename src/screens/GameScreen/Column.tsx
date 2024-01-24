@@ -31,12 +31,12 @@ function Column(
 ): React.ReactElement {
 	return (
 		<Container ref={ref} $columns={columns}>
-			{columnData.cells.map((cellData, cellIndex) => (
+			{columnData.cells.map((cellData, rowIndex) => (
 				<Cell
 					key={cellData.id}
 					cellData={cellData}
 					columnIndex={columnIndex}
-					cellIndex={cellIndex}
+					rowIndex={rowIndex}
 					rows={columnData.cells.length}
 				/>
 			))}
