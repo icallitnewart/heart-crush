@@ -1,12 +1,12 @@
-import { HeartInfoType } from './common.type';
-import { BoardType } from './board.type';
-import { MovingHeartsType } from './heart.type';
+import { BoardType, CellInfoType } from './board.type';
+import { FallingHeartsType, MovingHeartsType } from './heart.type';
 
 export interface GamePlayStateType {
 	board: BoardType;
 	score: number;
 	move: number;
-	crushedHearts: HeartInfoType[] | [];
+	crushedHearts: CellInfoType[] | [];
+	fallingHearts: FallingHeartsType;
 	movingHearts: MovingHeartsType | null;
 	isSwipeEnabled: boolean;
 	goal: {
@@ -15,7 +15,7 @@ export interface GamePlayStateType {
 }
 
 export interface GamePlayContextType extends GamePlayStateType {
-	dispatch: React.Dispatch<any>;
+	dispatch: React.Dispatch<GamePlayActionType>;
 }
 
 export interface GamePlayActionType {

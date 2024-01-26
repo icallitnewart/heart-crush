@@ -13,6 +13,7 @@ const initialState: GamePlayStateType = {
 	move: 0,
 	goal: {},
 	crushedHearts: [],
+	fallingHearts: [],
 	movingHearts: null,
 	isSwipeEnabled: true,
 };
@@ -35,6 +36,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 		goal,
 		isSwipeEnabled,
 		movingHearts,
+		fallingHearts,
 		crushedHearts,
 	} = state;
 	const value = useMemo(
@@ -45,10 +47,20 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 			goal,
 			isSwipeEnabled,
 			movingHearts,
+			fallingHearts,
 			crushedHearts,
 			dispatch,
 		}),
-		[board, score, move, goal, isSwipeEnabled, movingHearts, crushedHearts],
+		[
+			board,
+			score,
+			move,
+			goal,
+			isSwipeEnabled,
+			movingHearts,
+			fallingHearts,
+			crushedHearts,
+		],
 	);
 
 	return (

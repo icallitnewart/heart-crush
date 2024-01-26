@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import {
+	DROP_HEARTS,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../../constants/gamePlay.constant';
@@ -76,7 +77,8 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 
 function Board() {
 	const isMountedRef = useRef(false);
-	const { board, movingHearts, dispatch } = useContext(GamePlayContext);
+	const { board, movingHearts, crushedHearts, dispatch } =
+		useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
@@ -89,7 +91,8 @@ function Board() {
 		}
 	}, [isMountedRef, columnRef, board]);
 
-	// 하트 이동 애니메이션 모션
+	// 하트 이동 애니메이션 모션이 끝나면
+	// 하트 원위치로 되돌리기 or 하트 교환
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
 		const animationDuration = ANIMATION_DURATION.MOVING_HEART;
@@ -116,6 +119,25 @@ function Board() {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [movingHearts]);
+
+	// 하트 크러쉬 애니메이션 모션이 끝나면
+	// 하트 떨어뜨리기
+	useEffect(() => {
+		let animationTimer: ReturnType<typeof setTimeout> | undefined;
+		const animationDuration = ANIMATION_DURATION.CRUSHED_HEART;
+
+		if (crushedHearts.length > 0) {
+			animationTimer = setTimeout(() => {
+				dispatch({ type: DROP_HEARTS });
+			}, animationDuration * 0.6);
+		}
+
+		return () => {
+			if (animationTimer) clearTimeout(animationTimer);
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [crushedHearts]);
 
 	return (
 		<Container>

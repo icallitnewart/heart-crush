@@ -1,16 +1,20 @@
 import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
 import {
+	DROP_HEARTS,
 	MOVE_HEARTS,
 	START_GAME,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../constants/gamePlay.constant';
+import { BoardType, CellInfoType } from '../types/board.type';
+import { MovingHeartsType } from '../types/heart.type';
 import {
 	initialiseBoard,
 	updateBoardWithSwappedHearts,
 } from '../features/board.feature';
 import {
 	findMatchedHearts,
+	getFallingHearts,
 	swapMovingHeartsPosition,
 } from '../features/heart.feature';
 
@@ -61,9 +65,16 @@ const gamePlayReducer = (
 				);
 			}
 
-			const updatedBoard = updateBoardWithSwappedHearts(movingHearts, board);
-			const swappedHearts = swapMovingHeartsPosition(movingHearts);
-			const matchedHearts = findMatchedHearts(updatedBoard, swappedHearts);
+			const updatedBoard: BoardType = updateBoardWithSwappedHearts(
+				movingHearts,
+				board,
+			);
+			const swappedHearts: MovingHeartsType =
+				swapMovingHeartsPosition(movingHearts);
+			const matchedHearts: CellInfoType[] = findMatchedHearts(
+				updatedBoard,
+				swappedHearts,
+			);
 
 			if (matchedHearts.length > 0) {
 				return {
@@ -89,6 +100,14 @@ const gamePlayReducer = (
 			return {
 				...state,
 				movingHearts: null,
+			};
+		}
+
+		case DROP_HEARTS: {
+			const { board, crushedHearts } = state;
+			return {
+				...state,
+				fallingHearts: getFallingHearts(board, crushedHearts),
 			};
 		}
 

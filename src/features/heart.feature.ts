@@ -1,8 +1,12 @@
 import HEART_ICONS from '../constants/heart.constant';
-import { BoardType } from '../types/board.type';
+import { BoardType, CellInfoType } from '../types/board.type';
 import { HeartType } from '../types/common.type';
 import { MovingHeartsType } from '../types/heart.type';
-import { checkMatching } from '../utils/heart.util';
+import {
+	categoriseHeartsByColumn,
+	checkMatching,
+	findFallingHearts,
+} from '../utils/heart.util';
 
 export function getRandomHeart(): HeartType {
 	const hearts: HeartType[] = Object.keys(HEART_ICONS).map(
@@ -59,4 +63,13 @@ export function findMatchedHearts(
 	]);
 
 	return Array.from(matchedHearts);
+}
+
+export function getFallingHearts(
+	board: BoardType,
+	crushedHearts: CellInfoType[],
+) {
+	const heartsByColumn = categoriseHeartsByColumn(crushedHearts);
+	const fallingHearts = findFallingHearts(board, heartsByColumn);
+	return fallingHearts;
 }

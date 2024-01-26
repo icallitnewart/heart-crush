@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { RuleSet, css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import HEART_ICONS from '../../constants/heart.constant';
@@ -52,8 +52,15 @@ const reverseMoveAnimation: MoveAnimationType = {
 				100% { transform: translateY(0); }`,
 };
 
+const fallAnimation = (distance: number) => keyframes`
+	0% { transform: translateY(0); }
+	100% { transform: translateY(${distance * 100}%); }
+`;
+
 interface ContainerStylePropsType {
 	$isMoving: boolean;
+	$isFalling: boolean;
+	$fallingDistance: number;
 	$isReturning: boolean;
 	$direction: HeartMovingDirectionType | undefined;
 	$animationDuration: number;
@@ -64,14 +71,35 @@ const Container = styled.div<ContainerStylePropsType>`
 	aspect-ratio: 1 / 1;
 	padding: 5px;
 	cursor: pointer;
-	animation: ${({ $isMoving, $isReturning, $direction, $animationDuration }) =>
-		$isMoving && $direction
-			? css`
-					${$isReturning
-						? reverseMoveAnimation[$direction]
-						: moveAnimation[$direction]} ${$animationDuration}ms forwards
-			  `
-			: 'none'};
+
+	${({
+		$isMoving,
+		$isReturning,
+		$direction,
+		$animationDuration,
+		$isFalling,
+		$fallingDistance,
+	}) => {
+		let animationStyle: string | RuleSet<object> = 'none';
+
+		if ($isMoving && $direction) {
+			animationStyle = css`
+				${$isReturning
+					? reverseMoveAnimation[$direction]
+					: moveAnimation[$direction]} ${$animationDuration}ms forwards
+			`;
+		} else if ($isFalling) {
+			animationStyle = css`
+				${fallAnimation(
+					$fallingDistance,
+				)} 100ms cubic-bezier(0.4, 0, 0.2, 1) forwards
+			`;
+		}
+
+		return css`
+			animation: ${animationStyle};
+		`;
+	}}
 
 	&:hover svg {
 		transform: scale(1.15);
@@ -101,10 +129,14 @@ function Cell({
 		},
 	};
 
-	const { movingHearts, crushedHearts } = useContext(GamePlayContext);
+	const { movingHearts, crushedHearts, fallingHearts } =
+		useContext(GamePlayContext);
 	const movingStatus = movingHearts?.[cellInfo.id];
 	const animationDuration = ANIMATION_DURATION.MOVING_HEART;
 	const isCrushed = crushedHearts.find(heart => heart.id === cellInfo.id);
+	const isFalling = fallingHearts.find(heart => heart.id === cellInfo.id);
+	const fallingDistance = isFalling ? isFalling.distance : 1;
+
 	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwipeHearts(
 		cellInfo,
 		rows,
@@ -113,6 +145,8 @@ function Cell({
 	return (
 		<Container
 			$isMoving={!!movingStatus}
+			$isFalling={!!isFalling}
+			$fallingDistance={fallingDistance}
 			$isReturning={!!movingStatus?.isReturning}
 			$direction={movingStatus?.direction}
 			$animationDuration={animationDuration}

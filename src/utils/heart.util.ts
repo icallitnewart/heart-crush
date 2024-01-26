@@ -1,7 +1,7 @@
 import { MOVE_HEART } from '../constants/heart.constant';
-import { BoardType, CellPositionType } from '../types/board.type';
-import { HeartInfoType } from '../types/common.type';
+import { BoardType, CellInfoType, CellPositionType } from '../types/board.type';
 import {
+	FallingHeartsType,
 	HeartCoordsType,
 	HeartDistanceType,
 	HeartMovingDirectionType,
@@ -135,7 +135,7 @@ function findSameHearts(
 	const { dx, dy } = direction;
 	const { heart: currentHeart, position } = currentHeartInfo;
 	let { columnIndex, rowIndex } = position;
-	const sameHearts: HeartInfoType[] = [];
+	const sameHearts: CellInfoType[] = [];
 
 	while (true) {
 		columnIndex += dx;
@@ -150,7 +150,15 @@ function findSameHearts(
 
 		const cell = board[columnIndex].cells[rowIndex];
 		if (cell.heart !== currentHeart) break;
-		sameHearts.push(cell);
+
+		const foundHeart = {
+			...cell,
+			position: {
+				columnIndex,
+				rowIndex,
+			},
+		};
+		sameHearts.push(foundHeart);
 	}
 
 	return sameHearts;
@@ -160,7 +168,7 @@ export function checkMatching(
 	currentHeartInfo: MovingHeartInfoType,
 	board: BoardType,
 ) {
-	const matchedHearts = [];
+	const matchedHearts: CellInfoType[] = [];
 	const verticalDirections: HeartDistanceType[] = [
 		{ dx: 0, dy: -1 },
 		{ dx: 0, dy: 1 },
@@ -172,25 +180,69 @@ export function checkMatching(
 
 	const checkDirections = (directions: HeartDistanceType[]) =>
 		directions.reduce(
-			(sameHearts: HeartInfoType[], direction: HeartDistanceType) =>
+			(sameHearts: CellInfoType[], direction: HeartDistanceType) =>
 				sameHearts.concat(findSameHearts(currentHeartInfo, direction, board)),
 			[],
 		);
 
-	const sameHeartsInColumn: HeartInfoType[] =
+	const sameHeartsInColumn: CellInfoType[] =
 		checkDirections(verticalDirections);
-	const sameHeartsInRow: HeartInfoType[] =
-		checkDirections(horizontalDirections);
-	const isMatched = (sameHearts: HeartInfoType[]) => sameHearts.length > 1;
+	const sameHeartsInRow: CellInfoType[] = checkDirections(horizontalDirections);
+	const isMatched = (sameHearts: CellInfoType[]) => sameHearts.length > 1;
 
 	if (isMatched(sameHeartsInColumn)) matchedHearts.push(...sameHeartsInColumn);
 	if (isMatched(sameHeartsInRow)) matchedHearts.push(...sameHeartsInRow);
 
 	if (matchedHearts.length > 0) {
 		const { columnIndex, rowIndex } = currentHeartInfo.position;
-		const currentHeart: HeartInfoType = board[columnIndex].cells[rowIndex];
+		const currentCell = board[columnIndex].cells[rowIndex];
+		const currentHeart = {
+			...currentCell,
+			position: {
+				columnIndex,
+				rowIndex,
+			},
+		};
 		matchedHearts.push(currentHeart);
 	}
 
 	return matchedHearts;
+}
+
+export function categoriseHeartsByColumn(
+	crushedHearts: CellInfoType[],
+): Record<number, CellInfoType[]> {
+	return crushedHearts.reduce(
+		(acc, heart) => {
+			const { columnIndex } = heart.position;
+
+			if (!acc[columnIndex]) acc[columnIndex] = [];
+			acc[columnIndex].push(heart);
+
+			return acc;
+		},
+		{} as Record<number, CellInfoType[]>,
+	);
+}
+
+export function findFallingHearts(
+	board: BoardType,
+	heartsByColumn: Record<number, CellInfoType[]>,
+) {
+	const fallingHearts: FallingHeartsType = [];
+
+	Object.entries(heartsByColumn).forEach(
+		([columnIndex, crushedHearts]: [string, CellInfoType[]]) => {
+			const crushedHeartsLength = crushedHearts.length;
+			const rowIndexes = crushedHearts.map(heart => heart.position.rowIndex);
+			const minRowIndex = Math.min(...rowIndexes);
+			const targetColumn = board[Number(columnIndex)].cells;
+			const targetHearts: FallingHeartsType = targetColumn
+				.slice(0, minRowIndex)
+				.map(heart => ({ ...heart, distance: crushedHeartsLength }));
+
+			fallingHearts.push(...targetHearts);
+		},
+	);
+	return fallingHearts;
 }
