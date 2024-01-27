@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { GamePlayContext } from '../../states/GamePlayContext';
 import {
 	DROP_HEARTS,
+	REARRANGE_BOARD,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../../constants/gamePlay.constant';
@@ -77,7 +78,7 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 
 function Board() {
 	const isMountedRef = useRef(false);
-	const { board, movingHearts, crushedHearts, dispatch } =
+	const { board, movingHearts, crushedHearts, fallingHearts, dispatch } =
 		useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
@@ -138,6 +139,25 @@ function Board() {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [crushedHearts]);
+
+	// 하트 떨어지는 애니메이션 모션이 끝나면
+	// 보드 배열 재배치
+	useEffect(() => {
+		let animationTimer: ReturnType<typeof setTimeout> | undefined;
+		const animationDuration = ANIMATION_DURATION.FALLING_HEART;
+
+		if (fallingHearts.length > 0) {
+			animationTimer = setTimeout(() => {
+				dispatch({ type: REARRANGE_BOARD });
+			}, animationDuration);
+		}
+
+		return () => {
+			if (animationTimer) clearTimeout(animationTimer);
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fallingHearts]);
 
 	return (
 		<Container>

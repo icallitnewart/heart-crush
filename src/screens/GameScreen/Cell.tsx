@@ -63,7 +63,6 @@ interface ContainerStylePropsType {
 	$fallingDistance: number;
 	$isReturning: boolean;
 	$direction: HeartMovingDirectionType | undefined;
-	$animationDuration: number;
 }
 
 const Container = styled.div<ContainerStylePropsType>`
@@ -72,32 +71,25 @@ const Container = styled.div<ContainerStylePropsType>`
 	padding: 5px;
 	cursor: pointer;
 
-	${({
-		$isMoving,
-		$isReturning,
-		$direction,
-		$animationDuration,
-		$isFalling,
-		$fallingDistance,
-	}) => {
+	${({ $isMoving, $isReturning, $direction, $isFalling, $fallingDistance }) => {
 		let animationStyle: string | RuleSet<object> = 'none';
 
 		if ($isMoving && $direction) {
 			animationStyle = css`
 				${$isReturning
 					? reverseMoveAnimation[$direction]
-					: moveAnimation[$direction]} ${$animationDuration}ms forwards
+					: moveAnimation[$direction]} ${ANIMATION_DURATION.MOVING_HEART}ms
 			`;
 		} else if ($isFalling) {
 			animationStyle = css`
 				${fallAnimation(
 					$fallingDistance,
-				)} 100ms cubic-bezier(0.4, 0, 0.2, 1) forwards
+				)} ${ANIMATION_DURATION.FALLING_HEART}ms cubic-bezier(0.4, 0, 0.2, 1)
 			`;
 		}
 
 		return css`
-			animation: ${animationStyle};
+			animation: ${animationStyle} forwards;
 		`;
 	}}
 
@@ -132,7 +124,6 @@ function Cell({
 	const { movingHearts, crushedHearts, fallingHearts } =
 		useContext(GamePlayContext);
 	const movingStatus = movingHearts?.[cellInfo.id];
-	const animationDuration = ANIMATION_DURATION.MOVING_HEART;
 	const isCrushed = crushedHearts.find(heart => heart.id === cellInfo.id);
 	const isFalling = fallingHearts.find(heart => heart.id === cellInfo.id);
 	const fallingDistance = isFalling ? isFalling.distance : 1;
@@ -145,11 +136,10 @@ function Cell({
 	return (
 		<Container
 			$isMoving={!!movingStatus}
+			$direction={movingStatus?.direction}
+			$isReturning={!!movingStatus?.isReturning}
 			$isFalling={!!isFalling}
 			$fallingDistance={fallingDistance}
-			$isReturning={!!movingStatus?.isReturning}
-			$direction={movingStatus?.direction}
-			$animationDuration={animationDuration}
 			onTouchStart={handleSwipeStart}
 			onTouchMove={handleSwipeMove}
 			onTouchEnd={handleSwipeEnd}

@@ -2,6 +2,7 @@ import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
 import {
 	DROP_HEARTS,
 	MOVE_HEARTS,
+	REARRANGE_BOARD,
 	START_GAME,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
@@ -10,6 +11,7 @@ import { BoardType, CellInfoType } from '../types/board.type';
 import { MovingHeartsType } from '../types/heart.type';
 import {
 	initialiseBoard,
+	rearrangeBoard,
 	updateBoardWithSwappedHearts,
 } from '../features/board.feature';
 import {
@@ -108,6 +110,16 @@ const gamePlayReducer = (
 			return {
 				...state,
 				fallingHearts: getFallingHearts(board, crushedHearts),
+			};
+		}
+
+		case REARRANGE_BOARD: {
+			const { board, fallingHearts } = state;
+
+			return {
+				...state,
+				board: rearrangeBoard(board, fallingHearts),
+				fallingHearts: [],
 			};
 		}
 

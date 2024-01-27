@@ -1,8 +1,10 @@
 import { nanoid } from 'nanoid';
 
 import { BoardType } from '../types/board.type';
-import { MovingHeartsType } from '../types/heart.type';
+import { FallingHeartsType, MovingHeartsType } from '../types/heart.type';
 import { getRandomHeart, isHeartsMatch } from './heart.feature';
+import { categoriseHeartsByColumn } from '../utils/heart.util';
+import { updateBoardAfterCrush } from '../utils/board.util';
 
 export function initialiseBoard(columns: number, rows: number): BoardType {
 	const board = new Array(columns);
@@ -55,4 +57,14 @@ export function updateBoardWithSwappedHearts(
 	];
 
 	return newBoard;
+}
+
+export function rearrangeBoard(
+	board: BoardType,
+	fallingHearts: FallingHeartsType,
+) {
+	const heartsByColumn = categoriseHeartsByColumn(fallingHearts);
+	const updatedBoard = updateBoardAfterCrush(board, heartsByColumn);
+
+	return updatedBoard;
 }

@@ -8,3 +8,5 @@ export const SWAP_HEARTS = 'SWAP_HEARTS';
 export const STOP_MOVING_HEARTS = 'STOP_MOVING_HEARTS';
 // 위의 하트 빈공간으로 떨어뜨리기
 export const DROP_HEARTS = 'DROP_HEARTS';
+// 보드 배열 재배치
+export const REARRANGE_BOARD = 'REARRANGE_BOARD';

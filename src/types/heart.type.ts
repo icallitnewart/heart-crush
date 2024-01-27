@@ -1,6 +1,5 @@
 import HEART_ICONS, { MOVE_HEART } from '../constants/heart.constant';
 import { CellInfoType } from './board.type';
-import { HeartInfoType } from './common.type';
 
 // value
 export type HeartIconType = (typeof HEART_ICONS)[keyof typeof HEART_ICONS];
@@ -27,7 +26,7 @@ export interface HeartDistanceType {
 	dy: number;
 }
 
-export interface FallingHeartInfoType extends HeartInfoType {
+export interface FallingHeartInfoType extends CellInfoType {
 	distance: number;
 }
 

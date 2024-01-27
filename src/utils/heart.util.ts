@@ -210,9 +210,9 @@ export function checkMatching(
 }
 
 export function categoriseHeartsByColumn(
-	crushedHearts: CellInfoType[],
+	hearts: CellInfoType[],
 ): Record<number, CellInfoType[]> {
-	return crushedHearts.reduce(
+	return hearts.reduce(
 		(acc, heart) => {
 			const { columnIndex } = heart.position;
 
@@ -232,14 +232,23 @@ export function findFallingHearts(
 	const fallingHearts: FallingHeartsType = [];
 
 	Object.entries(heartsByColumn).forEach(
-		([columnIndex, crushedHearts]: [string, CellInfoType[]]) => {
-			const crushedHeartsLength = crushedHearts.length;
+		([columnIdx, crushedHearts]: [string, CellInfoType[]]) => {
+			const columnIndex = Number(columnIdx);
+			const distance = crushedHearts.length;
 			const rowIndexes = crushedHearts.map(heart => heart.position.rowIndex);
 			const minRowIndex = Math.min(...rowIndexes);
-			const targetColumn = board[Number(columnIndex)].cells;
+
+			const targetColumn = board[columnIndex].cells;
 			const targetHearts: FallingHeartsType = targetColumn
 				.slice(0, minRowIndex)
-				.map(heart => ({ ...heart, distance: crushedHeartsLength }));
+				.map((heart, rowIndex) => ({
+					...heart,
+					position: {
+						columnIndex,
+						rowIndex: rowIndex + distance,
+					},
+					distance,
+				}));
 
 			fallingHearts.push(...targetHearts);
 		},
