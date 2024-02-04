@@ -10,3 +10,5 @@ export const STOP_MOVING_HEARTS = 'STOP_MOVING_HEARTS';
 export const DROP_HEARTS = 'DROP_HEARTS';
 // 보드 배열 재배치
 export const REARRANGE_BOARD = 'REARRANGE_BOARD';
+// 하트 크러쉬 후 추가적인 매칭 검사
+export const CHECK_MATCHING_HEARTS = 'CHECK_MATCHING_HEARTS';

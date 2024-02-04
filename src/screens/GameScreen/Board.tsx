@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import {
+	CHECK_MATCHING_HEARTS,
 	DROP_HEARTS,
 	REARRANGE_BOARD,
 	STOP_MOVING_HEARTS,
@@ -78,8 +79,14 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 
 function Board() {
 	const isMountedRef = useRef(false);
-	const { board, movingHearts, crushedHearts, fallingHearts, dispatch } =
-		useContext(GamePlayContext);
+	const {
+		board,
+		movingHearts,
+		crushedHearts,
+		fallingHearts,
+		matchingCandidates,
+		dispatch,
+	} = useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
@@ -158,6 +165,15 @@ function Board() {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fallingHearts]);
+
+	// 하트 크러쉬 후 추가적인 매칭 검사
+	useEffect(() => {
+		if (matchingCandidates.length > 0) {
+			dispatch({ type: CHECK_MATCHING_HEARTS });
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [matchingCandidates]);
 
 	return (
 		<Container>

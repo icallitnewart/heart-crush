@@ -1,7 +1,11 @@
 import HEART_ICONS from '../constants/heart.constant';
 import { BoardType, CellInfoType } from '../types/board.type';
 import { HeartType } from '../types/common.type';
-import { MovingHeartsType } from '../types/heart.type';
+import {
+	FallingHeartsType,
+	MatchingCandidatesType,
+	MovingHeartsType,
+} from '../types/heart.type';
 import {
 	categoriseHeartsByColumn,
 	checkMatching,
@@ -54,15 +58,20 @@ export function swapMovingHeartsPosition(movingHearts: MovingHeartsType) {
 
 export function findMatchedHearts(
 	board: BoardType,
-	swappedHearts: MovingHeartsType,
+	targetHearts: MatchingCandidatesType,
 ) {
-	const [first, second] = Object.keys(swappedHearts);
-	const matchedHearts = new Set([
-		...checkMatching(swappedHearts[first], board),
-		...checkMatching(swappedHearts[second], board),
-	]);
+	const matchedHeartsMap = new Map();
 
-	return Array.from(matchedHearts);
+	targetHearts.forEach(heart => {
+		const foundMatchedHearts = checkMatching(heart, board);
+
+		foundMatchedHearts.forEach(foundMatchedHeart => {
+			matchedHeartsMap.set(foundMatchedHeart.id, foundMatchedHeart);
+		});
+	});
+
+	const matchedHearts = Array.from(matchedHeartsMap.values());
+	return matchedHearts;
 }
 
 export function getFallingHearts(
@@ -72,4 +81,12 @@ export function getFallingHearts(
 	const heartsByColumn = categoriseHeartsByColumn(crushedHearts);
 	const fallingHearts = findFallingHearts(board, heartsByColumn);
 	return fallingHearts;
+}
+
+export function pickMatchingCandidates(fallingHearts: FallingHeartsType) {
+	const targetHearts = fallingHearts
+		.filter(({ position }) => position.rowIndex >= 10)
+		.map(({ distance, ...rest }) => rest);
+
+	return targetHearts;
 }

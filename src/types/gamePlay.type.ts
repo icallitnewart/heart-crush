@@ -1,5 +1,9 @@
 import { BoardType, CellInfoType } from './board.type';
-import { FallingHeartsType, MovingHeartsType } from './heart.type';
+import {
+	FallingHeartsType,
+	MatchingCandidatesType,
+	MovingHeartsType,
+} from './heart.type';
 
 export interface GamePlayStateType {
 	board: BoardType;
@@ -7,6 +11,7 @@ export interface GamePlayStateType {
 	move: number;
 	crushedHearts: CellInfoType[] | [];
 	fallingHearts: FallingHeartsType;
+	matchingCandidates: MatchingCandidatesType;
 	movingHearts: MovingHeartsType | null;
 	isSwipeEnabled: boolean;
 	goal: {

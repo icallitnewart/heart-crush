@@ -31,3 +31,5 @@ export interface FallingHeartInfoType extends CellInfoType {
 }
 
 export type FallingHeartsType = FallingHeartInfoType[];
+
+export type MatchingCandidatesType = CellInfoType[] | MovingHeartInfoType[];

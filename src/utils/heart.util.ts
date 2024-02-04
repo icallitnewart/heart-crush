@@ -128,7 +128,7 @@ export function getNearHeartPosition(
 }
 
 function findSameHearts(
-	currentHeartInfo: MovingHeartInfoType,
+	currentHeartInfo: MovingHeartInfoType | CellInfoType,
 	direction: HeartDistanceType,
 	board: BoardType,
 ) {
@@ -165,7 +165,7 @@ function findSameHearts(
 }
 
 export function checkMatching(
-	currentHeartInfo: MovingHeartInfoType,
+	currentHeartInfo: MovingHeartInfoType | CellInfoType,
 	board: BoardType,
 ) {
 	const matchedHearts: CellInfoType[] = [];
