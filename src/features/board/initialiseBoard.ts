@@ -3,26 +3,26 @@ import { nanoid } from 'nanoid';
 import { BoardType } from '../../types/board.type';
 import { HeartType } from '../../types/common.type';
 import { getRandomHeart } from '../../utils/heartCreation';
+import {
+	isHeartsMatchLeftward,
+	isHeartsMatchUpward,
+} from '../../utils/heartMatching';
 
-function isHeartsMatch(
+function checkHeartMatch(
 	board: BoardType,
-	column: number,
-	row: number,
+	columnIndex: number,
+	rowIndex: number,
 	heart: HeartType,
 ) {
-	const currentHeart = heart;
+	const position = {
+		columnIndex,
+		rowIndex,
+	};
 
-	const isMatchInColumn =
-		column > 1 &&
-		currentHeart === board[column - 1].cells[row].heart &&
-		currentHeart === board[column - 2].cells[row].heart;
-
-	const isMatchInRow =
-		row > 1 &&
-		currentHeart === board[column].cells[row - 1].heart &&
-		currentHeart === board[column].cells[row - 2].heart;
-
-	return isMatchInColumn || isMatchInRow;
+	return (
+		isHeartsMatchUpward(board, position, heart) ||
+		isHeartsMatchLeftward(board, position, heart)
+	);
 }
 
 function initialiseBoard(columns: number, rows: number): BoardType {
@@ -40,7 +40,7 @@ function initialiseBoard(columns: number, rows: number): BoardType {
 			let randomHeart;
 			do {
 				randomHeart = getRandomHeart();
-			} while (isHeartsMatch(board, c, r, randomHeart));
+			} while (checkHeartMatch(board, c, r, randomHeart));
 
 			// Cell 데이터
 			board[c].cells[r] = {
