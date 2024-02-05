@@ -1,9 +1,12 @@
 import { nanoid } from 'nanoid';
-import { BoardType, CellInfoType, ColumnType } from '../types/board.type';
-import { HeartType } from '../types/common.type';
-import { getRandomHeart } from '../features/heart.feature';
 
-export function isHeartsMatchDownwardInColumn(
+import { BoardType, CellInfoType, ColumnType } from '../../types/board.type';
+import { HeartType } from '../../types/common.type';
+import { FallingHeartsType } from '../../types/heart.type';
+import { categoriseHeartsByColumn } from '../../utils/heartSorting';
+import { getRandomHeart } from '../../utils/heartCreation';
+
+function isHeartsMatchDownwardInColumn(
 	column: ColumnType,
 	currentIndex: number,
 	currentHeart: HeartType,
@@ -15,7 +18,7 @@ export function isHeartsMatchDownwardInColumn(
 	return isMatchDownward;
 }
 
-export function updateBoardAfterCrush(
+function updateBoardAfterCrush(
 	board: BoardType,
 	heartsByColumn: Record<number, CellInfoType[]>,
 ) {
@@ -59,3 +62,12 @@ export function updateBoardAfterCrush(
 
 	return newBoard;
 }
+
+function rearrangeBoard(board: BoardType, fallingHearts: FallingHeartsType) {
+	const heartsByColumn = categoriseHeartsByColumn(fallingHearts);
+	const updatedBoard = updateBoardAfterCrush(board, heartsByColumn);
+
+	return updatedBoard;
+}
+
+export default rearrangeBoard;

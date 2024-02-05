@@ -7,7 +7,7 @@ import {
 	getNearHeart,
 	getNearHeartPosition,
 	getOppositeMovingDirection,
-} from '../utils/heart.util';
+} from '../utils/heartSwipe';
 import { CellInfoType } from '../types/board.type';
 import { HeartCoordsType, MovingHeartsType } from '../types/heart.type';
 import { GamePlayContext } from '../states/GamePlayContext';
