@@ -5,6 +5,19 @@ import {
 	MovingHeartInfoType,
 } from '../../types/heart.type';
 
+function isPositionValid(
+	board: BoardType,
+	columnIndex: number,
+	rowIndex: number,
+): boolean {
+	return (
+		columnIndex >= 0 &&
+		columnIndex < board.length &&
+		rowIndex >= board[columnIndex].cells.length / 2 &&
+		rowIndex < board[columnIndex].cells.length
+	);
+}
+
 function findSameHearts(
 	currentHeartInfo: MovingHeartInfoType | CellInfoType,
 	direction: HeartDistanceType,
@@ -19,12 +32,7 @@ function findSameHearts(
 		columnIndex += dx;
 		rowIndex += dy;
 
-		const isPositionValid =
-			columnIndex >= 0 &&
-			columnIndex < board.length &&
-			rowIndex >= board[columnIndex].cells.length / 2 &&
-			rowIndex < board[columnIndex].cells.length;
-		if (!isPositionValid) break;
+		if (!isPositionValid(board, columnIndex, rowIndex)) break;
 
 		const cell = board[columnIndex].cells[rowIndex];
 		if (cell.heart !== currentHeart) break;
@@ -42,11 +50,10 @@ function findSameHearts(
 	return sameHearts;
 }
 
-function checkMatching(
+function exploreDirections(
 	currentHeartInfo: MovingHeartInfoType | CellInfoType,
 	board: BoardType,
 ) {
-	const matchedHearts: CellInfoType[] = [];
 	const verticalDirections: HeartDistanceType[] = [
 		{ dx: 0, dy: -1 },
 		{ dx: 0, dy: 1 },
@@ -55,19 +62,26 @@ function checkMatching(
 		{ dx: -1, dy: 0 },
 		{ dx: 1, dy: 0 },
 	];
+	const sameHeartsInColumn: CellInfoType[] = verticalDirections.flatMap(
+		direction => findSameHearts(currentHeartInfo, direction, board),
+	);
+	const sameHeartsInRow: CellInfoType[] = horizontalDirections.flatMap(
+		direction => findSameHearts(currentHeartInfo, direction, board),
+	);
 
-	const checkDirections = (directions: HeartDistanceType[]) =>
-		directions.reduce(
-			(sameHearts: CellInfoType[], direction: HeartDistanceType) =>
-				sameHearts.concat(findSameHearts(currentHeartInfo, direction, board)),
-			[],
-		);
+	return { sameHeartsInColumn, sameHeartsInRow };
+}
 
-	const sameHeartsInColumn: CellInfoType[] =
-		checkDirections(verticalDirections);
-	const sameHeartsInRow: CellInfoType[] = checkDirections(horizontalDirections);
+function checkMatching(
+	currentHeartInfo: MovingHeartInfoType | CellInfoType,
+	board: BoardType,
+) {
+	const matchedHearts: CellInfoType[] = [];
+	const { sameHeartsInColumn, sameHeartsInRow } = exploreDirections(
+		currentHeartInfo,
+		board,
+	);
 	const isMatched = (sameHearts: CellInfoType[]) => sameHearts.length > 1;
-
 	if (isMatched(sameHeartsInColumn)) matchedHearts.push(...sameHeartsInColumn);
 	if (isMatched(sameHeartsInRow)) matchedHearts.push(...sameHeartsInRow);
 
