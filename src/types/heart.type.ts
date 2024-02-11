@@ -26,6 +26,8 @@ export interface HeartDistanceType {
 	dy: number;
 }
 
+export type CrushedHeartsType = CellInfoType[];
+
 export interface FallingHeartInfoType extends CellInfoType {
 	distance: number;
 }

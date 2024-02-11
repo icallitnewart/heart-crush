@@ -8,8 +8,12 @@ import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../constants/gamePlay.constant';
-import { BoardType, CellInfoType } from '../types/board.type';
-import { MatchingCandidatesType, MovingHeartsType } from '../types/heart.type';
+import { BoardType } from '../types/board.type';
+import {
+	CrushedHeartsType,
+	MatchingCandidatesType,
+	MovingHeartsType,
+} from '../types/heart.type';
 import {
 	initialiseBoard,
 	rearrangeBoard,
@@ -84,16 +88,16 @@ const gamePlayReducer = (
 				swapMovingHeartsPosition(movingHearts);
 			const matchingCandidates: MatchingCandidatesType =
 				Object.values(swappedHearts);
-			const matchedHearts: CellInfoType[] = findMatchedHearts(
+			const crushedHearts: CrushedHeartsType = findMatchedHearts(
 				updatedBoard,
 				matchingCandidates,
 			);
 
-			if (matchedHearts.length > 0) {
+			if (crushedHearts.length > 0) {
 				return {
 					...state,
 					board: updatedBoard,
-					crushedHearts: matchedHearts,
+					crushedHearts,
 					movingHearts: null,
 				};
 			}

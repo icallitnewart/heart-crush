@@ -1,14 +1,14 @@
-import { BoardType, CellInfoType } from '../../types/board.type';
-import { FallingHeartsType } from '../../types/heart.type';
+import { BoardType } from '../../types/board.type';
+import { CrushedHeartsType, FallingHeartsType } from '../../types/heart.type';
 import { categoriseHeartsByColumn } from '../../utils/heartSorting';
 
 function getFallingHearts(
 	board: BoardType,
-	crushedHearts: CellInfoType[],
+	crushedHearts: CrushedHeartsType,
 ): FallingHeartsType {
 	const heartsByColumn = categoriseHeartsByColumn(crushedHearts);
 	const fallingHearts = Object.entries(heartsByColumn).flatMap(
-		([columnIdx, hearts]: [string, CellInfoType[]]) => {
+		([columnIdx, hearts]: [string, CrushedHeartsType]) => {
 			const columnIndex = Number(columnIdx);
 			const distance = hearts.length;
 			const rowIndexes = hearts.map(heart => heart.position.rowIndex);

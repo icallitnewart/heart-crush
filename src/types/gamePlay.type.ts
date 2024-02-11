@@ -1,5 +1,6 @@
-import { BoardType, CellInfoType } from './board.type';
+import { BoardType } from './board.type';
 import {
+	CrushedHeartsType,
 	FallingHeartsType,
 	MatchingCandidatesType,
 	MovingHeartsType,
@@ -9,7 +10,7 @@ export interface GamePlayStateType {
 	board: BoardType;
 	score: number;
 	move: number;
-	crushedHearts: CellInfoType[] | [];
+	crushedHearts: CrushedHeartsType;
 	fallingHearts: FallingHeartsType;
 	matchingCandidates: MatchingCandidatesType;
 	movingHearts: MovingHeartsType | null;
