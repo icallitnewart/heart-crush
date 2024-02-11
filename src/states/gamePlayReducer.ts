@@ -26,6 +26,7 @@ import {
 	returnMovingHearts,
 	swapMovingHeartsPosition,
 } from '../features/heart';
+import { calculateScoreForCrushedHearts } from '../features/score';
 
 const gamePlayReducer = (
 	state: GamePlayStateType,
@@ -72,7 +73,7 @@ const gamePlayReducer = (
 
 		// 하트 교환 시도 (실패시 되돌아오는 애니메이션 효과)
 		case SWAP_HEARTS: {
-			const { movingHearts, board } = state;
+			const { movingHearts, board, score } = state;
 
 			if (!movingHearts) {
 				throw new Error(
@@ -98,6 +99,7 @@ const gamePlayReducer = (
 					...state,
 					board: updatedBoard,
 					crushedHearts,
+					score: calculateScoreForCrushedHearts(score, crushedHearts),
 					movingHearts: null,
 				};
 			}
@@ -136,11 +138,16 @@ const gamePlayReducer = (
 		}
 
 		case CHECK_MATCHING_HEARTS: {
-			const { board, matchingCandidates } = state;
+			const { board, matchingCandidates, score } = state;
+			const crushedHearts: CrushedHeartsType = findMatchedHearts(
+				board,
+				matchingCandidates,
+			);
 
 			return {
 				...state,
-				crushedHearts: findMatchedHearts(board, matchingCandidates),
+				crushedHearts,
+				score: calculateScoreForCrushedHearts(score, crushedHearts),
 			};
 		}
 
