@@ -2,21 +2,19 @@ import { BoardType, CellInfoType } from '../../types/board.type';
 import { FallingHeartsType } from '../../types/heart.type';
 import { categoriseHeartsByColumn } from '../../utils/heartSorting';
 
-function findFallingHearts(
+function getFallingHearts(
 	board: BoardType,
-	heartsByColumn: Record<number, CellInfoType[]>,
-) {
-	const fallingHearts: FallingHeartsType = [];
-
-	Object.entries(heartsByColumn).forEach(
-		([columnIdx, crushedHearts]: [string, CellInfoType[]]) => {
+	crushedHearts: CellInfoType[],
+): FallingHeartsType {
+	const heartsByColumn = categoriseHeartsByColumn(crushedHearts);
+	const fallingHearts = Object.entries(heartsByColumn).flatMap(
+		([columnIdx, hearts]: [string, CellInfoType[]]) => {
 			const columnIndex = Number(columnIdx);
-			const distance = crushedHearts.length;
-			const rowIndexes = crushedHearts.map(heart => heart.position.rowIndex);
+			const distance = hearts.length;
+			const rowIndexes = hearts.map(heart => heart.position.rowIndex);
 			const minRowIndex = Math.min(...rowIndexes);
 
-			const targetColumn = board[columnIndex].cells;
-			const targetHearts: FallingHeartsType = targetColumn
+			return board[columnIndex].cells
 				.slice(0, minRowIndex)
 				.map((heart, rowIndex) => ({
 					...heart,
@@ -26,16 +24,9 @@ function findFallingHearts(
 					},
 					distance,
 				}));
-
-			fallingHearts.push(...targetHearts);
 		},
 	);
-	return fallingHearts;
-}
 
-function getFallingHearts(board: BoardType, crushedHearts: CellInfoType[]) {
-	const heartsByColumn = categoriseHeartsByColumn(crushedHearts);
-	const fallingHearts = findFallingHearts(board, heartsByColumn);
 	return fallingHearts;
 }
 
