@@ -71,9 +71,8 @@ const gamePlayReducer = (
 			};
 		}
 
-		// 하트 교환 시도 (실패시 되돌아오는 애니메이션 효과)
 		case SWAP_HEARTS: {
-			const { movingHearts, board, score } = state;
+			const { movingHearts, board, score, move } = state;
 
 			if (!movingHearts) {
 				throw new Error(
@@ -98,6 +97,7 @@ const gamePlayReducer = (
 				return {
 					...state,
 					board: updatedBoard,
+					move: move - 1,
 					crushedHearts,
 					score: calculateScoreForCrushedHearts(score, crushedHearts),
 					movingHearts: null,
