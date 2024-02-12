@@ -9,6 +9,7 @@ import {
 	GoalType,
 	IsSwipeEnabledType,
 	MoveType,
+	ResultType,
 	ScoreType,
 } from './gameStatus.type';
 
@@ -17,6 +18,7 @@ export interface GamePlayStateType {
 	score: ScoreType;
 	move: MoveType;
 	goal: GoalType;
+	result: ResultType;
 	crushedHearts: CrushedHeartsType;
 	fallingHearts: FallingHeartsType;
 	matchingCandidates: MatchingCandidatesType;

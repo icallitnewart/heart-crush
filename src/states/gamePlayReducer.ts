@@ -27,6 +27,7 @@ import {
 	swapMovingHeartsPosition,
 } from '../features/heart';
 import { calculateScoreForCrushedHearts } from '../features/score';
+import { checkForWin } from '../features/result';
 
 const gamePlayReducer = (
 	state: GamePlayStateType,
@@ -136,16 +137,23 @@ const gamePlayReducer = (
 		}
 
 		case CHECK_MATCHING_HEARTS: {
-			const { board, matchingCandidates, score } = state;
+			const { board, matchingCandidates, score, move, goal, result } = state;
 			const crushedHearts: CrushedHeartsType = findMatchedHearts(
 				board,
 				matchingCandidates,
 			);
 
+			let newResult = result;
+			const isMoveFinished = crushedHearts.length === 0;
+			if (isMoveFinished) {
+				newResult = checkForWin(score, goal, move);
+			}
+
 			return {
 				...state,
 				crushedHearts,
 				score: calculateScoreForCrushedHearts(score, crushedHearts),
+				...(result !== newResult && { result: newResult }),
 			};
 		}
 
