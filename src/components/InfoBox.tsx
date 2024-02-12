@@ -55,7 +55,7 @@ const TextBox = styled.div`
 interface InfoBoxProps {
 	flex?: number;
 	title: 'goal' | 'move' | 'score';
-	children: string | number;
+	children: number | undefined;
 }
 
 function InfoBox({ flex, title, children }: InfoBoxProps): React.ReactElement {

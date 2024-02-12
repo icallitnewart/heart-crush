@@ -34,6 +34,9 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 				columns: 8, // 고정
 				rows: 20, // 수정 가능
 				move: 20,
+				goal: {
+					score: 800,
+				},
 			},
 		});
 	}, [dispatch]);

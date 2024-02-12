@@ -5,19 +5,23 @@ import {
 	MatchingCandidatesType,
 	MovingHeartsType,
 } from './heart.type';
+import {
+	GoalType,
+	IsSwipeEnabledType,
+	MoveType,
+	ScoreType,
+} from './gameStatus.type';
 
 export interface GamePlayStateType {
 	board: BoardType;
-	score: number;
-	move: number;
+	score: ScoreType;
+	move: MoveType;
+	goal: GoalType;
 	crushedHearts: CrushedHeartsType;
 	fallingHearts: FallingHeartsType;
 	matchingCandidates: MatchingCandidatesType;
 	movingHearts: MovingHeartsType | null;
-	isSwipeEnabled: boolean;
-	goal: {
-		score?: number;
-	};
+	isSwipeEnabled: IsSwipeEnabledType;
 }
 
 export interface GamePlayContextType extends GamePlayStateType {
@@ -30,6 +34,7 @@ export interface GamePlayActionType {
 		columns: number;
 		rows: number;
 		move: number;
+		goal: GoalType;
 	};
 	movingHearts?: MovingHeartsType | null;
 }

@@ -42,16 +42,14 @@ const gamePlayReducer = (
 				);
 			}
 
-			const { columns, rows, move } = stage;
+			const { columns, rows, move, goal } = stage;
 
 			return {
 				...state,
 				board: initialiseBoard(columns, rows),
 				score: 0,
 				move,
-				goal: {
-					score: 1000,
-				},
+				goal,
 			};
 		}
 
