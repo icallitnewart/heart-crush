@@ -3,8 +3,9 @@ import GlobalStyles from './GlobalStyles';
 
 import { PLAYING, STANDBY } from './constants/status.constant';
 import { SwitchStatusFunction } from './types/status.type';
-
 import { GamePlayProvider } from './states/GamePlayContext';
+
+import ScreenContainer from './components/ScreenContainer';
 import GameScreen from './screens/GameScreen';
 
 function App() {
@@ -14,11 +15,13 @@ function App() {
 	return (
 		<>
 			<GlobalStyles />
-			{status === PLAYING && (
-				<GamePlayProvider>
-					<GameScreen moveToHome={() => switchStatus(STANDBY)} />
-				</GamePlayProvider>
-			)}
+			<ScreenContainer>
+				{status === PLAYING && (
+					<GamePlayProvider>
+						<GameScreen moveToHome={() => switchStatus(STANDBY)} />
+					</GamePlayProvider>
+				)}
+			</ScreenContainer>
 		</>
 	);
 }

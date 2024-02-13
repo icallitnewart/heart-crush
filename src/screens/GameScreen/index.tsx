@@ -8,14 +8,13 @@ import { GamePlayContext } from '../../states/GamePlayContext';
 import Navigation from './Navigation';
 import Information from './Information';
 import Board from './Board';
+import EndingAlertPopup from './EndingAlertPopup';
 
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	max-width: 480px;
-	height: 100vh;
-	max-height: 900px;
+	height: 100%;
 	padding: 20px 20px 30px;
 	background-color: var(--sub-color-blue);
 `;
@@ -25,7 +24,8 @@ interface GameScreenProps {
 }
 
 function GameScreen(props: GameScreenProps): React.ReactElement {
-	const { dispatch } = useContext(GamePlayContext);
+	const { result, dispatch } = useContext(GamePlayContext);
+	console.log(`result: ${result}`);
 
 	useEffect(() => {
 		dispatch({
@@ -33,20 +33,23 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 			stage: {
 				columns: 8, // 고정
 				rows: 20, // 수정 가능
-				move: 20,
+				move: 1,
 				goal: {
-					score: 800,
+					score: 10,
 				},
 			},
 		});
 	}, [dispatch]);
 
 	return (
-		<Container>
-			<Navigation />
-			<Information />
-			<Board />
-		</Container>
+		<>
+			<Container>
+				<Navigation />
+				<Information />
+				<Board />
+			</Container>
+			{result && <EndingAlertPopup />}
+		</>
 	);
 }
 

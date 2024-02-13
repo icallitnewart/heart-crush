@@ -28,7 +28,7 @@ function Navigation(): React.ReactElement {
 	return (
 		<Container>
 			<Stage />
-			<Logo />
+			<Logo shouldFlexGrow />
 			<ControlButtons>
 				<HomeButton />
 				<SoundEffectButton />
