@@ -15,10 +15,7 @@ const Background = styled.div<BackgroundStylePropsType>`
 	align-items: center;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(
-		var(--main-color-purple-rgb),
-		${({ $opacity }) => $opacity}
-	);
+	background-color: rgba(0, 0, 0, ${({ $opacity }) => $opacity});
 `;
 
 interface BackgroundLayerPropsType {

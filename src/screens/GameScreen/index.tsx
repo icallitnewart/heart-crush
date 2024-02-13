@@ -9,6 +9,7 @@ import Navigation from './Navigation';
 import Information from './Information';
 import Board from './Board';
 import EndingAlertPopup from './EndingAlertPopup';
+import ResultPopup from './ResultPopup';
 
 const Container = styled.div`
 	display: flex;
@@ -48,7 +49,8 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 				<Information />
 				<Board />
 			</Container>
-			{result && <EndingAlertPopup />}
+			{/* {result && <EndingAlertPopup />} */}
+			{result && <ResultPopup />}
 		</>
 	);
 }
