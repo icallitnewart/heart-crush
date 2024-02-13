@@ -1,6 +1,9 @@
 import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
 import {
+	ACTIVATE_ENDING_TIME,
+	ADD_BONUS_SCORE,
 	CHECK_MATCHING_HEARTS,
+	DEACTIVATE_ENDING_TIME,
 	DROP_HEARTS,
 	MOVE_HEARTS,
 	REARRANGE_BOARD,
@@ -27,7 +30,10 @@ import {
 	returnMovingHearts,
 	swapMovingHeartsPosition,
 } from '../features/heart';
-import { calculateScoreForCrushedHearts } from '../features/score';
+import {
+	calculateScoreForCrushedHearts,
+	calculateBonusScore,
+} from '../features/score';
 import { checkForWin } from '../features/result';
 
 const gamePlayReducer = (
@@ -158,6 +164,31 @@ const gamePlayReducer = (
 					result: newResult,
 					popup: POPUP.ENDING_ALERT,
 				}),
+			};
+		}
+
+		case ACTIVATE_ENDING_TIME: {
+			return {
+				...state,
+				isEndingTime: true,
+			};
+		}
+
+		case DEACTIVATE_ENDING_TIME: {
+			return {
+				...state,
+				isEndingTime: false,
+				popup: null,
+			};
+		}
+
+		case ADD_BONUS_SCORE: {
+			const { move, score } = state;
+
+			return {
+				...state,
+				move: move - 1,
+				score: calculateBonusScore(score),
 			};
 		}
 

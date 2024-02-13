@@ -1,3 +1,4 @@
+import calculateBonusScore from './calculateBonusScore';
 import calculateScoreForCrushedHearts from './calculateScoreForCrushedHearts';
 
-export { calculateScoreForCrushedHearts };
+export { calculateScoreForCrushedHearts, calculateBonusScore };

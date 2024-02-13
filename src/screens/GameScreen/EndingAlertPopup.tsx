@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
+import styled, { css, keyframes } from 'styled-components';
+
+import { GamePlayContext } from '../../states/GamePlayContext';
+import {
+	ANIMATION_DELAY,
+	ANIMATION_DURATION,
+	TEXT,
+} from '../../constants/settings.constant';
+import {
+	ACTIVATE_ENDING_TIME,
+	ADD_BONUS_SCORE,
+	DEACTIVATE_ENDING_TIME,
+} from '../../constants/gamePlay.constant';
 
 import Logo from '../../components/Logo';
 import BackgroundLayer from '../../components/BackgroundLayer';
 
-const appearAnimation = keyframes`
+const fadeInAnimation = keyframes`
 	0% {
 		opacity: 0;
 		transform: translateY(-20%);
@@ -15,7 +27,7 @@ const appearAnimation = keyframes`
 	}
 `;
 
-const disappearAnimation = keyframes`
+const fadeOutAnimation = keyframes`
 	0% {
 		opacity: 1;
 		transform: translateY(0);
@@ -25,16 +37,31 @@ const disappearAnimation = keyframes`
 		transform: translateY(-20%);
 	}
 `;
+
+const fadeInAndOutAnimationDuration = ANIMATION_DURATION.ENDING_ALERT;
+const bonusScoreAnimationDuration = ANIMATION_DURATION.BONUS_SCORE;
+const fadeInAnimationDelay = ANIMATION_DELAY.ENDING_ALERT_FADEIN;
+const fadeOutAnimationDelay = ANIMATION_DELAY.ENDING_ALERT_FADEOUT;
+const finishText = TEXT.ENDING_ALERT_FINISH;
+const bonusText = TEXT.ENDING_ALERT_BONUS;
 
 interface ContainerPropsType {
-	$isAppear: boolean;
+	$isVisible: boolean;
 }
 
 const Container = styled.div<ContainerPropsType>`
-	animation: ${({ $isAppear }) => $isAppear && appearAnimation} 800ms forwards;
+	${({ $isVisible }) => css`
+		animation: ${$isVisible ? fadeInAnimation : fadeOutAnimation}
+			${fadeInAndOutAnimationDuration}ms
+			${$isVisible ? fadeInAnimationDelay : fadeOutAnimationDelay}ms forwards;
+	`};
 `;
 
-const AlertText = styled.h2`
+interface AlertTextPropsType {
+	$isFinish: boolean;
+}
+
+const AlertText = styled.h2<AlertTextPropsType>`
 	position: relative;
 	text-align: center;
 
@@ -50,7 +77,7 @@ const AlertText = styled.h2`
 		bottom: 0%;
 		z-index: -1;
 		transform: translateX(calc(-50% + 4px));
-		content: 'Finish';
+		content: '${({ $isFinish }) => ($isFinish ? finishText : bonusText)}';
 		display: inline-block;
 		clear: both;
 
@@ -61,13 +88,53 @@ const AlertText = styled.h2`
 `;
 
 function EndingAlertPopup(): React.ReactElement {
-	const [isAppear, setIsAppear] = useState(true);
+	const { isEndingTime, move, dispatch } = useContext(GamePlayContext);
+	const [isVisible, setIsVisible] = useState(true);
+	const isFinish = move === 0;
+
+	// fade-in 애니메이션 효과
+	useEffect(() => {
+		const animationTimer = setTimeout(() => {
+			dispatch({ type: ACTIVATE_ENDING_TIME });
+		}, fadeInAndOutAnimationDuration);
+
+		return () => clearTimeout(animationTimer);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		let animationTimer: ReturnType<typeof setTimeout> | undefined;
+
+		if (isEndingTime) {
+			if (move > 0) {
+				// 보너스 점수 계산
+				animationTimer = setTimeout(() => {
+					dispatch({ type: ADD_BONUS_SCORE });
+				}, bonusScoreAnimationDuration);
+			} else {
+				// fade-out 애니메이션 효과 및 컴포넌트 제거
+				setIsVisible(false);
+				animationTimer = setTimeout(() => {
+					dispatch({ type: DEACTIVATE_ENDING_TIME });
+				}, fadeOutAnimationDelay + fadeInAndOutAnimationDuration);
+			}
+		}
+
+		return () => {
+			if (animationTimer) clearTimeout(animationTimer);
+		};
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isEndingTime, move]);
 
 	return (
 		<BackgroundLayer opacity={0}>
-			<Container $isAppear={isAppear}>
+			<Container $isVisible={isVisible}>
 				<Logo fontSize="3em" textStroke={1.2} shouldTextShadow />
-				<AlertText>Finish</AlertText>
+				<AlertText $isFinish={isFinish}>
+					{isFinish ? finishText : bonusText}
+				</AlertText>
 			</Container>
 		</BackgroundLayer>
 	);
