@@ -178,7 +178,7 @@ const gamePlayReducer = (
 			return {
 				...state,
 				isEndingTime: false,
-				popup: null,
+				popup: POPUP.RESULT,
 			};
 		}
 

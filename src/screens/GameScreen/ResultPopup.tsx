@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+
+import { GamePlayContext } from '../../states/GamePlayContext';
+import { RESULT } from '../../constants/status.constant';
+import { TEXT } from '../../constants/settings.constant';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
 import LetterButton from '../../components/LetterButton';
+
+const victoryText = TEXT.RESULT_WIN;
+const defeatText = TEXT.RESULT_LOSE;
 
 const ResultContainer = styled.div`
 	display: flex;
@@ -14,7 +21,11 @@ const ResultContainer = styled.div`
 	padding: 30px 40px 35px;
 `;
 
-const ResultText = styled.h1`
+interface ResultTextStylePropsType {
+	$isVictory: boolean;
+}
+
+const ResultText = styled.h1<ResultTextStylePropsType>`
 	position: relative;
 	z-index: 9;
 	margin-bottom: 5px;
@@ -33,7 +44,7 @@ const ResultText = styled.h1`
 		left: 50%;
 		z-index: -1;
 		transform: translateX(calc(-50% + 2px));
-		content: 'Victory';
+		content: '${({ $isVictory }) => ($isVictory ? victoryText : defeatText)}';
 		display: inline-block;
 		clear: both;
 
@@ -65,17 +76,20 @@ const ButtonContainer = styled.div`
 `;
 
 function ResultPopup() {
+	const { score, result } = useContext(GamePlayContext);
+	const isVictory = result === RESULT.WIN;
+
 	return (
 		<BackgroundLayer opacity={0.8}>
 			<PopupBox>
 				<ResultContainer>
-					<ResultText>
-						<span>Victory</span>
+					<ResultText $isVictory={isVictory}>
+						<span>{isVictory ? victoryText : defeatText}</span>
 					</ResultText>
-					<ScoreText>12350</ScoreText>
+					<ScoreText>{score}</ScoreText>
 					<ButtonContainer>
 						<LetterButton>Retry</LetterButton>
-						<LetterButton>Next</LetterButton>
+						{isVictory && <LetterButton>Next</LetterButton>}
 					</ButtonContainer>
 				</ResultContainer>
 			</PopupBox>

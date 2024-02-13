@@ -26,8 +26,7 @@ interface GameScreenProps {
 }
 
 function GameScreen(props: GameScreenProps): React.ReactElement {
-	const { result, popup, dispatch } = useContext(GamePlayContext);
-	console.log(`result: ${result}`);
+	const { popup, dispatch } = useContext(GamePlayContext);
 
 	useEffect(() => {
 		dispatch({
@@ -35,9 +34,9 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 			stage: {
 				columns: 8, // 고정
 				rows: 20, // 수정 가능
-				move: 1,
+				move: 10,
 				goal: {
-					score: 10,
+					score: 400,
 				},
 			},
 		});
@@ -51,7 +50,7 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 				<Board />
 			</Container>
 			{popup === POPUP.ENDING_ALERT && <EndingAlertPopup />}
-			{/* {result && <ResultPopup />} */}
+			{popup === POPUP.RESULT && <ResultPopup />}
 		</>
 	);
 }

@@ -14,4 +14,6 @@ export const ANIMATION_DELAY = {
 export const TEXT = {
 	ENDING_ALERT_FINISH: 'Finish',
 	ENDING_ALERT_BONUS: 'Bonus',
+	RESULT_WIN: 'Victory',
+	RESULT_LOSE: 'Defeat',
 };
