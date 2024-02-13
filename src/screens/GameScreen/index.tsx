@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Status } from '../../types/status.type';
+import { POPUP } from '../../constants/status.constant';
 import { START_GAME } from '../../constants/gamePlay.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
 
@@ -25,7 +26,7 @@ interface GameScreenProps {
 }
 
 function GameScreen(props: GameScreenProps): React.ReactElement {
-	const { result, dispatch } = useContext(GamePlayContext);
+	const { result, popup, dispatch } = useContext(GamePlayContext);
 	console.log(`result: ${result}`);
 
 	useEffect(() => {
@@ -49,8 +50,8 @@ function GameScreen(props: GameScreenProps): React.ReactElement {
 				<Information />
 				<Board />
 			</Container>
-			{/* {result && <EndingAlertPopup />} */}
-			{result && <ResultPopup />}
+			{popup === POPUP.ENDING_ALERT && <EndingAlertPopup />}
+			{/* {result && <ResultPopup />} */}
 		</>
 	);
 }

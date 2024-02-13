@@ -8,6 +8,7 @@ import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../constants/gamePlay.constant';
+import { POPUP } from '../constants/status.constant';
 import { BoardType } from '../types/board.type';
 import {
 	CrushedHeartsType,
@@ -153,7 +154,10 @@ const gamePlayReducer = (
 				...state,
 				crushedHearts,
 				score: calculateScoreForCrushedHearts(score, crushedHearts),
-				...(result !== newResult && { result: newResult }),
+				...(result !== newResult && {
+					result: newResult,
+					popup: POPUP.ENDING_ALERT,
+				}),
 			};
 		}
 

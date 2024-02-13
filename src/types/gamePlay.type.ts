@@ -9,6 +9,7 @@ import {
 	GoalType,
 	IsSwipeEnabledType,
 	MoveType,
+	PopupType,
 	ResultType,
 	ScoreType,
 } from './gameStatus.type';
@@ -24,6 +25,7 @@ export interface GamePlayStateType {
 	matchingCandidates: MatchingCandidatesType;
 	movingHearts: MovingHeartsType | null;
 	isSwipeEnabled: IsSwipeEnabledType;
+	popup: PopupType;
 }
 
 export interface GamePlayContextType extends GamePlayStateType {

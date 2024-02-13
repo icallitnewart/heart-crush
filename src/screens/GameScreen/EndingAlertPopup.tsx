@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import Logo from '../../components/Logo';
@@ -26,8 +26,12 @@ const disappearAnimation = keyframes`
 	}
 `;
 
-const Container = styled.div`
-	animation: ${appearAnimation} 800ms forwards;
+interface ContainerPropsType {
+	$isAppear: boolean;
+}
+
+const Container = styled.div<ContainerPropsType>`
+	animation: ${({ $isAppear }) => $isAppear && appearAnimation} 800ms forwards;
 `;
 
 const AlertText = styled.h2`
@@ -57,9 +61,11 @@ const AlertText = styled.h2`
 `;
 
 function EndingAlertPopup(): React.ReactElement {
+	const [isAppear, setIsAppear] = useState(true);
+
 	return (
 		<BackgroundLayer opacity={0}>
-			<Container>
+			<Container $isAppear={isAppear}>
 				<Logo fontSize="3em" textStroke={1.2} shouldTextShadow />
 				<AlertText>Finish</AlertText>
 			</Container>
