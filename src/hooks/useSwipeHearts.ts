@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 
-import { MOVE_HEARTS } from '../constants/gamePlay.constant';
+import { DISABLE_SWIPE, MOVE_HEARTS } from '../constants/gamePlay.constant';
 import {
 	getCoords,
 	getMovingDirection,
@@ -25,6 +25,10 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 			type: MOVE_HEARTS,
 			movingHearts: movingHeartsInfo,
 		});
+	};
+
+	const disableSwipe = () => {
+		dispatch({ type: DISABLE_SWIPE });
 	};
 
 	const handleSwipeStart = (
@@ -58,7 +62,7 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 		const isSwipeValid = !((!x1 && !y1) || (!x2 && !y2));
 		if (!isSwipeValid) return;
 
-		// TODO: isSwipingEnabled 비활성화 작업 필요
+		disableSwipe();
 
 		const direction = getMovingDirection(x1, x2, y1, y2);
 		if (direction) {

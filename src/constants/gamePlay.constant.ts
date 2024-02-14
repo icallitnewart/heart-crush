@@ -19,3 +19,5 @@ export const END_BONUS_TIME_AND_OPEN_RESULT_POPUP =
 	'END_BONUS_TIME_AND_OPEN_RESULT_POPUP';
 // 보너스 점수 추가
 export const ADD_BONUS_SCORE = 'ADD_BONUS_SCORE';
+// 하트 스와이프 비활성화
+export const DISABLE_SWIPE = 'DISABLE_SWIPE';

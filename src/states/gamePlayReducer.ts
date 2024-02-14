@@ -10,6 +10,7 @@ import {
 	START_GAME,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
+	DISABLE_SWIPE,
 } from '../constants/gamePlay.constant';
 import { POPUP } from '../constants/status.constant';
 import { BoardType } from '../types/board.type';
@@ -113,6 +114,7 @@ const gamePlayReducer = (
 			return {
 				...state,
 				movingHearts: returnMovingHearts(movingHearts),
+				isSwipeEnabled: true,
 			};
 		}
 
@@ -160,9 +162,11 @@ const gamePlayReducer = (
 				...state,
 				crushedHearts,
 				score: calculateScoreForCrushedHearts(score, crushedHearts),
+				...(isMoveFinished && { isSwipeEnabled: true }),
 				...(result !== newResult && {
 					result: newResult,
 					popup: POPUP.ENDING_ALERT,
+					isSwipeEnabled: false,
 				}),
 			};
 		}
@@ -189,6 +193,13 @@ const gamePlayReducer = (
 				...state,
 				move: move - 1,
 				score: calculateBonusScore(score),
+			};
+		}
+
+		case DISABLE_SWIPE: {
+			return {
+				...state,
+				isSwipeEnabled: false,
 			};
 		}
 
