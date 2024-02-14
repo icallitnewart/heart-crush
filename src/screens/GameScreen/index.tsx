@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Status } from '../../types/status.type';
+import { Screen } from '../../types/screen.type';
 import { POPUP } from '../../constants/status.constant';
 import { START_GAME } from '../../constants/gamePlay.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 interface GameScreenProps {
-	moveToHome: (newStatus: Status) => void;
+	moveToHome: (newScreen: Screen) => void;
 }
 
 function GameScreen(props: GameScreenProps): React.ReactElement {

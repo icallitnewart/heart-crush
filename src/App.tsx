@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import GlobalStyles from './GlobalStyles';
 
-import { PLAYING, STANDBY } from './constants/status.constant';
-import { SwitchStatusFunction } from './types/status.type';
+import { HOME_SCREEN, GAME_SCREEN } from './constants/screen.constant';
+import { SwitchScreenFunction } from './types/screen.type';
 import { GamePlayProvider } from './states/GamePlayContext';
 
 import ScreenContainer from './components/ScreenContainer';
 import GameScreen from './screens/GameScreen';
 
 function App() {
-	const [status, setStatus] = useState(PLAYING);
-	const switchStatus: SwitchStatusFunction = setStatus;
+	const [screen, setScreen] = useState(GAME_SCREEN);
+	const switchScreen: SwitchScreenFunction = setScreen;
 
 	return (
 		<>
 			<GlobalStyles />
 			<ScreenContainer>
-				{status === PLAYING && (
+				{screen === GAME_SCREEN && (
 					<GamePlayProvider>
-						<GameScreen moveToHome={() => switchStatus(STANDBY)} />
+						<GameScreen moveToHome={() => switchScreen(HOME_SCREEN)} />
 					</GamePlayProvider>
 				)}
 			</ScreenContainer>
