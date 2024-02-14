@@ -26,7 +26,7 @@ export interface GamePlayStateType {
 	movingHearts: MovingHeartsType | null;
 	isSwipeEnabled: IsSwipeEnabledType;
 	popup: PopupType;
-	isEndingTime: boolean;
+	isBonusTime: boolean;
 }
 
 export interface GamePlayContextType extends GamePlayStateType {

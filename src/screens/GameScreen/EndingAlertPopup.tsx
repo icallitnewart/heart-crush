@@ -8,9 +8,9 @@ import {
 	TEXT,
 } from '../../constants/settings.constant';
 import {
-	ACTIVATE_ENDING_TIME,
+	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
-	DEACTIVATE_ENDING_TIME,
+	END_BONUS_TIME_AND_OPEN_RESULT_POPUP,
 } from '../../constants/gamePlay.constant';
 
 import Logo from '../../components/Logo';
@@ -88,14 +88,14 @@ const AlertText = styled.h2<AlertTextPropsType>`
 `;
 
 function EndingAlertPopup(): React.ReactElement {
-	const { isEndingTime, move, dispatch } = useContext(GamePlayContext);
+	const { isBonusTime, move, dispatch } = useContext(GamePlayContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
 
-	// fade-in 애니메이션 효과
+	// fade-in 애니메이션 효과가 끝나면 보너스 타임 활성화
 	useEffect(() => {
 		const animationTimer = setTimeout(() => {
-			dispatch({ type: ACTIVATE_ENDING_TIME });
+			dispatch({ type: START_BONUS_TIME });
 		}, fadeInAndOutAnimationDuration);
 
 		return () => clearTimeout(animationTimer);
@@ -106,17 +106,19 @@ function EndingAlertPopup(): React.ReactElement {
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
 
-		if (isEndingTime) {
+		if (isBonusTime) {
 			if (move > 0) {
 				// 보너스 점수 계산
 				animationTimer = setTimeout(() => {
 					dispatch({ type: ADD_BONUS_SCORE });
 				}, bonusScoreAnimationDuration);
 			} else {
-				// fade-out 애니메이션 효과 및 컴포넌트 제거
+				// fade-out 애니메이션 효과 적용
 				setIsVisible(false);
+
+				// fade-out 애니메이션 효과가 끝나면 보너스 타임 종료 및 결과 팝업 열기
 				animationTimer = setTimeout(() => {
-					dispatch({ type: DEACTIVATE_ENDING_TIME });
+					dispatch({ type: END_BONUS_TIME_AND_OPEN_RESULT_POPUP });
 				}, fadeOutAnimationDelay + fadeInAndOutAnimationDuration);
 			}
 		}
@@ -126,7 +128,7 @@ function EndingAlertPopup(): React.ReactElement {
 		};
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isEndingTime, move]);
+	}, [isBonusTime, move]);
 
 	return (
 		<BackgroundLayer opacity={0}>

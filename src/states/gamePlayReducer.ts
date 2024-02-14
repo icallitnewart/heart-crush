@@ -1,9 +1,9 @@
 import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
 import {
-	ACTIVATE_ENDING_TIME,
+	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
 	CHECK_MATCHING_HEARTS,
-	DEACTIVATE_ENDING_TIME,
+	END_BONUS_TIME_AND_OPEN_RESULT_POPUP,
 	DROP_HEARTS,
 	MOVE_HEARTS,
 	REARRANGE_BOARD,
@@ -167,17 +167,17 @@ const gamePlayReducer = (
 			};
 		}
 
-		case ACTIVATE_ENDING_TIME: {
+		case START_BONUS_TIME: {
 			return {
 				...state,
-				isEndingTime: true,
+				isBonusTime: true,
 			};
 		}
 
-		case DEACTIVATE_ENDING_TIME: {
+		case END_BONUS_TIME_AND_OPEN_RESULT_POPUP: {
 			return {
 				...state,
-				isEndingTime: false,
+				isBonusTime: false,
 				popup: POPUP.RESULT,
 			};
 		}

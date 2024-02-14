@@ -19,7 +19,7 @@ const initialState: GamePlayStateType = {
 	movingHearts: null,
 	isSwipeEnabled: true,
 	popup: null,
-	isEndingTime: false,
+	isBonusTime: false,
 };
 
 const initialContextValue: GamePlayContextType = {
@@ -45,7 +45,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 		matchingCandidates,
 		isSwipeEnabled,
 		popup,
-		isEndingTime,
+		isBonusTime,
 	} = state;
 	const value = useMemo(
 		() => ({
@@ -60,7 +60,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 			matchingCandidates,
 			isSwipeEnabled,
 			popup,
-			isEndingTime,
+			isBonusTime,
 			dispatch,
 		}),
 		[
@@ -75,7 +75,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 			matchingCandidates,
 			isSwipeEnabled,
 			popup,
-			isEndingTime,
+			isBonusTime,
 		],
 	);
 
