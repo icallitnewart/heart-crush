@@ -9,11 +9,11 @@ interface ButtonStyleProps {
 }
 
 const Button = styled.button<ButtonStyleProps>`
-	width: ${props => props.$size}px;
-	height: ${props => props.$size}px;
+	width: ${({ $size }) => $size}px;
+	height: ${({ $size }) => $size}px;
 	border-radius: 50%;
 	border: none;
-	padding: 3.1px;
+	padding: ${({ $size }) => $size && $size / 13}px;
 	cursor: pointer;
 
 	border: 1px solid #888;
@@ -33,7 +33,8 @@ const Button = styled.button<ButtonStyleProps>`
 		width: 100%;
 		height: 100%;
 
-		font-size: ${props => props.$iconSize}px;
+		font-size: ${({ $iconSize, $size }) =>
+			$iconSize || ($size && $size / 1.8)}px;
 		border-radius: 50%;
 		border: 1px solid #888;
 		background-color: var(--main-color-yellow);
@@ -78,7 +79,7 @@ export default ControlButton;
 
 ControlButton.defaultProps = {
 	size: 40,
-	iconSize: 22,
+	iconSize: undefined,
 	iconStrokeWidth: 0.7,
 	isActive: false,
 };

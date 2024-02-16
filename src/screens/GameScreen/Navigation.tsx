@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import Logo from '../../components/Logo';
 import Stage from './Stage';
 import HomeButton from './HomeButton';
-import SoundEffectButton from './SoundEffectButton';
-import MusicButton from './MusicButton';
+import SoundEffectButton from '../../components/SoundEffectButton';
+import MusicButton from '../../components/MusicButton';
 
 const Container = styled.header`
 	display: flex;

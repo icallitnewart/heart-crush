@@ -7,20 +7,22 @@ import { GamePlayProvider } from './states/GamePlayContext';
 
 import ScreenContainer from './components/ScreenContainer';
 import GameScreen from './screens/GameScreen';
+import HomeScreen from './screens/HomeScreen';
 
 function App() {
-	const [screen, setScreen] = useState(GAME_SCREEN);
+	const [screen, setScreen] = useState(HOME_SCREEN);
 	const switchScreen: SwitchScreenFunction = setScreen;
 
 	return (
 		<>
 			<GlobalStyles />
 			<ScreenContainer>
-				{screen === GAME_SCREEN && (
+				{screen === HOME_SCREEN && <HomeScreen />}
+				{/* {screen === GAME_SCREEN && (
 					<GamePlayProvider>
 						<GameScreen moveToHome={() => switchScreen(HOME_SCREEN)} />
 					</GamePlayProvider>
-				)}
+				)} */}
 			</ScreenContainer>
 		</>
 	);
