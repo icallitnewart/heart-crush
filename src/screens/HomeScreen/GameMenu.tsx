@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import StartButton from './StartButton';
+import NewGameButton from './NewGameButton';
 import ContinueButton from './ContinueButton';
 
 const Container = styled.ul`
@@ -26,7 +26,7 @@ function GameMenu(): React.ReactElement {
 	return (
 		<Container>
 			<ButtonBox>
-				<StartButton />
+				<NewGameButton />
 			</ButtonBox>
 			<ButtonBox>
 				<ContinueButton />
