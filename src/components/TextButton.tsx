@@ -24,12 +24,12 @@ const Button = styled.button`
 	}
 `;
 
-interface LetterButtonPropsType {
+interface TextButtonPropsType {
 	children: string;
 }
 
-function LetterButton({ children }: LetterButtonPropsType): React.ReactElement {
+function TextButton({ children }: TextButtonPropsType): React.ReactElement {
 	return <Button>{children}</Button>;
 }
 
-export default LetterButton;
+export default TextButton;

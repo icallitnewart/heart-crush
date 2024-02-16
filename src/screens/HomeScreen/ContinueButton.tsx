@@ -1,9 +1,9 @@
 import React from 'react';
 
-import LetterButton from '../../components/LetterButton';
+import TextButton from '../../components/TextButton';
 
 function ContinueButton(): React.ReactElement {
-	return <LetterButton>Continue</LetterButton>;
+	return <TextButton>Continue</TextButton>;
 }
 
 export default ContinueButton;

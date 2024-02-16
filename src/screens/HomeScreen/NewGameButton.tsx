@@ -1,9 +1,9 @@
 import React from 'react';
 
-import LetterButton from '../../components/LetterButton';
+import TextButton from '../../components/TextButton';
 
 function NewGameButton(): React.ReactElement {
-	return <LetterButton>New Game</LetterButton>;
+	return <TextButton>New Game</TextButton>;
 }
 
 export default NewGameButton;
