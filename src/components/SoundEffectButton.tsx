@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiFillSound } from 'react-icons/ai';
 
-import ControlButton from './ControlButton';
+import IconButton from './IconButton';
 
 interface SoundEffectButtonPropsType {
 	size?: number;
@@ -11,9 +11,9 @@ function SoundEffectButton({
 	size,
 }: SoundEffectButtonPropsType): React.ReactElement {
 	return (
-		<ControlButton size={size} iconStrokeWidth={30} isActive>
+		<IconButton size={size} iconStrokeWidth={30} isActive>
 			<AiFillSound />
-		</ControlButton>
+		</IconButton>
 	);
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiSolidMusic } from 'react-icons/bi';
 
-import ControlButton from './ControlButton';
+import IconButton from './IconButton';
 
 interface MusicButtonPropsType {
 	size?: number;
@@ -9,9 +9,9 @@ interface MusicButtonPropsType {
 
 function MusicButton({ size }: MusicButtonPropsType): React.ReactElement {
 	return (
-		<ControlButton isActive size={size}>
+		<IconButton isActive size={size}>
 			<BiSolidMusic />
-		</ControlButton>
+		</IconButton>
 	);
 }
 

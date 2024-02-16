@@ -48,7 +48,7 @@ const Button = styled.button<ButtonStyleProps>`
 	}
 `;
 
-interface ControlButtonProps {
+interface IconButtonProps {
 	children: React.ReactElement;
 	size?: number;
 	iconSize?: number;
@@ -56,13 +56,13 @@ interface ControlButtonProps {
 	isActive?: boolean;
 }
 
-function ControlButton({
+function IconButton({
 	children,
 	size,
 	iconSize,
 	iconStrokeWidth,
 	isActive,
-}: ControlButtonProps): React.ReactElement {
+}: IconButtonProps): React.ReactElement {
 	return (
 		<Button
 			$size={size}
@@ -75,9 +75,9 @@ function ControlButton({
 	);
 }
 
-export default ControlButton;
+export default IconButton;
 
-ControlButton.defaultProps = {
+IconButton.defaultProps = {
 	size: 40,
 	iconSize: undefined,
 	iconStrokeWidth: 0.7,
