@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 
 import Logo from '../../components/Logo';
 import GameMenu from './GameMenu';
 import SoundOptions from './SoundOptions';
+import StagePopup from './StagePopup';
 
 const Background = styled.div`
 	width: 100%;
@@ -22,14 +23,19 @@ const Container = styled.div`
 `;
 
 function HomeScreen(): React.ReactElement {
+	const [stagePopup, setStagePopup] = useState(true);
+
 	return (
-		<Background>
-			<Container>
-				<Logo fontSize="3em" />
-				<GameMenu />
-				<SoundOptions />
-			</Container>
-		</Background>
+		<>
+			<Background>
+				<Container>
+					<Logo fontSize="3em" />
+					<GameMenu />
+					<SoundOptions />
+				</Container>
+			</Background>
+			{stagePopup && <StagePopup />}
+		</>
 	);
 }
 

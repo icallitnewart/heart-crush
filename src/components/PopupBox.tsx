@@ -10,7 +10,7 @@ const Container = styled.div`
 	margin-bottom: 70px;
 
 	border-radius: 10px;
-	border: 1px solid #555;
+	border: 1px solid #888;
 	background: repeating-linear-gradient(
 		45deg,
 		var(--main-color-yellow) 15px,
