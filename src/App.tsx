@@ -4,6 +4,7 @@ import GlobalStyles from './GlobalStyles';
 import { HOME_SCREEN, GAME_SCREEN } from './constants/screen.constant';
 import { SwitchScreenFunction } from './types/screen.type';
 import { GamePlayProvider } from './states/GamePlayContext';
+import { GameSettingsProvider } from './states/GameSettingsContext';
 
 import ScreenContainer from './components/ScreenContainer';
 import GameScreen from './screens/GameScreen';
@@ -17,12 +18,14 @@ function App() {
 		<>
 			<GlobalStyles />
 			<ScreenContainer>
-				{screen === HOME_SCREEN && <HomeScreen />}
-				{/* {screen === GAME_SCREEN && (
-					<GamePlayProvider>
-						<GameScreen moveToHome={() => switchScreen(HOME_SCREEN)} />
-					</GamePlayProvider>
-				)} */}
+				<GameSettingsProvider>
+					{screen === HOME_SCREEN && <HomeScreen />}
+					{screen === GAME_SCREEN && (
+						<GamePlayProvider>
+							<GameScreen moveToHome={() => switchScreen(HOME_SCREEN)} />
+						</GamePlayProvider>
+					)}
+				</GameSettingsProvider>
 			</ScreenContainer>
 		</>
 	);

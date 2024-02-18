@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SET_MAX_STAGE_NUMBER } from '../../constants/gameSettings.constant';
 
 import Logo from '../../components/Logo';
 import GameMenu from './GameMenu';
@@ -23,7 +26,25 @@ const Container = styled.div`
 `;
 
 function HomeScreen(): React.ReactElement {
-	const [stagePopup, setStagePopup] = useState(true);
+	const [stagePopup, setStagePopup] = useState(false);
+	const { dispatch } = useContext(GameSettingsContext);
+
+	useEffect(() => {
+		const storedMaxStageNumber = localStorage.getItem('maxStageNumber');
+		let maxStageNumber;
+
+		if (storedMaxStageNumber) {
+			maxStageNumber = parseInt(storedMaxStageNumber, 10);
+		} else {
+			localStorage.setItem('maxStageNumber', '1');
+			maxStageNumber = 1;
+		}
+
+		dispatch({
+			type: SET_MAX_STAGE_NUMBER,
+			maxStageNumber,
+		});
+	}, [dispatch]);
 
 	return (
 		<>
