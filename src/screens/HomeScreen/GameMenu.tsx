@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import NewGameButton from './NewGameButton';
-import ContinueButton from './ContinueButton';
+import PlayButton from './PlayButton';
+import StagesButton from './StagesButton';
 
 const Container = styled.ul`
 	width: 100%;
@@ -26,10 +26,10 @@ function GameMenu(): React.ReactElement {
 	return (
 		<Container>
 			<ButtonBox>
-				<NewGameButton />
+				<PlayButton />
 			</ButtonBox>
 			<ButtonBox>
-				<ContinueButton />
+				<StagesButton />
 			</ButtonBox>
 		</Container>
 	);
