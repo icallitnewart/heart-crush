@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { css, styled } from 'styled-components';
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import {
+	SELECT_STAGE,
+	SWITCH_SCREEN,
+} from '../../constants/gameSettings.constant';
+import { GAME_SCREEN } from '../../constants/screen.constant';
 
 interface ButtonStylePropsType {
 	$isActive: boolean;
@@ -47,11 +53,17 @@ function StageButton({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
+	const { dispatch } = useContext(GameSettingsContext);
 	const isStageLocked = !isStageUnlocked;
+	const startGame = () => {
+		dispatch({ type: SELECT_STAGE, selectedStageNumber: stageNumber });
+		dispatch({ type: SWITCH_SCREEN, screen: GAME_SCREEN });
+	};
 
 	return (
 		<Button
 			$isActive={isStageUnlocked}
+			onClick={startGame}
 			disabled={isStageLocked}
 			onMouseOver={() => isStageLocked && createAlertMessage()}
 			onMouseOut={() => isStageLocked && removeAlertMessage()}
