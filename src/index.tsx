@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import { GameSettingsProvider } from './states/GameSettingsContext';
+
 import App from './App';
 
 const root = ReactDOM.createRoot(
@@ -7,6 +10,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 	<React.StrictMode>
-		<App />
+		<GameSettingsProvider>
+			<App />
+		</GameSettingsProvider>
 	</React.StrictMode>,
 );

@@ -1,4 +1,8 @@
-import { SET_MAX_STAGE_NUMBER } from '../constants/gameSettings.constant';
+import {
+	SELECT_STAGE,
+	SET_MAX_STAGE_NUMBER,
+	SWITCH_SCREEN,
+} from '../constants/gameSettings.constant';
 import {
 	GameSettingsActionType,
 	GameSettingsStateType,
@@ -9,6 +13,21 @@ const gameSettingsReducer = (
 	action: GameSettingsActionType,
 ) => {
 	switch (action.type) {
+		case SWITCH_SCREEN: {
+			const { screen } = action;
+
+			if (screen === undefined) {
+				throw new Error(
+					'SWITCH_SCREEN action을 위한 screen 정보가 존재하지 않습니다.',
+				);
+			}
+
+			return {
+				...state,
+				screen,
+			};
+		}
+
 		case SET_MAX_STAGE_NUMBER: {
 			const { maxStageNumber } = action;
 
@@ -21,6 +40,21 @@ const gameSettingsReducer = (
 			return {
 				...state,
 				maxStageNumber,
+			};
+		}
+
+		case SELECT_STAGE: {
+			const { selectedStageNumber } = action;
+
+			if (selectedStageNumber === undefined) {
+				throw new Error(
+					'SELECT_STAGE action을 위한 selectedStageNumber 정보가 존재하지 않습니다.',
+				);
+			}
+
+			return {
+				...state,
+				selectedStageNumber,
 			};
 		}
 

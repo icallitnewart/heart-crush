@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 interface ScreenContainerPropsType {
-	children: React.ReactElement | false; // TODO: false 제거 예정
+	children: React.ReactNode;
 }
 
 function ScreenContainer({

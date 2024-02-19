@@ -1,6 +1,8 @@
 import React, { Reducer, createContext, useMemo, useReducer } from 'react';
 
 import gameSettingsReducer from './gameSettingsReducer';
+import { HOME_SCREEN } from '../constants/screen.constant';
+import { ScreenType } from '../types/settingsStatus.type';
 import {
 	GameSettingsActionType,
 	GameSettingsContextType,
@@ -8,6 +10,7 @@ import {
 } from '../types/gameSettings.type';
 
 const initialState = {
+	screen: HOME_SCREEN as ScreenType,
 	soundOptions: {
 		bgMusic: true,
 		soundEffect: true,
@@ -29,10 +32,17 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 		Reducer<GameSettingsStateType, GameSettingsActionType>
 	>(gameSettingsReducer, initialState);
 
-	const { soundOptions, maxStageNumber, selectedStageNumber } = state;
+	const { screen, soundOptions, maxStageNumber, selectedStageNumber } = state;
+
 	const value = useMemo(
-		() => ({ soundOptions, maxStageNumber, selectedStageNumber, dispatch }),
-		[soundOptions, maxStageNumber, selectedStageNumber],
+		() => ({
+			screen,
+			soundOptions,
+			maxStageNumber,
+			selectedStageNumber,
+			dispatch,
+		}),
+		[screen, soundOptions, maxStageNumber, selectedStageNumber],
 	);
 
 	return (

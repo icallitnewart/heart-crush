@@ -1,10 +1,14 @@
+import {
+	ScreenType,
+	SoundOptionsType,
+	StageNumberType,
+} from './settingsStatus.type';
+
 export interface GameSettingsStateType {
-	soundOptions: {
-		bgMusic: boolean;
-		soundEffect: boolean;
-	};
-	maxStageNumber: number | null;
-	selectedStageNumber: number | null;
+	screen: ScreenType;
+	soundOptions: SoundOptionsType;
+	maxStageNumber: StageNumberType | null;
+	selectedStageNumber: StageNumberType | null;
 }
 
 export interface GameSettingsContextType extends GameSettingsStateType {
@@ -13,5 +17,7 @@ export interface GameSettingsContextType extends GameSettingsStateType {
 
 export interface GameSettingsActionType {
 	type: string;
-	maxStageNumber?: number;
+	screen?: ScreenType;
+	maxStageNumber?: StageNumberType;
+	selectedStageNumber?: StageNumberType;
 }

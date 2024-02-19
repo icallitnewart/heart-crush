@@ -26,10 +26,19 @@ const Button = styled.button`
 
 interface TextButtonPropsType {
 	children: string;
+	handleClick?: () => void;
 }
 
-function TextButton({ children }: TextButtonPropsType): React.ReactElement {
-	return <Button>{children}</Button>;
+function TextButton({
+	children,
+	handleClick,
+}: TextButtonPropsType): React.ReactElement {
+	return <Button onClick={handleClick}>{children}</Button>;
 }
+
+// TODO: 제거 예정
+TextButton.defaultProps = {
+	handleClick: () => {},
+};
 
 export default TextButton;

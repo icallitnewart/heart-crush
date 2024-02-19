@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Screen } from '../../types/screen.type';
 import { POPUP } from '../../constants/status.constant';
 import { START_GAME } from '../../constants/gamePlay.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
@@ -21,11 +20,7 @@ const Container = styled.div`
 	background-color: var(--sub-color-blue);
 `;
 
-interface GameScreenProps {
-	moveToHome: (newScreen: Screen) => void;
-}
-
-function GameScreen(props: GameScreenProps): React.ReactElement {
+function GameScreen(): React.ReactElement {
 	const { popup, dispatch } = useContext(GamePlayContext);
 
 	useEffect(() => {
