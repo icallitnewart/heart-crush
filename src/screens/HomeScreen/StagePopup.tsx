@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
@@ -33,13 +33,18 @@ interface StagePopupPropsType {
 function StagePopup({
 	closeStagePopup,
 }: StagePopupPropsType): React.ReactElement {
+	const [alertMessage, setAlertMessage] = useState(false);
+
 	return (
 		<BackgroundLayer>
 			<PopupBox>
 				<Container>
 					<TextBox>Choose Stage</TextBox>
-					<StageList />
-					<AlertMessage />
+					<StageList
+						createAlertMessage={() => setAlertMessage(true)}
+						removeAlertMessage={() => setAlertMessage(false)}
+					/>
+					{alertMessage && <AlertMessage />}
 					<CloseButton handleClick={closeStagePopup} />
 				</Container>
 			</PopupBox>

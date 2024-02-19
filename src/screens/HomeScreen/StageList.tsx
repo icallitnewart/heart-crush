@@ -19,7 +19,15 @@ const ButtonBox = styled.li`
 	margin-bottom: 22px;
 `;
 
-function StageList(): React.ReactElement {
+interface StageListPropsType {
+	createAlertMessage: () => void;
+	removeAlertMessage: () => void;
+}
+
+function StageList({
+	createAlertMessage,
+	removeAlertMessage,
+}: StageListPropsType): React.ReactElement {
 	const { maxStageNumber } = useContext(GameSettingsContext);
 	const stages = Object.keys(STAGE_FILES).map(Number);
 
@@ -32,6 +40,8 @@ function StageList(): React.ReactElement {
 						isStageUnlocked={
 							!!(maxStageNumber && stageNumber <= maxStageNumber)
 						}
+						createAlertMessage={createAlertMessage}
+						removeAlertMessage={removeAlertMessage}
 					/>
 				</ButtonBox>
 			))}

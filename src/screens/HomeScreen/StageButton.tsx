@@ -37,14 +37,25 @@ const Button = styled.button<ButtonStylePropsType>`
 interface StageButtonPropsType {
 	stageNumber: number;
 	isStageUnlocked: boolean;
+	createAlertMessage: () => void;
+	removeAlertMessage: () => void;
 }
 
 function StageButton({
 	stageNumber,
 	isStageUnlocked,
+	createAlertMessage,
+	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
+	const isStageLocked = !isStageUnlocked;
+
 	return (
-		<Button $isActive={isStageUnlocked} disabled={!isStageUnlocked}>
+		<Button
+			$isActive={isStageUnlocked}
+			disabled={isStageLocked}
+			onMouseOver={() => isStageLocked && createAlertMessage()}
+			onMouseOut={() => isStageLocked && removeAlertMessage()}
+		>
 			{stageNumber}
 		</Button>
 	);
