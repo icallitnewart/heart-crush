@@ -51,11 +51,12 @@ const gamePlayReducer = (
 				);
 			}
 
-			const { columns, rows, move, goal } = stage;
+			const { stageNumber, columns, rows, move, goal } = stage;
 
 			return {
 				...state,
 				board: initialiseBoard(columns, rows),
+				currentStageNumber: stageNumber,
 				score: 0,
 				move,
 				goal,

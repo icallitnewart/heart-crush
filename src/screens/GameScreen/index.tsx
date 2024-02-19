@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
+import useStageConfig from '../../hooks/useStageConfig';
 import { POPUP } from '../../constants/status.constant';
 import { START_GAME } from '../../constants/gamePlay.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
@@ -22,20 +23,16 @@ const Container = styled.div`
 
 function GameScreen(): React.ReactElement {
 	const { popup, dispatch } = useContext(GamePlayContext);
+	const stage = useStageConfig();
 
 	useEffect(() => {
-		dispatch({
-			type: START_GAME,
-			stage: {
-				columns: 8, // 고정
-				rows: 20, // 수정 가능
-				move: 10,
-				goal: {
-					score: 400,
-				},
-			},
-		});
-	}, [dispatch]);
+		if (stage) {
+			dispatch({
+				type: START_GAME,
+				stage,
+			});
+		}
+	}, [stage, dispatch]);
 
 	return (
 		<>

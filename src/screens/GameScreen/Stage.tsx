@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
+
+import { GamePlayContext } from '../../states/GamePlayContext';
 
 const Container = styled.div`
 	position: relative;
@@ -34,14 +36,16 @@ const StageNumber = styled.span`
 	color: var(--main-color-yellow);
 	-webkit-text-stroke: 0.8px #333;
 	text-shadow: 1px 1px 0px #666;
-	font-family: var(--main-font);
+	font-family: var(--main-font); // TODO: 변경 예정
 `;
 
 function Stage(): React.ReactElement {
+	const { currentStageNumber } = useContext(GamePlayContext);
+
 	return (
 		<Container>
 			<FaHeart viewBox="-10 10 550 550" />
-			<StageNumber>1</StageNumber>
+			<StageNumber>{currentStageNumber}</StageNumber>
 		</Container>
 	);
 }

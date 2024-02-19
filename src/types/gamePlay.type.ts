@@ -12,10 +12,12 @@ import {
 	PopupType,
 	ResultType,
 	ScoreType,
+	StageNumberType,
 } from './gameStatus.type';
 
 export interface GamePlayStateType {
 	board: BoardType;
+	currentStageNumber: StageNumberType | null;
 	score: ScoreType;
 	move: MoveType;
 	goal: GoalType;
@@ -36,6 +38,7 @@ export interface GamePlayContextType extends GamePlayStateType {
 export interface GamePlayActionType {
 	type: string;
 	stage?: {
+		stageNumber: StageNumberType;
 		columns: number;
 		rows: number;
 		move: number;

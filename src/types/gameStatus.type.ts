@@ -1,5 +1,7 @@
 import { POPUP, RESULT } from '../constants/status.constant';
 
+export type StageNumberType = number;
+
 export type ScoreType = number;
 
 export type MoveType = number;

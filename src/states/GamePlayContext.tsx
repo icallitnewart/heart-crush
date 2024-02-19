@@ -9,6 +9,7 @@ import gamePlayReducer from './gamePlayReducer';
 
 const initialState: GamePlayStateType = {
 	board: [],
+	currentStageNumber: null,
 	score: 0,
 	move: 0,
 	goal: {},
@@ -35,6 +36,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 	>(gamePlayReducer, initialState);
 	const {
 		board,
+		currentStageNumber,
 		score,
 		move,
 		goal,
@@ -50,6 +52,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 	const value = useMemo(
 		() => ({
 			board,
+			currentStageNumber,
 			score,
 			move,
 			goal,
@@ -65,6 +68,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 		}),
 		[
 			board,
+			currentStageNumber,
 			score,
 			move,
 			goal,
