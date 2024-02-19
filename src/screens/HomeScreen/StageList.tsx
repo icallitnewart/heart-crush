@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from 'styled-components';
+
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { STAGE_FILES } from '../../constants/stage.constant';
 
 import StageButton from './StageButton';
 
@@ -17,11 +20,19 @@ const ButtonBox = styled.li`
 `;
 
 function StageList(): React.ReactElement {
+	const { maxStageNumber } = useContext(GameSettingsContext);
+	const stages = Object.keys(STAGE_FILES).map(Number);
+
 	return (
 		<Container>
-			{new Array(10).fill(0).map((_, index) => (
-				<ButtonBox>
-					<StageButton stageNumber={index + 1} isStageUnlocked={false} />
+			{stages.map(stageNumber => (
+				<ButtonBox key={stageNumber}>
+					<StageButton
+						stageNumber={stageNumber}
+						isStageUnlocked={
+							!!(maxStageNumber && stageNumber <= maxStageNumber)
+						}
+					/>
 				</ButtonBox>
 			))}
 		</Container>

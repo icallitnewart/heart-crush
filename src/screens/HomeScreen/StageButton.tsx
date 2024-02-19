@@ -10,7 +10,7 @@ const Button = styled.button<ButtonStylePropsType>`
 	height: 42px;
 	cursor: pointer;
 
-	background-color: #d7e1e9;
+	background-color: var(--sub-color-purple);
 	color: var(--main-color-yellow);
 	text-shadow: 2px 2px 0px #777;
 	-webkit-text-stroke: 0.5px #777;
@@ -43,7 +43,11 @@ function StageButton({
 	stageNumber,
 	isStageUnlocked,
 }: StageButtonPropsType): React.ReactElement {
-	return <Button $isActive={isStageUnlocked}>{stageNumber}</Button>;
+	return (
+		<Button $isActive={isStageUnlocked} disabled={!isStageUnlocked}>
+			{stageNumber}
+		</Button>
+	);
 }
 
 export default StageButton;
