@@ -51,11 +51,13 @@ function HomeScreen(): React.ReactElement {
 			<Background>
 				<Container>
 					<Logo fontSize="3em" />
-					<GameMenu />
+					<GameMenu openStagePopup={() => setStagePopup(true)} />
 					<SoundOptions />
 				</Container>
 			</Background>
-			{stagePopup && <StagePopup />}
+			{stagePopup && (
+				<StagePopup closeStagePopup={() => setStagePopup(false)} />
+			)}
 		</>
 	);
 }

@@ -24,9 +24,15 @@ const Button = styled.button`
 	}
 `;
 
-function CloseButton(): React.ReactElement {
+interface CloseButtonPropsType {
+	handleClick: () => void;
+}
+
+function CloseButton({
+	handleClick,
+}: CloseButtonPropsType): React.ReactElement {
 	return (
-		<Button>
+		<Button onClick={handleClick}>
 			<IoClose />
 		</Button>
 	);

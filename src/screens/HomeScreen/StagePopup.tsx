@@ -26,7 +26,13 @@ const TextBox = styled.h1`
 	text-shadow: 2px 1px 0px #666;
 `;
 
-function StagePopup(): React.ReactElement {
+interface StagePopupPropsType {
+	closeStagePopup: () => void;
+}
+
+function StagePopup({
+	closeStagePopup,
+}: StagePopupPropsType): React.ReactElement {
 	return (
 		<BackgroundLayer>
 			<PopupBox>
@@ -34,7 +40,7 @@ function StagePopup(): React.ReactElement {
 					<TextBox>Choose Stage</TextBox>
 					<StageList />
 					<AlertMessage />
-					<CloseButton />
+					<CloseButton handleClick={closeStagePopup} />
 				</Container>
 			</PopupBox>
 		</BackgroundLayer>
