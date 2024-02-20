@@ -4,7 +4,7 @@ import {
 	MoveType,
 	ResultType,
 	ScoreType,
-} from '../../types/gameStatus.type';
+} from '../../types/gamePlayStates.type';
 
 function hasScoreReachedGoal(currentScore: ScoreType, goalScore: ScoreType) {
 	return currentScore >= goalScore;

@@ -2,7 +2,7 @@ import React, { Reducer, createContext, useMemo, useReducer } from 'react';
 
 import gameSettingsReducer from './gameSettingsReducer';
 import { HOME_SCREEN } from '../constants/screen.constant';
-import { ScreenType } from '../types/settingsStatus.type';
+import { ScreenType } from '../types/gameSettingsStates.type';
 import {
 	GameSettingsActionType,
 	GameSettingsContextType,

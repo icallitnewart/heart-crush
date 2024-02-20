@@ -2,7 +2,7 @@ import {
 	SELECT_STAGE,
 	SET_MAX_STAGE_NUMBER,
 	SWITCH_SCREEN,
-} from '../constants/gameSettings.constant';
+} from '../constants/gameSettingsActions.constant';
 import {
 	GameSettingsActionType,
 	GameSettingsStateType,

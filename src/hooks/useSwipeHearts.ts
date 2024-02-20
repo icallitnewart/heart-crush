@@ -1,6 +1,9 @@
 import React, { useContext, useRef } from 'react';
 
-import { DISABLE_SWIPE, MOVE_HEARTS } from '../constants/gamePlay.constant';
+import {
+	DISABLE_SWIPE,
+	MOVE_HEARTS,
+} from '../constants/gamePlayActions.constant';
 import {
 	getCoords,
 	getMovingDirection,

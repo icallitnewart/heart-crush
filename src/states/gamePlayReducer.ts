@@ -11,7 +11,7 @@ import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
-} from '../constants/gamePlay.constant';
+} from '../constants/gamePlayActions.constant';
 import { POPUP } from '../constants/status.constant';
 import { BoardType } from '../types/board.type';
 import {

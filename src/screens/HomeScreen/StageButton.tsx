@@ -4,7 +4,7 @@ import { GameSettingsContext } from '../../states/GameSettingsContext';
 import {
 	SELECT_STAGE,
 	SWITCH_SCREEN,
-} from '../../constants/gameSettings.constant';
+} from '../../constants/gameSettingsActions.constant';
 import { GAME_SCREEN } from '../../constants/screen.constant';
 
 interface ButtonStylePropsType {

@@ -11,7 +11,7 @@ import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
 	END_BONUS_TIME_AND_OPEN_RESULT_POPUP,
-} from '../../constants/gamePlay.constant';
+} from '../../constants/gamePlayActions.constant';
 
 import Logo from '../../components/Logo';
 import BackgroundLayer from '../../components/BackgroundLayer';

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { SET_MAX_STAGE_NUMBER } from '../../constants/gameSettings.constant';
+import { SET_MAX_STAGE_NUMBER } from '../../constants/gameSettingsActions.constant';
 
 import Logo from '../../components/Logo';
 import GameMenu from './GameMenu';

@@ -2,7 +2,7 @@ import {
 	ScreenType,
 	SoundOptionsType,
 	StageNumberType,
-} from './settingsStatus.type';
+} from './gameSettingsStates.type';
 
 export interface GameSettingsStateType {
 	screen: ScreenType;

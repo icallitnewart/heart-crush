@@ -13,7 +13,7 @@ import {
 	ResultType,
 	ScoreType,
 	StageNumberType,
-} from './gameStatus.type';
+} from './gamePlayStates.type';
 
 export interface GamePlayStateType {
 	board: BoardType;

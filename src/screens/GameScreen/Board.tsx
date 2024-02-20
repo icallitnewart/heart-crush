@@ -14,7 +14,7 @@ import {
 	REARRANGE_BOARD,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
-} from '../../constants/gamePlay.constant';
+} from '../../constants/gamePlayActions.constant';
 import { ANIMATION_DURATION } from '../../constants/settings.constant';
 
 import Column from './Column';

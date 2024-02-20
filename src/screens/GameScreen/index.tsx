@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import useStageConfig from '../../hooks/useStageConfig';
 import { POPUP } from '../../constants/status.constant';
-import { START_GAME } from '../../constants/gamePlay.constant';
+import { START_GAME } from '../../constants/gamePlayActions.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
 
 import Navigation from './Navigation';
