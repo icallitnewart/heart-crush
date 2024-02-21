@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { GamePlayContext } from '../../states/GamePlayContext';
+import { GameSettingsContext } from '../../states/GameSettingsContext';
 import useStageConfig from '../../hooks/useStageConfig';
 import { POPUP } from '../../constants/screen.constant';
 import { START_GAME } from '../../constants/gamePlayActions.constant';
-import { GamePlayContext } from '../../states/GamePlayContext';
+import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -22,7 +24,8 @@ const Container = styled.div`
 `;
 
 function GameScreen(): React.ReactElement {
-	const { popup, dispatchGamePlay } = useContext(GamePlayContext);
+	const { popup, dispatchGameSettings } = useContext(GameSettingsContext);
+	const { result, dispatchGamePlay } = useContext(GamePlayContext);
 	const stage = useStageConfig();
 
 	useEffect(() => {
@@ -33,6 +36,13 @@ function GameScreen(): React.ReactElement {
 			});
 		}
 	}, [stage, dispatchGamePlay]);
+
+	// 게임 결과가 나오면 게임 종료 알림 문구 팝업 띄우기
+	useEffect(() => {
+		if (result) {
+			dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.ENDING_ALERT });
+		}
+	}, [result, dispatchGameSettings]);
 
 	return (
 		<>

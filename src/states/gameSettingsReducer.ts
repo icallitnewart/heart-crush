@@ -1,4 +1,5 @@
 import {
+	OPEN_POPUP,
 	SELECT_STAGE,
 	SET_MAX_STAGE_NUMBER,
 	SWITCH_SCREEN,
@@ -25,6 +26,21 @@ const gameSettingsReducer = (
 			return {
 				...state,
 				screen,
+			};
+		}
+
+		case OPEN_POPUP: {
+			const { popup } = action;
+
+			if (popup === undefined) {
+				throw new Error(
+					'OPEN_POPUP action을 위한 popup 정보가 존재하지 않습니다.',
+				);
+			}
+
+			return {
+				...state,
+				popup,
 			};
 		}
 

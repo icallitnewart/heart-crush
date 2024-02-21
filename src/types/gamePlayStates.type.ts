@@ -1,5 +1,4 @@
 import { RESULT } from '../constants/gameStatus.constant';
-import { POPUP } from '../constants/screen.constant';
 
 export type StageNumberType = number;
 
@@ -14,5 +13,3 @@ export interface GoalType {
 }
 
 export type IsSwipeEnabledType = boolean;
-
-export type PopupType = (typeof POPUP)[keyof typeof POPUP] | null;

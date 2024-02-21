@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
+import { GameSettingsContext } from '../../states/GameSettingsContext';
 import {
 	ANIMATION_DELAY,
 	ANIMATION_DURATION,
@@ -10,8 +11,10 @@ import {
 import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
-	END_BONUS_TIME_AND_OPEN_RESULT_POPUP,
+	END_BONUS_TIME,
 } from '../../constants/gamePlayActions.constant';
+import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
+import { POPUP } from '../../constants/screen.constant';
 
 import Logo from '../../components/Logo';
 import BackgroundLayer from '../../components/BackgroundLayer';
@@ -89,6 +92,7 @@ const AlertText = styled.h2<AlertTextPropsType>`
 
 function EndingAlertPopup(): React.ReactElement {
 	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
 
@@ -108,7 +112,8 @@ function EndingAlertPopup(): React.ReactElement {
 
 		if (isBonusTime) {
 			if (move > 0) {
-				// 보너스 점수 계산
+				// 하나의 MOVE를 위한 보너스 점수 카운팅 애니메이션 효과가 끝나면
+				// 새로운 MOVE를 위한 보너스 점수 추가
 				animationTimer = setTimeout(() => {
 					dispatchGamePlay({ type: ADD_BONUS_SCORE });
 				}, bonusScoreAnimationDuration);
@@ -116,9 +121,11 @@ function EndingAlertPopup(): React.ReactElement {
 				// fade-out 애니메이션 효과 적용
 				setIsVisible(false);
 
-				// fade-out 애니메이션 효과가 끝나면 보너스 타임 종료 및 결과 팝업 열기
+				// fade-out 애니메이션 효과가 끝나면
+				// 보너스 타임 종료 및 결과 팝업 열기
 				animationTimer = setTimeout(() => {
-					dispatchGamePlay({ type: END_BONUS_TIME_AND_OPEN_RESULT_POPUP });
+					dispatchGamePlay({ type: END_BONUS_TIME });
+					dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.RESULT });
 				}, fadeOutAnimationDelay + fadeInAndOutAnimationDuration);
 			}
 		}

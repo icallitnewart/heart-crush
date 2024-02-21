@@ -11,6 +11,7 @@ import {
 
 const initialState = {
 	screen: SCREEN.HOME as ScreenType,
+	popup: null,
 	soundOptions: {
 		bgMusic: true,
 		soundEffect: true,
@@ -32,17 +33,19 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 		Reducer<GameSettingsStateType, GameSettingsActionType>
 	>(gameSettingsReducer, initialState);
 
-	const { screen, soundOptions, maxStageNumber, selectedStageNumber } = state;
+	const { screen, popup, soundOptions, maxStageNumber, selectedStageNumber } =
+		state;
 
 	const value = useMemo(
 		() => ({
 			screen,
+			popup,
 			soundOptions,
 			maxStageNumber,
 			selectedStageNumber,
 			dispatchGameSettings: dispatch,
 		}),
-		[screen, soundOptions, maxStageNumber, selectedStageNumber],
+		[screen, popup, soundOptions, maxStageNumber, selectedStageNumber],
 	);
 
 	return (

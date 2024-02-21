@@ -3,7 +3,7 @@ import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
 	CHECK_MATCHING_HEARTS,
-	END_BONUS_TIME_AND_OPEN_RESULT_POPUP,
+	END_BONUS_TIME,
 	DROP_HEARTS,
 	MOVE_HEARTS,
 	REARRANGE_BOARD,
@@ -12,7 +12,6 @@ import {
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
 } from '../constants/gamePlayActions.constant';
-import { POPUP } from '../constants/screen.constant';
 import { BoardType } from '../types/board.type';
 import {
 	CrushedHeartsType,
@@ -166,7 +165,6 @@ const gamePlayReducer = (
 				...(isMoveFinished && { isSwipeEnabled: true }),
 				...(result !== newResult && {
 					result: newResult,
-					popup: POPUP.ENDING_ALERT,
 					isSwipeEnabled: false,
 				}),
 			};
@@ -179,11 +177,10 @@ const gamePlayReducer = (
 			};
 		}
 
-		case END_BONUS_TIME_AND_OPEN_RESULT_POPUP: {
+		case END_BONUS_TIME: {
 			return {
 				...state,
 				isBonusTime: false,
-				popup: POPUP.RESULT,
 			};
 		}
 

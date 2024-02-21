@@ -14,9 +14,8 @@ export const REARRANGE_BOARD = 'REARRANGE_BOARD';
 export const CHECK_MATCHING_HEARTS = 'CHECK_MATCHING_HEARTS';
 // 보너스 타임 시작
 export const START_BONUS_TIME = 'START_BONUS_TIME';
-// 보너스 타임 종료 및 결과 팝업 열기
-export const END_BONUS_TIME_AND_OPEN_RESULT_POPUP =
-	'END_BONUS_TIME_AND_OPEN_RESULT_POPUP';
+// 보너스 타임 종료
+export const END_BONUS_TIME = 'END_BONUS_TIME';
 // 보너스 점수 추가
 export const ADD_BONUS_SCORE = 'ADD_BONUS_SCORE';
 // 하트 스와이프 비활성화

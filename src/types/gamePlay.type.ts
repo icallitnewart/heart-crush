@@ -9,7 +9,6 @@ import {
 	GoalType,
 	IsSwipeEnabledType,
 	MoveType,
-	PopupType,
 	ResultType,
 	ScoreType,
 	StageNumberType,
@@ -27,7 +26,6 @@ export interface GamePlayStateType {
 	matchingCandidates: MatchingCandidatesType;
 	movingHearts: MovingHeartsType | null;
 	isSwipeEnabled: IsSwipeEnabledType;
-	popup: PopupType;
 	isBonusTime: boolean;
 }
 
