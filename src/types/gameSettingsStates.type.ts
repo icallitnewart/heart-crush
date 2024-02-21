@@ -1,6 +1,6 @@
-import { HOME_SCREEN, GAME_SCREEN } from '../constants/screen.constant';
+import { SCREEN } from '../constants/screen.constant';
 
-export type ScreenType = typeof GAME_SCREEN | typeof HOME_SCREEN;
+export type ScreenType = (typeof SCREEN)[keyof typeof SCREEN];
 
 export type StageNumberType = number;
 

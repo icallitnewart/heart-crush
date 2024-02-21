@@ -5,7 +5,7 @@ import {
 	SELECT_STAGE,
 	SWITCH_SCREEN,
 } from '../../constants/gameSettingsActions.constant';
-import { GAME_SCREEN } from '../../constants/screen.constant';
+import { SCREEN } from '../../constants/screen.constant';
 
 interface ButtonStylePropsType {
 	$isActive: boolean;
@@ -60,7 +60,7 @@ function StageButton({
 			type: SELECT_STAGE,
 			selectedStageNumber: stageNumber,
 		});
-		dispatchGameSettings({ type: SWITCH_SCREEN, screen: GAME_SCREEN });
+		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.GAME });
 	};
 
 	return (

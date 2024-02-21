@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { GAME_SCREEN } from '../../constants/screen.constant';
+import { SCREEN } from '../../constants/screen.constant';
 import {
 	SELECT_STAGE,
 	SWITCH_SCREEN,
@@ -22,7 +22,7 @@ function PlayButton(): React.ReactElement {
 			type: SELECT_STAGE,
 			selectedStageNumber: maxStageNumber,
 		});
-		dispatchGameSettings({ type: SWITCH_SCREEN, screen: GAME_SCREEN });
+		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.GAME });
 	};
 
 	return <TextButton handleClick={handleClick}>Play</TextButton>;

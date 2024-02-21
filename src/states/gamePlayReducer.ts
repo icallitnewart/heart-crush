@@ -12,7 +12,7 @@ import {
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
 } from '../constants/gamePlayActions.constant';
-import { POPUP } from '../constants/gameStatus.constant';
+import { POPUP } from '../constants/screen.constant';
 import { BoardType } from '../types/board.type';
 import {
 	CrushedHeartsType,

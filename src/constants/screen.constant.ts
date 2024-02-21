@@ -1,2 +1,9 @@
-export const HOME_SCREEN = 'HOME_SCREEN';
-export const GAME_SCREEN = 'GAME_SCREEN';
+export const SCREEN = {
+	HOME: 'HOME_SCREEN',
+	GAME: 'GAME_SCREEN',
+};
+
+export const POPUP = {
+	ENDING_ALERT: 'ENDING_ALERT_POPUP',
+	RESULT: 'RESULT_POPUP',
+};

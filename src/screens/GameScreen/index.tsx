@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import useStageConfig from '../../hooks/useStageConfig';
-import { POPUP } from '../../constants/gameStatus.constant';
+import { POPUP } from '../../constants/screen.constant';
 import { START_GAME } from '../../constants/gamePlayActions.constant';
 import { GamePlayContext } from '../../states/GamePlayContext';
 
