@@ -15,7 +15,7 @@ import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../../constants/gamePlayActions.constant';
-import { ANIMATION_DURATION } from '../../constants/settings.constant';
+import { ANIMATION_DURATION } from '../../constants/ui.constant';
 
 import Column from './Column';
 

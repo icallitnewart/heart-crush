@@ -1,4 +1,4 @@
-import { RESULT } from '../../constants/status.constant';
+import { RESULT } from '../../constants/gameStatus.constant';
 import {
 	GoalType,
 	MoveType,

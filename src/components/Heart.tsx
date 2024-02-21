@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { FaHeart, FaHeartBroken } from 'react-icons/fa';
 
 import { HeartIconType } from '../types/heart.type';
-import { ANIMATION_DURATION } from '../constants/settings.constant';
+import { ANIMATION_DURATION } from '../constants/ui.constant';
 
 const CrushedAnimation = keyframes`
 	0% {

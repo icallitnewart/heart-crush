@@ -1,4 +1,4 @@
-import { POPUP, RESULT } from '../constants/status.constant';
+import { POPUP, RESULT } from '../constants/gameStatus.constant';
 
 export type StageNumberType = number;
 

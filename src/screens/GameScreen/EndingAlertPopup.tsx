@@ -6,7 +6,7 @@ import {
 	ANIMATION_DELAY,
 	ANIMATION_DURATION,
 	TEXT,
-} from '../../constants/settings.constant';
+} from '../../constants/ui.constant';
 import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,

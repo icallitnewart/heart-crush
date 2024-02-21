@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { RESULT } from '../../constants/status.constant';
-import { TEXT } from '../../constants/settings.constant';
+import { RESULT } from '../../constants/gameStatus.constant';
+import { TEXT } from '../../constants/ui.constant';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';

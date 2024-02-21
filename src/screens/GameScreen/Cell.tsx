@@ -3,7 +3,7 @@ import styled, { RuleSet, css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import HEART_ICONS from '../../constants/heart.constant';
-import { ANIMATION_DURATION } from '../../constants/settings.constant';
+import { ANIMATION_DURATION } from '../../constants/ui.constant';
 import { CellInfoType, CellType } from '../../types/board.type';
 import { HeartMovingDirectionType } from '../../types/heart.type';
 import useSwipeHearts from '../../hooks/useSwipeHearts';
