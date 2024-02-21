@@ -22,17 +22,17 @@ const Container = styled.div`
 `;
 
 function GameScreen(): React.ReactElement {
-	const { popup, dispatch } = useContext(GamePlayContext);
+	const { popup, dispatchGamePlay } = useContext(GamePlayContext);
 	const stage = useStageConfig();
 
 	useEffect(() => {
 		if (stage) {
-			dispatch({
+			dispatchGamePlay({
 				type: START_GAME,
 				stage,
 			});
 		}
-	}, [stage, dispatch]);
+	}, [stage, dispatchGamePlay]);
 
 	return (
 		<>

@@ -12,7 +12,7 @@ export interface GameSettingsStateType {
 }
 
 export interface GameSettingsContextType extends GameSettingsStateType {
-	dispatch: React.Dispatch<GameSettingsActionType>;
+	dispatchGameSettings: React.Dispatch<GameSettingsActionType>;
 }
 
 export interface GameSettingsActionType {

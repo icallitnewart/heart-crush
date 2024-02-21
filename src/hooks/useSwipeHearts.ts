@@ -21,17 +21,18 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 
 	const swipeStartRef = useRef<HeartCoordsType>(initialCoords);
 	const swipeEndRef = useRef<HeartCoordsType>(initialCoords);
-	const { board, dispatch, isSwipeEnabled } = useContext(GamePlayContext);
+	const { board, dispatchGamePlay, isSwipeEnabled } =
+		useContext(GamePlayContext);
 
 	const moveHearts = (movingHeartsInfo: MovingHeartsType) => {
-		dispatch({
+		dispatchGamePlay({
 			type: MOVE_HEARTS,
 			movingHearts: movingHeartsInfo,
 		});
 	};
 
 	const disableSwipe = () => {
-		dispatch({ type: DISABLE_SWIPE });
+		dispatchGamePlay({ type: DISABLE_SWIPE });
 	};
 
 	const handleSwipeStart = (

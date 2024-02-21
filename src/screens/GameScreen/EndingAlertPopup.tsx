@@ -88,14 +88,14 @@ const AlertText = styled.h2<AlertTextPropsType>`
 `;
 
 function EndingAlertPopup(): React.ReactElement {
-	const { isBonusTime, move, dispatch } = useContext(GamePlayContext);
+	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
 
 	// fade-in 애니메이션 효과가 끝나면 보너스 타임 활성화
 	useEffect(() => {
 		const animationTimer = setTimeout(() => {
-			dispatch({ type: START_BONUS_TIME });
+			dispatchGamePlay({ type: START_BONUS_TIME });
 		}, fadeInAndOutAnimationDuration);
 
 		return () => clearTimeout(animationTimer);
@@ -110,7 +110,7 @@ function EndingAlertPopup(): React.ReactElement {
 			if (move > 0) {
 				// 보너스 점수 계산
 				animationTimer = setTimeout(() => {
-					dispatch({ type: ADD_BONUS_SCORE });
+					dispatchGamePlay({ type: ADD_BONUS_SCORE });
 				}, bonusScoreAnimationDuration);
 			} else {
 				// fade-out 애니메이션 효과 적용
@@ -118,7 +118,7 @@ function EndingAlertPopup(): React.ReactElement {
 
 				// fade-out 애니메이션 효과가 끝나면 보너스 타임 종료 및 결과 팝업 열기
 				animationTimer = setTimeout(() => {
-					dispatch({ type: END_BONUS_TIME_AND_OPEN_RESULT_POPUP });
+					dispatchGamePlay({ type: END_BONUS_TIME_AND_OPEN_RESULT_POPUP });
 				}, fadeOutAnimationDelay + fadeInAndOutAnimationDuration);
 			}
 		}

@@ -53,11 +53,14 @@ function StageButton({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
-	const { dispatch } = useContext(GameSettingsContext);
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
 	const isStageLocked = !isStageUnlocked;
 	const startGame = () => {
-		dispatch({ type: SELECT_STAGE, selectedStageNumber: stageNumber });
-		dispatch({ type: SWITCH_SCREEN, screen: GAME_SCREEN });
+		dispatchGameSettings({
+			type: SELECT_STAGE,
+			selectedStageNumber: stageNumber,
+		});
+		dispatchGameSettings({ type: SWITCH_SCREEN, screen: GAME_SCREEN });
 	};
 
 	return (

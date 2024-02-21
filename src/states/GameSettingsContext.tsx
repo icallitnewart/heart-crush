@@ -21,7 +21,7 @@ const initialState = {
 
 const initialContextValue: GameSettingsContextType = {
 	...initialState,
-	dispatch: () => {},
+	dispatchGameSettings: () => {},
 };
 
 const GameSettingsContext =
@@ -40,7 +40,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 			soundOptions,
 			maxStageNumber,
 			selectedStageNumber,
-			dispatch,
+			dispatchGameSettings: dispatch,
 		}),
 		[screen, soundOptions, maxStageNumber, selectedStageNumber],
 	);

@@ -32,7 +32,7 @@ export interface GamePlayStateType {
 }
 
 export interface GamePlayContextType extends GamePlayStateType {
-	dispatch: React.Dispatch<GamePlayActionType>;
+	dispatchGamePlay: React.Dispatch<GamePlayActionType>;
 }
 
 export interface GamePlayActionType {

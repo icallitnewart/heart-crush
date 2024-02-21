@@ -85,7 +85,7 @@ function Board() {
 		crushedHearts,
 		fallingHearts,
 		matchingCandidates,
-		dispatch,
+		dispatchGamePlay,
 	} = useContext(GamePlayContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
@@ -114,9 +114,9 @@ function Board() {
 					movingHearts[first].isReturning &&
 					movingHearts[second].isReturning
 				) {
-					dispatch({ type: STOP_MOVING_HEARTS });
+					dispatchGamePlay({ type: STOP_MOVING_HEARTS });
 				} else {
-					dispatch({ type: SWAP_HEARTS });
+					dispatchGamePlay({ type: SWAP_HEARTS });
 				}
 			}, animationDuration);
 		}
@@ -136,7 +136,7 @@ function Board() {
 
 		if (crushedHearts.length > 0) {
 			animationTimer = setTimeout(() => {
-				dispatch({ type: DROP_HEARTS });
+				dispatchGamePlay({ type: DROP_HEARTS });
 			}, animationDuration * 0.6);
 		}
 
@@ -155,7 +155,7 @@ function Board() {
 
 		if (fallingHearts.length > 0) {
 			animationTimer = setTimeout(() => {
-				dispatch({ type: REARRANGE_BOARD });
+				dispatchGamePlay({ type: REARRANGE_BOARD });
 			}, animationDuration);
 		}
 
@@ -169,7 +169,7 @@ function Board() {
 	// 하트 크러쉬 후 추가적인 매칭 검사
 	useEffect(() => {
 		if (matchingCandidates.length > 0) {
-			dispatch({ type: CHECK_MATCHING_HEARTS });
+			dispatchGamePlay({ type: CHECK_MATCHING_HEARTS });
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -25,7 +25,7 @@ const initialState: GamePlayStateType = {
 
 const initialContextValue: GamePlayContextType = {
 	...initialState,
-	dispatch: () => {},
+	dispatchGamePlay: () => {},
 };
 
 const GamePlayContext = createContext<GamePlayContextType>(initialContextValue);
@@ -64,7 +64,7 @@ function GamePlayProvider({ children }: { children: React.ReactNode }) {
 			isSwipeEnabled,
 			popup,
 			isBonusTime,
-			dispatch,
+			dispatchGamePlay: dispatch,
 		}),
 		[
 			board,

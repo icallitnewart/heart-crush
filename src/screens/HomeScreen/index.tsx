@@ -27,7 +27,7 @@ const Container = styled.div`
 
 function HomeScreen(): React.ReactElement {
 	const [stagePopup, setStagePopup] = useState(false);
-	const { dispatch } = useContext(GameSettingsContext);
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
 	useEffect(() => {
 		const storedMaxStageNumber = localStorage.getItem('maxStageNumber');
@@ -40,11 +40,11 @@ function HomeScreen(): React.ReactElement {
 			maxStageNumber = 1;
 		}
 
-		dispatch({
+		dispatchGameSettings({
 			type: SET_MAX_STAGE_NUMBER,
 			maxStageNumber,
 		});
-	}, [dispatch]);
+	}, [dispatchGameSettings]);
 
 	return (
 		<>
