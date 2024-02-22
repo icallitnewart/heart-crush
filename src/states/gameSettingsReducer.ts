@@ -8,6 +8,7 @@ import {
 	GameSettingsActionType,
 	GameSettingsStateType,
 } from '../types/gameSettings.type';
+import { getMaxStageNumber } from '../features/stage';
 
 const gameSettingsReducer = (
 	state: GameSettingsStateType,
@@ -45,17 +46,9 @@ const gameSettingsReducer = (
 		}
 
 		case SET_MAX_STAGE_NUMBER: {
-			const { maxStageNumber } = action;
-
-			if (maxStageNumber === undefined) {
-				throw new Error(
-					'SET_MAX_STAGE_NUMBER action을 위한 maxStageNumber 정보가 존재하지 않습니다.',
-				);
-			}
-
 			return {
 				...state,
-				maxStageNumber,
+				maxStageNumber: getMaxStageNumber(),
 			};
 		}
 

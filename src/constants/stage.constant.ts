@@ -1,3 +1,4 @@
+export const MAX_STAGE_NUMBER = 'maxStageNumber';
 const STAGE_FOLDER = `${process.env.PUBLIC_URL}/assets/stages/`;
 // TODO: axios로 데이터 호출에 적용
 export const STAGE_FILES = {

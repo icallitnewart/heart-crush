@@ -30,19 +30,8 @@ function HomeScreen(): React.ReactElement {
 	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
 	useEffect(() => {
-		const storedMaxStageNumber = localStorage.getItem('maxStageNumber');
-		let maxStageNumber;
-
-		if (storedMaxStageNumber) {
-			maxStageNumber = parseInt(storedMaxStageNumber, 10);
-		} else {
-			localStorage.setItem('maxStageNumber', '1');
-			maxStageNumber = 1;
-		}
-
 		dispatchGameSettings({
 			type: SET_MAX_STAGE_NUMBER,
-			maxStageNumber,
 		});
 	}, [dispatchGameSettings]);
 
