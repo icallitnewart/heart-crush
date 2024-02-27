@@ -7,6 +7,11 @@ import useStageConfig from '../../hooks/useStageConfig';
 import { POPUP } from '../../constants/screen.constant';
 import { START_GAME } from '../../constants/gamePlayActions.constant';
 import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
+import { RESULT } from '../../constants/gameStatus.constant';
+import {
+	getMaxStageNumberInLocalStorage,
+	setMaxStageNumberInLocalStorage,
+} from '../../utils/stageStorage';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -25,7 +30,8 @@ const Container = styled.div`
 
 function GameScreen(): React.ReactElement {
 	const { popup, dispatchGameSettings } = useContext(GameSettingsContext);
-	const { result, dispatchGamePlay } = useContext(GamePlayContext);
+	const { currentStageNumber, result, dispatchGamePlay } =
+		useContext(GamePlayContext);
 	const stage = useStageConfig();
 
 	useEffect(() => {
@@ -43,6 +49,18 @@ function GameScreen(): React.ReactElement {
 			dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.ENDING_ALERT });
 		}
 	}, [result, dispatchGameSettings]);
+
+	// 우승시 로컬 스토리지에 저장된 최대 진행 스테이지 업데이트
+	useEffect(() => {
+		if (currentStageNumber && result === RESULT.WIN) {
+			const nextStageNumber = currentStageNumber + 1;
+			const storedMaxStageNumber = getMaxStageNumberInLocalStorage();
+
+			if (storedMaxStageNumber && storedMaxStageNumber < nextStageNumber) {
+				setMaxStageNumberInLocalStorage(nextStageNumber);
+			}
+		}
+	}, [result, currentStageNumber]);
 
 	return (
 		<>
