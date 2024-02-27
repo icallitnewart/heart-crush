@@ -45,7 +45,7 @@ function StagePopup({
 						removeAlertMessage={() => setAlertMessage(false)}
 					/>
 					{alertMessage && <AlertMessage />}
-					<CloseButton handleClick={closeStagePopup} />
+					<CloseButton closeStagePopup={closeStagePopup} />
 				</Container>
 			</PopupBox>
 		</BackgroundLayer>

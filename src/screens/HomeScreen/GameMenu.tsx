@@ -33,7 +33,7 @@ function GameMenu({ openStagePopup }: GameMenuPropsType): React.ReactElement {
 				<PlayButton />
 			</ButtonBox>
 			<ButtonBox>
-				<StagesButton handleClick={openStagePopup} />
+				<StagesButton openStagePopup={openStagePopup} />
 			</ButtonBox>
 		</Container>
 	);

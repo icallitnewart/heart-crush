@@ -13,7 +13,7 @@ function PlayButton(): React.ReactElement {
 	const { maxStageNumber, dispatchGameSettings } =
 		useContext(GameSettingsContext);
 
-	const handleClick = () => {
+	const startGame = () => {
 		if (!maxStageNumber) {
 			throw new Error('maxStageNumber가 존재하지 않습니다.');
 		}
@@ -25,7 +25,7 @@ function PlayButton(): React.ReactElement {
 		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.GAME });
 	};
 
-	return <TextButton handleClick={handleClick}>Play</TextButton>;
+	return <TextButton handleClick={startGame}>Play</TextButton>;
 }
 
 export default PlayButton;

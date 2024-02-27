@@ -25,14 +25,14 @@ const Button = styled.button`
 `;
 
 interface CloseButtonPropsType {
-	handleClick: () => void;
+	closeStagePopup: () => void;
 }
 
 function CloseButton({
-	handleClick,
+	closeStagePopup,
 }: CloseButtonPropsType): React.ReactElement {
 	return (
-		<Button onClick={handleClick}>
+		<Button onClick={closeStagePopup}>
 			<IoClose />
 		</Button>
 	);

@@ -3,13 +3,13 @@ import React from 'react';
 import TextButton from '../../components/TextButton';
 
 interface StagesButtonPropsType {
-	handleClick: () => void;
+	openStagePopup: () => void;
 }
 
 function StagesButton({
-	handleClick,
+	openStagePopup,
 }: StagesButtonPropsType): React.ReactElement {
-	return <TextButton handleClick={handleClick}>Stages</TextButton>;
+	return <TextButton handleClick={openStagePopup}>Stages</TextButton>;
 }
 
 export default StagesButton;
