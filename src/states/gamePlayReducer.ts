@@ -12,6 +12,7 @@ import {
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
 } from '../constants/gamePlayActions.constant';
+import { GAME_PLAY as initialState } from '../constants/initialState.constant';
 import { BoardType } from '../types/board.type';
 import {
 	CrushedHeartsType,
@@ -53,7 +54,7 @@ const gamePlayReducer = (
 			const { stageNumber, columns, rows, move, goal } = stage;
 
 			return {
-				...state,
+				...initialState,
 				board: initialiseBoard(columns, rows),
 				currentStageNumber: stageNumber,
 				score: 0,

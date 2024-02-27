@@ -5,22 +5,8 @@ import {
 	GamePlayContextType,
 	GamePlayStateType,
 } from '../types/gamePlay.type';
+import { GAME_PLAY as initialState } from '../constants/initialState.constant';
 import gamePlayReducer from './gamePlayReducer';
-
-const initialState: GamePlayStateType = {
-	board: [],
-	currentStageNumber: null,
-	score: 0,
-	move: 0,
-	goal: {},
-	result: null,
-	crushedHearts: [],
-	fallingHearts: [],
-	matchingCandidates: [],
-	movingHearts: null,
-	isSwipeEnabled: true,
-	isBonusTime: false,
-};
 
 const initialContextValue: GamePlayContextType = {
 	...initialState,
