@@ -1,24 +1,12 @@
 import React, { Reducer, createContext, useMemo, useReducer } from 'react';
 
 import gameSettingsReducer from './gameSettingsReducer';
-import { SCREEN } from '../constants/screen.constant';
-import { ScreenType } from '../types/gameSettingsStates.type';
 import {
 	GameSettingsActionType,
 	GameSettingsContextType,
 	GameSettingsStateType,
 } from '../types/gameSettings.type';
-
-const initialState = {
-	screen: SCREEN.HOME as ScreenType,
-	popup: null,
-	soundOptions: {
-		bgMusic: true,
-		soundEffect: true,
-	},
-	maxStageNumber: null,
-	selectedStageNumber: null,
-};
+import { GAME_SETTINGS_INITIAL_STATE as initialState } from '../constants/initialState.constant';
 
 const initialContextValue: GameSettingsContextType = {
 	...initialState,

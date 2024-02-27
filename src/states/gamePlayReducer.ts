@@ -1,4 +1,10 @@
 import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
+import { BoardType } from '../types/board.type';
+import {
+	CrushedHeartsType,
+	MatchingCandidatesType,
+	MovingHeartsType,
+} from '../types/heart.type';
 import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
@@ -12,13 +18,7 @@ import {
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
 } from '../constants/gamePlayActions.constant';
-import { GAME_PLAY as initialState } from '../constants/initialState.constant';
-import { BoardType } from '../types/board.type';
-import {
-	CrushedHeartsType,
-	MatchingCandidatesType,
-	MovingHeartsType,
-} from '../types/heart.type';
+import { GAME_PLAY_INITIAL_STATE as initialState } from '../constants/initialState.constant';
 import {
 	initialiseBoard,
 	rearrangeBoard,

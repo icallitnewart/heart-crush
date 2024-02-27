@@ -1,12 +1,12 @@
 import React, { Reducer, createContext, useMemo, useReducer } from 'react';
 
+import gamePlayReducer from './gamePlayReducer';
 import {
 	GamePlayActionType,
 	GamePlayContextType,
 	GamePlayStateType,
 } from '../types/gamePlay.type';
-import { GAME_PLAY as initialState } from '../constants/initialState.constant';
-import gamePlayReducer from './gamePlayReducer';
+import { GAME_PLAY_INITIAL_STATE as initialState } from '../constants/initialState.constant';
 
 const initialContextValue: GamePlayContextType = {
 	...initialState,

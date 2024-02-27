@@ -1,6 +1,8 @@
 import { GamePlayStateType } from '../types/gamePlay.type';
+import { GameSettingsStateType } from '../types/gameSettings.type';
+import { SCREEN } from './screen.constant';
 
-export const GAME_PLAY: GamePlayStateType = {
+export const GAME_PLAY_INITIAL_STATE: GamePlayStateType = {
 	board: [],
 	currentStageNumber: null,
 	score: 0,
@@ -15,8 +17,13 @@ export const GAME_PLAY: GamePlayStateType = {
 	isBonusTime: false,
 };
 
-const INITIAL_STATE = {
-	GAME_PLAY,
+export const GAME_SETTINGS_INITIAL_STATE: GameSettingsStateType = {
+	screen: SCREEN.HOME,
+	popup: null,
+	soundOptions: {
+		bgMusic: true,
+		soundEffect: true,
+	},
+	maxStageNumber: null,
+	selectedStageNumber: null,
 };
-
-export default INITIAL_STATE;
