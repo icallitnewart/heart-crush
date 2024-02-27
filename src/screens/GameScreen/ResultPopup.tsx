@@ -8,6 +8,7 @@ import { TEXT } from '../../constants/ui.constant';
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
 import TextButton from '../../components/TextButton';
+import NextButton from './NextButton';
 
 const victoryText = TEXT.RESULT_WIN;
 const defeatText = TEXT.RESULT_LOSE;
@@ -89,7 +90,7 @@ function ResultPopup() {
 					<ScoreText>{score}</ScoreText>
 					<ButtonContainer>
 						<TextButton>Retry</TextButton>
-						{isVictory && <TextButton>Next</TextButton>}
+						{isVictory && <NextButton />}
 					</ButtonContainer>
 				</ResultContainer>
 			</PopupBox>

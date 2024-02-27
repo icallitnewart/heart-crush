@@ -1,4 +1,5 @@
 import {
+	CLOSE_POPUP,
 	OPEN_POPUP,
 	SELECT_STAGE,
 	SET_MAX_STAGE_NUMBER,
@@ -42,6 +43,13 @@ const gameSettingsReducer = (
 			return {
 				...state,
 				popup,
+			};
+		}
+
+		case CLOSE_POPUP: {
+			return {
+				...state,
+				popup: null,
 			};
 		}
 
