@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { css, styled } from 'styled-components';
+
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import {
 	SELECT_STAGE,
 	SWITCH_SCREEN,
 } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
+import { isStageNumberValid } from '../../utils/typeValidation';
 
 interface ButtonStylePropsType {
 	$isActive: boolean;
@@ -55,7 +57,16 @@ function StageButton({
 }: StageButtonPropsType): React.ReactElement {
 	const { dispatchGameSettings } = useContext(GameSettingsContext);
 	const isStageLocked = !isStageUnlocked;
+
 	const startGame = () => {
+		if (!stageNumber) {
+			throw new Error('stageNumber 정보가 존재하지 않습니다.');
+		}
+
+		if (!isStageNumberValid(stageNumber)) {
+			throw new Error('유효하지 않은 stageNumber입니다.');
+		}
+
 		dispatchGameSettings({
 			type: SELECT_STAGE,
 			selectedStageNumber: stageNumber,
