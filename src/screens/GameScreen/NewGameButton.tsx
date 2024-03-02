@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import { GamePlayContext } from '../../states/GamePlayContext';
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { StageNumberType } from '../../types/gamePlayStates.type';
 import {
