@@ -7,8 +7,7 @@ import { TEXT } from '../../constants/ui.constant';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
-import TextButton from '../../components/TextButton';
-import NextButton from './NextButton';
+import NewGameButton from './NewGameButton';
 
 const victoryText = TEXT.RESULT_WIN;
 const defeatText = TEXT.RESULT_LOSE;
@@ -77,7 +76,7 @@ const ButtonContainer = styled.div`
 `;
 
 function ResultPopup() {
-	const { score, result } = useContext(GamePlayContext);
+	const { currentStageNumber, score, result } = useContext(GamePlayContext);
 	const isVictory = result === RESULT.WIN;
 
 	return (
@@ -88,10 +87,18 @@ function ResultPopup() {
 						<span>{isVictory ? victoryText : defeatText}</span>
 					</ResultText>
 					<ScoreText>{score}</ScoreText>
-					<ButtonContainer>
-						<TextButton>Retry</TextButton>
-						{isVictory && <NextButton />}
-					</ButtonContainer>
+					{currentStageNumber && (
+						<ButtonContainer>
+							<NewGameButton stageNumber={currentStageNumber}>
+								Retry
+							</NewGameButton>
+							{isVictory && (
+								<NewGameButton stageNumber={currentStageNumber + 1}>
+									Next
+								</NewGameButton>
+							)}
+						</ButtonContainer>
+					)}
 				</ResultContainer>
 			</PopupBox>
 		</BackgroundLayer>
