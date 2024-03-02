@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { GameSettingsContext } from '../states/GameSettingsContext';
+import { STAGE_FILES } from '../constants/stage.constant';
 
 function useStageConfig() {
 	const { selectedStage } = useContext(GameSettingsContext);
@@ -13,9 +14,8 @@ function useStageConfig() {
 				if (!selectedStage)
 					throw new Error('selectedStage 정보가 존재하지 않습니다.');
 
-				const response = await axios.get(
-					`${process.env.PUBLIC_URL}/assets/stages/stage${selectedStage.stageNumber}.json`,
-				);
+				const filePath = STAGE_FILES[selectedStage.stageNumber];
+				const response = await axios.get(filePath);
 
 				setStageConfig(response.data);
 			} catch (error) {
