@@ -25,5 +25,5 @@ export const GAME_SETTINGS_INITIAL_STATE: GameSettingsStateType = {
 		soundEffect: true,
 	},
 	maxStageNumber: null,
-	selectedStageNumber: null,
+	selectedStage: null,
 };

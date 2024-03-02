@@ -71,7 +71,10 @@ const gameSettingsReducer = (
 
 			return {
 				...state,
-				selectedStageNumber,
+				selectedStage: {
+					stageNumber: selectedStageNumber,
+					timestamp: Date.now(),
+				},
 			};
 		}
 

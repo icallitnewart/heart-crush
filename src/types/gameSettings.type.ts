@@ -1,6 +1,7 @@
 import {
 	PopupType,
 	ScreenType,
+	SelectedStageType,
 	SoundOptionsType,
 	StageNumberType,
 } from './gameSettingsStates.type';
@@ -10,7 +11,7 @@ export interface GameSettingsStateType {
 	popup: PopupType;
 	soundOptions: SoundOptionsType;
 	maxStageNumber: StageNumberType | null;
-	selectedStageNumber: StageNumberType | null;
+	selectedStage: SelectedStageType | null;
 }
 
 export interface GameSettingsContextType extends GameSettingsStateType {

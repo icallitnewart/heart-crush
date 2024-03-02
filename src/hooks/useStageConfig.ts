@@ -4,16 +4,17 @@ import axios from 'axios';
 import { GameSettingsContext } from '../states/GameSettingsContext';
 
 function useStageConfig() {
-	const { selectedStageNumber } = useContext(GameSettingsContext);
+	const { selectedStage } = useContext(GameSettingsContext);
 	const [stageConfig, setStageConfig] = useState(null);
 
 	useEffect(() => {
 		const fetchStageConfig = async () => {
 			try {
-				if (!selectedStageNumber)
-					throw new Error('selectedStageNumber 정보가 존재하지 않습니다.');
+				if (!selectedStage)
+					throw new Error('selectedStage 정보가 존재하지 않습니다.');
+
 				const response = await axios.get(
-					`${process.env.PUBLIC_URL}/assets/stages/stage${selectedStageNumber}.json`,
+					`${process.env.PUBLIC_URL}/assets/stages/stage${selectedStage.stageNumber}.json`,
 				);
 
 				setStageConfig(response.data);
@@ -24,7 +25,7 @@ function useStageConfig() {
 		};
 
 		fetchStageConfig();
-	}, [selectedStageNumber]);
+	}, [selectedStage]);
 
 	return stageConfig;
 }
