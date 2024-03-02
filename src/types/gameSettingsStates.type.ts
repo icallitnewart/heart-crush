@@ -11,6 +11,8 @@ export interface SelectedStageType {
 	timestamp: number;
 }
 
+export type UnlockedStageNumberType = StageNumberType;
+
 export interface SoundOptionsType {
 	bgMusic: boolean;
 	soundEffect: boolean;

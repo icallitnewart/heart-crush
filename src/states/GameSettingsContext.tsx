@@ -21,18 +21,19 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 		Reducer<GameSettingsStateType, GameSettingsActionType>
 	>(gameSettingsReducer, initialState);
 
-	const { screen, popup, soundOptions, maxStageNumber, selectedStage } = state;
+	const { screen, popup, soundOptions, unlockedStageNumber, selectedStage } =
+		state;
 
 	const value = useMemo(
 		() => ({
 			screen,
 			popup,
 			soundOptions,
-			maxStageNumber,
+			unlockedStageNumber,
 			selectedStage,
 			dispatchGameSettings: dispatch,
 		}),
-		[screen, popup, soundOptions, maxStageNumber, selectedStage],
+		[screen, popup, soundOptions, unlockedStageNumber, selectedStage],
 	);
 
 	return (

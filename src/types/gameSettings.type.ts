@@ -4,13 +4,14 @@ import {
 	SelectedStageType,
 	SoundOptionsType,
 	StageNumberType,
+	UnlockedStageNumberType,
 } from './gameSettingsStates.type';
 
 export interface GameSettingsStateType {
 	screen: ScreenType;
 	popup: PopupType;
 	soundOptions: SoundOptionsType;
-	maxStageNumber: StageNumberType | null;
+	unlockedStageNumber: UnlockedStageNumberType | null;
 	selectedStage: SelectedStageType | null;
 }
 

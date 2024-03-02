@@ -56,7 +56,7 @@ const gameSettingsReducer = (
 		case SET_MAX_STAGE_NUMBER: {
 			return {
 				...state,
-				maxStageNumber: getMaxStageNumber(),
+				unlockedStageNumber: getMaxStageNumber(),
 			};
 		}
 

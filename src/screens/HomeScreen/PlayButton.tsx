@@ -10,17 +10,17 @@ import {
 import TextButton from '../../components/TextButton';
 
 function PlayButton(): React.ReactElement {
-	const { maxStageNumber, dispatchGameSettings } =
+	const { unlockedStageNumber, dispatchGameSettings } =
 		useContext(GameSettingsContext);
 
 	const startGame = () => {
-		if (!maxStageNumber) {
-			throw new Error('maxStageNumber가 존재하지 않습니다.');
+		if (!unlockedStageNumber) {
+			throw new Error('unlockedStageNumber가 존재하지 않습니다.');
 		}
 
 		dispatchGameSettings({
 			type: SELECT_STAGE,
-			selectedStageNumber: maxStageNumber,
+			selectedStageNumber: unlockedStageNumber,
 		});
 		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.GAME });
 	};

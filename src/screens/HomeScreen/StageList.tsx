@@ -28,7 +28,7 @@ function StageList({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageListPropsType): React.ReactElement {
-	const { maxStageNumber } = useContext(GameSettingsContext);
+	const { unlockedStageNumber } = useContext(GameSettingsContext);
 	const stages = Object.keys(STAGE_FILES).map(Number);
 
 	return (
@@ -38,7 +38,7 @@ function StageList({
 					<StageButton
 						stageNumber={stageNumber}
 						isStageUnlocked={
-							!!(maxStageNumber && stageNumber <= maxStageNumber)
+							!!(unlockedStageNumber && stageNumber <= unlockedStageNumber)
 						}
 						createAlertMessage={createAlertMessage}
 						removeAlertMessage={removeAlertMessage}
