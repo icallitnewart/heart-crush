@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { TEXT } from '../../constants/ui.constant';
+import { LAST_STAGE } from '../../constants/stage.constant';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -11,6 +12,14 @@ import NewGameButton from './NewGameButton';
 
 const victoryText = TEXT.RESULT_WIN;
 const defeatText = TEXT.RESULT_LOSE;
+const gameClearText = TEXT.GAME_CLEAR;
+
+const getResultText = (isVictory: boolean, isGameClear: boolean) => {
+	if (isVictory) {
+		return isGameClear ? gameClearText : victoryText;
+	}
+	return defeatText;
+};
 
 const ResultContainer = styled.div`
 	display: flex;
@@ -21,11 +30,7 @@ const ResultContainer = styled.div`
 	padding: 30px 40px 35px;
 `;
 
-interface ResultTextStylePropsType {
-	$isVictory: boolean;
-}
-
-const ResultText = styled.h1<ResultTextStylePropsType>`
+const ResultText = styled.h1`
 	position: relative;
 	z-index: 9;
 	margin-bottom: 5px;
@@ -44,8 +49,9 @@ const ResultText = styled.h1<ResultTextStylePropsType>`
 		left: 50%;
 		z-index: -1;
 		transform: translateX(calc(-50% + 2px));
-		content: '${({ $isVictory }) => ($isVictory ? victoryText : defeatText)}';
+		content: attr(data-text);
 		display: inline-block;
+		width: 100%;
 		clear: both;
 
 		color: var(--sub-color-purple);
@@ -78,13 +84,16 @@ const ButtonContainer = styled.div`
 function ResultPopup() {
 	const { currentStageNumber, score, result } = useContext(GamePlayContext);
 	const isVictory = result === RESULT.WIN;
+	const isLastStage = currentStageNumber === LAST_STAGE;
+	const isGameClear = isVictory && isLastStage;
+	const resultText = getResultText(isVictory, isGameClear);
 
 	return (
 		<BackgroundLayer opacity={0.8}>
 			<PopupBox>
 				<ResultContainer>
-					<ResultText $isVictory={isVictory}>
-						<span>{isVictory ? victoryText : defeatText}</span>
+					<ResultText data-text={resultText}>
+						<span>{resultText}</span>
 					</ResultText>
 					<ScoreText>{score}</ScoreText>
 					{currentStageNumber && (
@@ -92,7 +101,7 @@ function ResultPopup() {
 							<NewGameButton stageNumber={currentStageNumber}>
 								Retry
 							</NewGameButton>
-							{isVictory && (
+							{isVictory && !isLastStage && (
 								<NewGameButton stageNumber={currentStageNumber + 1}>
 									Next
 								</NewGameButton>

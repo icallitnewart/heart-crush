@@ -16,4 +16,5 @@ export const TEXT = {
 	ENDING_ALERT_BONUS: 'Bonus',
 	RESULT_WIN: 'Victory',
 	RESULT_LOSE: 'Defeat',
+	GAME_CLEAR: 'The End',
 };

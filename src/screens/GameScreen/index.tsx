@@ -4,14 +4,15 @@ import styled from 'styled-components';
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import useStageConfig from '../../hooks/useStageConfig';
-import { POPUP } from '../../constants/screen.constant';
-import { START_GAME } from '../../constants/gamePlayActions.constant';
-import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
-import { RESULT } from '../../constants/gameStatus.constant';
 import {
 	getMaxStageNumberInLocalStorage,
 	setMaxStageNumberInLocalStorage,
 } from '../../utils/stageStorage';
+import { POPUP } from '../../constants/screen.constant';
+import { START_GAME } from '../../constants/gamePlayActions.constant';
+import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
+import { RESULT } from '../../constants/gameStatus.constant';
+import { LAST_STAGE } from '../../constants/stage.constant';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -56,7 +57,11 @@ function GameScreen(): React.ReactElement {
 			const nextStageNumber = currentStageNumber + 1;
 			const storedMaxStageNumber = getMaxStageNumberInLocalStorage();
 
-			if (storedMaxStageNumber && storedMaxStageNumber < nextStageNumber) {
+			if (
+				storedMaxStageNumber &&
+				nextStageNumber <= LAST_STAGE &&
+				storedMaxStageNumber < nextStageNumber
+			) {
 				setMaxStageNumberInLocalStorage(nextStageNumber);
 			}
 		}
