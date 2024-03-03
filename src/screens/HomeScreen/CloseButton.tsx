@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from 'styled-components';
 import { IoClose } from 'react-icons/io5';
+
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { CLOSE_POPUP } from '../../constants/gameSettingsActions.constant';
 
 const Button = styled.button`
 	position: absolute;
@@ -24,13 +27,13 @@ const Button = styled.button`
 	}
 `;
 
-interface CloseButtonPropsType {
-	closeStagePopup: () => void;
-}
+function CloseButton(): React.ReactElement {
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
-function CloseButton({
-	closeStagePopup,
-}: CloseButtonPropsType): React.ReactElement {
+	const closeStagePopup = () => {
+		dispatchGameSettings({ type: CLOSE_POPUP });
+	};
+
 	return (
 		<Button onClick={closeStagePopup}>
 			<IoClose />

@@ -6,4 +6,5 @@ export const SCREEN = {
 export const POPUP = {
 	ENDING_ALERT: 'ENDING_ALERT_POPUP',
 	RESULT: 'RESULT_POPUP',
+	STAGE: 'STAGE',
 };

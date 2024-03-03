@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { SET_UNLOCKED_STAGE_NUMBER } from '../../constants/gameSettingsActions.constant';
+import { POPUP } from '../../constants/screen.constant';
 
 import Logo from '../../components/Logo';
 import GameMenu from './GameMenu';
@@ -26,8 +27,7 @@ const Container = styled.div`
 `;
 
 function HomeScreen(): React.ReactElement {
-	const [stagePopup, setStagePopup] = useState(false);
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const { popup, dispatchGameSettings } = useContext(GameSettingsContext);
 
 	useEffect(() => {
 		dispatchGameSettings({
@@ -40,13 +40,11 @@ function HomeScreen(): React.ReactElement {
 			<Background>
 				<Container>
 					<Logo fontSize="3em" />
-					<GameMenu openStagePopup={() => setStagePopup(true)} />
+					<GameMenu />
 					<SoundOptions />
 				</Container>
 			</Background>
-			{stagePopup && (
-				<StagePopup closeStagePopup={() => setStagePopup(false)} />
-			)}
+			{popup === POPUP.STAGE && <StagePopup />}
 		</>
 	);
 }

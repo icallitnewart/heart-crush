@@ -22,18 +22,14 @@ const ButtonBox = styled.li`
 	}
 `;
 
-interface GameMenuPropsType {
-	openStagePopup: () => void;
-}
-
-function GameMenu({ openStagePopup }: GameMenuPropsType): React.ReactElement {
+function GameMenu(): React.ReactElement {
 	return (
 		<Container>
 			<ButtonBox>
 				<PlayButton />
 			</ButtonBox>
 			<ButtonBox>
-				<StagesButton openStagePopup={openStagePopup} />
+				<StagesButton />
 			</ButtonBox>
 		</Container>
 	);
