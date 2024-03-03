@@ -2,7 +2,7 @@ import {
 	CLOSE_POPUP,
 	OPEN_POPUP,
 	SELECT_STAGE,
-	SET_MAX_STAGE_NUMBER,
+	SET_UNLOCKED_STAGE_NUMBER,
 	SWITCH_SCREEN,
 } from '../constants/gameSettingsActions.constant';
 import {
@@ -53,7 +53,7 @@ const gameSettingsReducer = (
 			};
 		}
 
-		case SET_MAX_STAGE_NUMBER: {
+		case SET_UNLOCKED_STAGE_NUMBER: {
 			return {
 				...state,
 				unlockedStageNumber: getMaxStageNumber(),
