@@ -49,7 +49,7 @@ interface StageButtonPropsType {
 	removeAlertMessage: () => void;
 }
 
-function StageButton({
+function StageNumberButton({
 	stageNumber,
 	isStageUnlocked,
 	createAlertMessage,
@@ -87,4 +87,4 @@ function StageButton({
 	);
 }
 
-export default StageButton;
+export default StageNumberButton;

@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { STAGE_FILES } from '../../constants/stage.constant';
 
-import StageButton from './StageButton';
+import StageNumberButton from './StageNumberButton';
 
 const Container = styled.ul`
 	display: flex;
@@ -35,7 +35,7 @@ function StageList({
 		<Container>
 			{stages.map(stageNumber => (
 				<ButtonBox key={stageNumber}>
-					<StageButton
+					<StageNumberButton
 						stageNumber={stageNumber}
 						isStageUnlocked={
 							!!(unlockedStageNumber && stageNumber <= unlockedStageNumber)
