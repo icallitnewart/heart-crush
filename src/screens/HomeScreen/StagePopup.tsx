@@ -14,7 +14,7 @@ const Container = styled.div`
 	padding: 25px 20px;
 `;
 
-const TextBox = styled.h1`
+const Title = styled.h1`
 	margin-bottom: 30px;
 	text-align: center;
 
@@ -26,6 +26,11 @@ const TextBox = styled.h1`
 	text-shadow: 2px 1px 0px #666;
 `;
 
+const AlertBox = styled.div`
+	width: 100%;
+	height: 1.2em;
+`;
+
 function StagePopup(): React.ReactElement {
 	const [alertMessage, setAlertMessage] = useState(false);
 
@@ -33,12 +38,12 @@ function StagePopup(): React.ReactElement {
 		<BackgroundLayer>
 			<PopupBox>
 				<Container>
-					<TextBox>Choose Stage</TextBox>
+					<Title>Choose Stage</Title>
 					<StageList
 						createAlertMessage={() => setAlertMessage(true)}
 						removeAlertMessage={() => setAlertMessage(false)}
 					/>
-					{alertMessage && <AlertMessage />}
+					<AlertBox>{alertMessage && <AlertMessage />}</AlertBox>
 					<CloseButton />
 				</Container>
 			</PopupBox>
