@@ -33,7 +33,7 @@ const ResultContainer = styled.div`
 const ResultText = styled.h1`
 	position: relative;
 	z-index: 9;
-	margin-bottom: 5px;
+	margin-bottom: 30px;
 
 	font-style: italic;
 	color: var(--main-color-yellow);
@@ -61,6 +61,7 @@ const ResultText = styled.h1`
 
 const ScoreText = styled.h2`
 	text-align: center;
+	margin-bottom: 30px;
 
 	font-size: 2.8em;
 	font-family: var(--sub-font);
@@ -74,6 +75,7 @@ const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	width: 100%;
+	margin-bottom: 5px;
 
 	button {
 		max-width: 200px;
