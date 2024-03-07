@@ -1,6 +1,6 @@
 import { GamePlayStateType } from '../types/gamePlay.type';
 import { GameSettingsStateType } from '../types/gameSettings.type';
-import { SCREEN } from './screen.constant';
+import { POPUP, SCREEN } from './screen.constant';
 
 export const GAME_PLAY_INITIAL_STATE: GamePlayStateType = {
 	board: [],
@@ -19,7 +19,7 @@ export const GAME_PLAY_INITIAL_STATE: GamePlayStateType = {
 
 export const GAME_SETTINGS_INITIAL_STATE: GameSettingsStateType = {
 	screen: SCREEN.HOME,
-	popup: null,
+	popup: POPUP.SOUND_ALERT,
 	soundOptions: {
 		bgMusic: true,
 		soundEffect: true,
