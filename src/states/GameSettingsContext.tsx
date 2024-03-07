@@ -7,10 +7,12 @@ import {
 	GameSettingsStateType,
 } from '../types/gameSettings.type';
 import { GAME_SETTINGS_INITIAL_STATE as initialState } from '../constants/initialState.constant';
+import useSoundManager from '../hooks/useSoundManager';
 
 const initialContextValue: GameSettingsContextType = {
 	...initialState,
 	dispatchGameSettings: () => {},
+	playBgMusic: () => {},
 };
 
 const GameSettingsContext =
@@ -24,6 +26,8 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 	const { screen, popup, soundOptions, unlockedStageNumber, selectedStage } =
 		state;
 
+	const { playBgMusic } = useSoundManager(soundOptions);
+
 	const value = useMemo(
 		() => ({
 			screen,
@@ -32,8 +36,16 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 			unlockedStageNumber,
 			selectedStage,
 			dispatchGameSettings: dispatch,
+			playBgMusic,
 		}),
-		[screen, popup, soundOptions, unlockedStageNumber, selectedStage],
+		[
+			screen,
+			popup,
+			soundOptions,
+			unlockedStageNumber,
+			selectedStage,
+			playBgMusic,
+		],
 	);
 
 	return (

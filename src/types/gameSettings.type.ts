@@ -17,6 +17,7 @@ export interface GameSettingsStateType {
 
 export interface GameSettingsContextType extends GameSettingsStateType {
 	dispatchGameSettings: React.Dispatch<GameSettingsActionType>;
+	playBgMusic: (src: string) => void;
 }
 
 export interface GameSettingsActionType {
