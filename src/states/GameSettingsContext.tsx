@@ -26,7 +26,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 	const { screen, popup, soundOptions, unlockedStageNumber, selectedStage } =
 		state;
 
-	const { playBgMusic } = useSoundManager(soundOptions);
+	const { playBgMusic } = useSoundManager(soundOptions, screen, popup);
 
 	const value = useMemo(
 		() => ({

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { CLOSE_POPUP } from '../../constants/gameSettingsActions.constant';
-import { BG_MUSIC } from '../../constants/audio.constant';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -70,10 +69,9 @@ const ButtonBox = styled.div`
 `;
 
 function SoundAlertPopup() {
-	const { playBgMusic, dispatchGameSettings } = useContext(GameSettingsContext);
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
 	const confirmToPlayAudio = () => {
-		playBgMusic(BG_MUSIC.HOME);
 		dispatchGameSettings({ type: CLOSE_POPUP });
 	};
 
