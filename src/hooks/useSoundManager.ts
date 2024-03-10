@@ -73,6 +73,8 @@ function useSoundManager(
 
 				if (selectedMusic !== currentMusic) playBgMusic(selectedMusic);
 			}
+		} else if (!audio.paused) {
+			stopBgMusic();
 		}
 	}, [bgMusic, screen, popup, playBgMusic, stopBgMusic, selectBgMusic]);
 

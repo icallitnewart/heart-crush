@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BiSolidMusic } from 'react-icons/bi';
+
+import { GameSettingsContext } from '../states/GameSettingsContext';
+import { TOGGLE_BG_MUSIC } from '../constants/gameSettingsActions.constant';
 
 import IconButton from './IconButton';
 
@@ -8,8 +11,19 @@ interface MusicButtonPropsType {
 }
 
 function MusicButton({ size }: MusicButtonPropsType): React.ReactElement {
+	const { soundOptions, dispatchGameSettings } =
+		useContext(GameSettingsContext);
+
+	const toggleBgMusic = () => {
+		dispatchGameSettings({ type: TOGGLE_BG_MUSIC });
+	};
+
 	return (
-		<IconButton isActive size={size}>
+		<IconButton
+			isActive={soundOptions?.bgMusic}
+			size={size}
+			handleClick={toggleBgMusic}
+		>
 			<BiSolidMusic />
 		</IconButton>
 	);

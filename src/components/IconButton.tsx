@@ -20,11 +20,6 @@ const Button = styled.button<ButtonStyleProps>`
 	background-color: #cbc4ff;
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 
-	&:hover svg {
-		color: ${props =>
-			!props.$isActive ? 'var(--main-color-purple)' : 'var(--sub-color-blue)'};
-	}
-
 	//아이콘
 	span {
 		display: inline-flex;
@@ -54,6 +49,7 @@ interface IconButtonProps {
 	iconSize?: number;
 	iconStrokeWidth?: number;
 	isActive?: boolean;
+	handleClick?: () => void;
 }
 
 function IconButton({
@@ -62,6 +58,7 @@ function IconButton({
 	iconSize,
 	iconStrokeWidth,
 	isActive,
+	handleClick,
 }: IconButtonProps): React.ReactElement {
 	return (
 		<Button
@@ -69,6 +66,7 @@ function IconButton({
 			$iconSize={iconSize}
 			$iconStrokeWidth={iconStrokeWidth}
 			$isActive={isActive}
+			onClick={handleClick}
 		>
 			<span>{children}</span>
 		</Button>
@@ -82,4 +80,5 @@ IconButton.defaultProps = {
 	iconSize: undefined,
 	iconStrokeWidth: 0.7,
 	isActive: false,
+	handleClick: () => {}, // TODO: 제거 예정
 };

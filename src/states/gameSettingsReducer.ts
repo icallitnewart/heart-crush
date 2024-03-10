@@ -1,5 +1,6 @@
 import {
 	CLOSE_POPUP,
+	TOGGLE_BG_MUSIC,
 	OPEN_POPUP,
 	SELECT_STAGE,
 	SET_UNLOCKED_STAGE_NUMBER,
@@ -74,6 +75,19 @@ const gameSettingsReducer = (
 				selectedStage: {
 					stageNumber: selectedStageNumber,
 					timestamp: Date.now(),
+				},
+			};
+		}
+
+		case TOGGLE_BG_MUSIC: {
+			const { soundOptions } = state;
+			const { bgMusic } = soundOptions;
+
+			return {
+				...state,
+				soundOptions: {
+					...soundOptions,
+					bgMusic: !bgMusic,
 				},
 			};
 		}

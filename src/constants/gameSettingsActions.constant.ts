@@ -8,3 +8,5 @@ export const CLOSE_POPUP = 'CLOSE_POPUP';
 export const SET_UNLOCKED_STAGE_NUMBER = 'SET_UNLOCKED_STAGE_NUMBER';
 // 플레이할 스테이지 선택
 export const SELECT_STAGE = 'SELECT_STAGE';
+// 배경 음악 켜기 / 끄기
+export const TOGGLE_BG_MUSIC = 'TOGGLE_BG_MUSIC';
