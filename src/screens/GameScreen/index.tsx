@@ -19,6 +19,7 @@ import Information from './Information';
 import Board from './Board';
 import EndingAlertPopup from './EndingAlertPopup';
 import ResultPopup from './ResultPopup';
+import ExitGamePopup from './ExitGamePopup';
 
 const Container = styled.div`
 	display: flex;
@@ -76,6 +77,7 @@ function GameScreen(): React.ReactElement {
 			</Container>
 			{popup === POPUP.ENDING_ALERT && <EndingAlertPopup />}
 			{popup === POPUP.RESULT && <ResultPopup />}
+			{popup === POPUP.EXIT_GAME && <ExitGamePopup />}
 		</>
 	);
 }
