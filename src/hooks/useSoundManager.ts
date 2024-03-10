@@ -72,6 +72,7 @@ function useSoundManager(
 				const selectedMusic = new URL(src, window.location.href).toString();
 
 				if (selectedMusic !== currentMusic) playBgMusic(selectedMusic);
+				else if (popup === POPUP.RESULT) stopBgMusic();
 			}
 		} else if (!audio.paused) {
 			stopBgMusic();
