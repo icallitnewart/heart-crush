@@ -4,6 +4,7 @@ import {
 	PopupType,
 	ScreenType,
 	SoundOptionsType,
+	StageNumberType,
 } from '../types/gameSettingsStates.type';
 import { POPUP, SCREEN } from '../constants/screen.constant';
 import { BG_MUSIC } from '../constants/audio.constant';
@@ -12,25 +13,31 @@ function useSoundManager(
 	soundOptions: SoundOptionsType,
 	screen: ScreenType,
 	popup: PopupType,
+	stageNumber: StageNumberType | undefined,
 ) {
 	const { bgMusic } = soundOptions;
 	const bgMusicAudioRef = useRef(new Audio());
 
-	const selectBgMusic = useCallback((currentScreen: ScreenType) => {
-		switch (currentScreen) {
-			case SCREEN.HOME: {
-				return BG_MUSIC.HOME;
-			}
+	const selectBgMusic = useCallback(
+		(currentScreen: ScreenType, stage?: StageNumberType) => {
+			switch (currentScreen) {
+				case SCREEN.HOME: {
+					return BG_MUSIC.HOME;
+				}
 
-			case SCREEN.GAME: {
-				return BG_MUSIC.GAME;
-			}
+				case SCREEN.GAME: {
+					const total = BG_MUSIC.GAME.length;
+					const idx = stage ? (stage - 1) % total : 0;
+					return BG_MUSIC.GAME[idx];
+				}
 
-			default: {
-				return '';
+				default: {
+					return '';
+				}
 			}
-		}
-	}, []);
+		},
+		[],
+	);
 
 	const stopBgMusic = useCallback(() => {
 		const audio = bgMusicAudioRef.current;
@@ -58,7 +65,7 @@ function useSoundManager(
 		const audio = bgMusicAudioRef.current;
 
 		if (bgMusic) {
-			const src = selectBgMusic(screen);
+			const src = selectBgMusic(screen, stageNumber);
 
 			if (audio.paused) {
 				const canPlaySound = popup !== POPUP.SOUND_ALERT;
@@ -77,7 +84,15 @@ function useSoundManager(
 		} else if (!audio.paused) {
 			stopBgMusic();
 		}
-	}, [bgMusic, screen, popup, playBgMusic, stopBgMusic, selectBgMusic]);
+	}, [
+		bgMusic,
+		screen,
+		popup,
+		stageNumber,
+		playBgMusic,
+		stopBgMusic,
+		selectBgMusic,
+	]);
 
 	return { playBgMusic };
 }
