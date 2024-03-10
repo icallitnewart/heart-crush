@@ -1,6 +1,13 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import {
+	CLOSE_POPUP,
+	SWITCH_SCREEN,
+} from '../../constants/gameSettingsActions.constant';
+import { SCREEN } from '../../constants/screen.constant';
+
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
 import TextButton from '../../components/TextButton';
@@ -69,6 +76,17 @@ const ButtonContainer = styled.div`
 `;
 
 function ExitGamePopup(): React.ReactElement {
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
+
+	const closePopup = () => {
+		dispatchGameSettings({ type: CLOSE_POPUP });
+	};
+
+	const moveToHome = () => {
+		closePopup();
+		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.HOME });
+	};
+
 	return (
 		<BackgroundLayer opacity={0.8}>
 			<PopupBox>
@@ -78,8 +96,8 @@ function ExitGamePopup(): React.ReactElement {
 					</Title>
 					<Text>Quit game and move to home?</Text>
 					<ButtonContainer>
-						<TextButton>YES</TextButton>
-						<TextButton>NO</TextButton>
+						<TextButton handleClick={moveToHome}>YES</TextButton>
+						<TextButton handleClick={closePopup}>NO</TextButton>
 					</ButtonContainer>
 				</Container>
 			</PopupBox>
