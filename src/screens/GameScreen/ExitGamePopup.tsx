@@ -54,6 +54,7 @@ const Text = styled.h2`
 	text-align: center;
 	margin-bottom: 30px;
 
+	text-transform: uppercase;
 	font-size: 1.4em;
 	font-family: var(--main-font);
 	color: var(--sub-color-pink);
