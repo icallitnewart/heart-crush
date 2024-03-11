@@ -12,7 +12,7 @@ import useSoundManager from '../hooks/useSoundManager';
 const initialContextValue: GameSettingsContextType = {
 	...initialState,
 	dispatchGameSettings: () => {},
-	playBgMusic: () => {},
+	playSoundEffect: () => {},
 };
 
 const GameSettingsContext =
@@ -26,7 +26,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 	const { screen, popup, soundOptions, unlockedStageNumber, selectedStage } =
 		state;
 
-	const { playBgMusic } = useSoundManager(
+	const { playSoundEffect } = useSoundManager(
 		soundOptions,
 		screen,
 		popup,
@@ -41,7 +41,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 			unlockedStageNumber,
 			selectedStage,
 			dispatchGameSettings: dispatch,
-			playBgMusic,
+			playSoundEffect,
 		}),
 		[
 			screen,
@@ -49,7 +49,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 			soundOptions,
 			unlockedStageNumber,
 			selectedStage,
-			playBgMusic,
+			playSoundEffect,
 		],
 	);
 

@@ -8,6 +8,7 @@ import React, {
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
+import { GameSettingsContext } from '../../states/GameSettingsContext';
 import {
 	CHECK_MATCHING_HEARTS,
 	DROP_HEARTS,
@@ -16,6 +17,7 @@ import {
 	SWAP_HEARTS,
 } from '../../constants/gamePlayActions.constant';
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
+import { SOUND_EFFECT } from '../../constants/audio.constant';
 
 import Column from './Column';
 
@@ -87,6 +89,7 @@ function Board() {
 		matchingCandidates,
 		dispatchGamePlay,
 	} = useContext(GamePlayContext);
+	const { playSoundEffect } = useContext(GameSettingsContext);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
@@ -128,13 +131,15 @@ function Board() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [movingHearts]);
 
-	// 하트 크러쉬 애니메이션 모션이 끝나면
-	// 하트 떨어뜨리기
+	// 하트 크러쉬 효과음 재생
+	// 하트 크러쉬 애니메이션 모션이 끝나면 하트 떨어뜨리기
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
 		const animationDuration = ANIMATION_DURATION.CRUSHED_HEART;
 
 		if (crushedHearts.length > 0) {
+			playSoundEffect(SOUND_EFFECT.HEART_CRUSH);
+
 			animationTimer = setTimeout(() => {
 				dispatchGamePlay({ type: DROP_HEARTS });
 			}, animationDuration * 0.6);

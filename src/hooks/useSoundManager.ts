@@ -15,8 +15,9 @@ function useSoundManager(
 	popup: PopupType,
 	stageNumber: StageNumberType | undefined,
 ) {
-	const { bgMusic } = soundOptions;
+	const { bgMusic, soundEffect } = soundOptions;
 	const bgMusicAudioRef = useRef(new Audio());
+	const soundEffectsAudioRef = useRef<HTMLAudioElement[]>([]);
 
 	const selectBgMusic = useCallback(
 		(currentScreen: ScreenType, stage?: StageNumberType) => {
@@ -61,6 +62,26 @@ function useSoundManager(
 		[bgMusic, bgMusicAudioRef, stopBgMusic],
 	);
 
+	const playSoundEffect = (src: string) => {
+		const isSoundActivated = popup !== POPUP.SOUND_ALERT;
+
+		if (soundEffect && isSoundActivated) {
+			const audios = soundEffectsAudioRef.current;
+			const newAudio = new Audio(src);
+
+			const removeAudio = () => {
+				soundEffectsAudioRef.current = soundEffectsAudioRef.current.filter(
+					audio => audio !== newAudio,
+				);
+				newAudio.removeEventListener('ended', removeAudio);
+			};
+
+			newAudio.addEventListener('ended', removeAudio);
+			newAudio.play();
+			audios.push(newAudio);
+		}
+	};
+
 	useEffect(() => {
 		const audio = bgMusicAudioRef.current;
 
@@ -68,9 +89,9 @@ function useSoundManager(
 			const src = selectBgMusic(screen, stageNumber);
 
 			if (audio.paused) {
-				const canPlaySound = popup !== POPUP.SOUND_ALERT;
+				const isSoundActivated = popup !== POPUP.SOUND_ALERT;
 
-				if (canPlaySound) {
+				if (isSoundActivated) {
 					audio.loop = true;
 					playBgMusic(src);
 				}
@@ -94,7 +115,7 @@ function useSoundManager(
 		selectBgMusic,
 	]);
 
-	return { playBgMusic };
+	return { playSoundEffect };
 }
 
 export default useSoundManager;
