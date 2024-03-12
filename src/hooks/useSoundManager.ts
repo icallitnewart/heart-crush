@@ -7,7 +7,16 @@ import {
 	StageNumberType,
 } from '../types/gameSettingsStates.type';
 import { POPUP, SCREEN } from '../constants/screen.constant';
-import { BG_MUSIC } from '../constants/audio.constant';
+import {
+	BG_MUSIC,
+	SOUND_EFFECT,
+	SOUND_EFFECT_TYPE,
+} from '../constants/audio.constant';
+import { SoundEffectType } from '../types/common.type';
+
+interface SoundEffectAudioRefType {
+	[SOUND_EFFECT_TYPE.HEART_CRUSH]: HTMLAudioElement[];
+}
 
 function useSoundManager(
 	soundOptions: SoundOptionsType,
@@ -17,7 +26,11 @@ function useSoundManager(
 ) {
 	const { bgMusic, soundEffect } = soundOptions;
 	const bgMusicAudioRef = useRef(new Audio());
-	const soundEffectsAudioRef = useRef<HTMLAudioElement[]>([]);
+	const soundEffectsAudioRef = useRef<SoundEffectAudioRefType>({
+		[SOUND_EFFECT_TYPE.HEART_CRUSH]: new Array(5)
+			.fill(null)
+			.map(() => new Audio(SOUND_EFFECT.HEART_CRUSH)),
+	});
 
 	const selectBgMusic = useCallback(
 		(currentScreen: ScreenType, stage?: StageNumberType) => {
@@ -62,23 +75,17 @@ function useSoundManager(
 		[bgMusic, bgMusicAudioRef, stopBgMusic],
 	);
 
-	const playSoundEffect = (src: string) => {
+	const playSoundEffect = (type: SoundEffectType) => {
 		const isSoundActivated = popup !== POPUP.SOUND_ALERT;
 
 		if (soundEffect && isSoundActivated) {
-			const audios = soundEffectsAudioRef.current;
-			const newAudio = new Audio(src);
-
-			const removeAudio = () => {
-				soundEffectsAudioRef.current = soundEffectsAudioRef.current.filter(
-					audio => audio !== newAudio,
-				);
-				newAudio.removeEventListener('ended', removeAudio);
-			};
-
-			newAudio.addEventListener('ended', removeAudio);
-			newAudio.play();
-			audios.push(newAudio);
+			const audio = soundEffectsAudioRef.current[type];
+			if (audio instanceof HTMLAudioElement) {
+				audio.play();
+			} else if (Array.isArray(audio)) {
+				const availableAudio = audio.find(a => a.paused);
+				if (availableAudio) availableAudio.play();
+			}
 		}
 	};
 

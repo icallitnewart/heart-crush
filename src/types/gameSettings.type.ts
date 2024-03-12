@@ -1,3 +1,4 @@
+import { SoundEffectType } from './common.type';
 import {
 	PopupType,
 	ScreenType,
@@ -17,7 +18,7 @@ export interface GameSettingsStateType {
 
 export interface GameSettingsContextType extends GameSettingsStateType {
 	dispatchGameSettings: React.Dispatch<GameSettingsActionType>;
-	playSoundEffect: (src: string) => void;
+	playSoundEffect: (type: SoundEffectType) => void;
 }
 
 export interface GameSettingsActionType {

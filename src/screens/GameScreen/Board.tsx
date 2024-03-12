@@ -17,7 +17,7 @@ import {
 	SWAP_HEARTS,
 } from '../../constants/gamePlayActions.constant';
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
-import { SOUND_EFFECT } from '../../constants/audio.constant';
+import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import Column from './Column';
 
@@ -138,7 +138,7 @@ function Board() {
 		const animationDuration = ANIMATION_DURATION.CRUSHED_HEART;
 
 		if (crushedHearts.length > 0) {
-			playSoundEffect(SOUND_EFFECT.HEART_CRUSH);
+			playSoundEffect(SOUND_EFFECT_TYPE.HEART_CRUSH);
 
 			animationTimer = setTimeout(() => {
 				dispatchGamePlay({ type: DROP_HEARTS });

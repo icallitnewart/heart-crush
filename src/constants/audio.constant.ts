@@ -19,3 +19,7 @@ export const BG_MUSIC = {
 export const SOUND_EFFECT = {
 	HEART_CRUSH: getSoundEffectSrc('heart_crush.mp3'),
 };
+
+export const SOUND_EFFECT_TYPE = {
+	HEART_CRUSH: 'heartCrush',
+} as const;
