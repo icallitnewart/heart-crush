@@ -58,6 +58,8 @@ function GameScreen(): React.ReactElement {
 		if (popup === POPUP.RESULT) {
 			if (result === RESULT.WIN) {
 				playSoundEffect(SOUND_EFFECT_TYPE.RESULT_WIN);
+			} else if (result === RESULT.LOSE) {
+				playSoundEffect(SOUND_EFFECT_TYPE.RESULT_LOSE);
 			}
 		}
 	}, [result, popup, playSoundEffect]);

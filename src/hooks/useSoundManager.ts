@@ -17,6 +17,7 @@ import { SoundEffectType } from '../types/common.type';
 interface SoundEffectAudioRefType {
 	[SOUND_EFFECT_TYPE.MOUSE_HOVER]: HTMLAudioElement;
 	[SOUND_EFFECT_TYPE.RESULT_WIN]: HTMLAudioElement;
+	[SOUND_EFFECT_TYPE.RESULT_LOSE]: HTMLAudioElement;
 	[SOUND_EFFECT_TYPE.HEART_CRUSH]: HTMLAudioElement[];
 }
 
@@ -31,6 +32,7 @@ function useSoundManager(
 	const soundEffectsAudioRef = useRef<SoundEffectAudioRefType>({
 		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: new Audio(SOUND_EFFECT_AUDIO.MOUSE_HOVER),
 		[SOUND_EFFECT_TYPE.RESULT_WIN]: new Audio(SOUND_EFFECT_AUDIO.RESULT_WIN),
+		[SOUND_EFFECT_TYPE.RESULT_LOSE]: new Audio(SOUND_EFFECT_AUDIO.RESULT_LOSE),
 		[SOUND_EFFECT_TYPE.HEART_CRUSH]: new Array(5)
 			.fill(null)
 			.map(() => new Audio(SOUND_EFFECT_AUDIO.HEART_CRUSH)),
