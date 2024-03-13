@@ -15,6 +15,7 @@ import {
 } from '../../constants/gamePlayActions.constant';
 import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 import { POPUP } from '../../constants/screen.constant';
+import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import Logo from '../../components/Logo';
 import BackgroundLayer from '../../components/BackgroundLayer';
@@ -92,7 +93,8 @@ const AlertText = styled.h2<AlertTextPropsType>`
 
 function EndingAlertPopup(): React.ReactElement {
 	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const { playSoundEffect, dispatchGameSettings } =
+		useContext(GameSettingsContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
 
@@ -113,9 +115,10 @@ function EndingAlertPopup(): React.ReactElement {
 		if (isBonusTime) {
 			if (move > 0) {
 				// 하나의 MOVE를 위한 보너스 점수 카운팅 애니메이션 효과가 끝나면
-				// 새로운 MOVE를 위한 보너스 점수 추가
+				// 새로운 MOVE를 위한 보너스 점수 추가 및 효과음 재생
 				animationTimer = setTimeout(() => {
 					dispatchGamePlay({ type: ADD_BONUS_SCORE });
+					playSoundEffect(SOUND_EFFECT_TYPE.BONUS_SCORE);
 				}, bonusScoreAnimationDuration);
 			} else {
 				// fade-out 애니메이션 효과 적용
@@ -135,7 +138,7 @@ function EndingAlertPopup(): React.ReactElement {
 		};
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isBonusTime, move]);
+	}, [isBonusTime, move, playSoundEffect]);
 
 	return (
 		<BackgroundLayer opacity={0}>
