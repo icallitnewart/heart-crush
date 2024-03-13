@@ -111,15 +111,19 @@ function Board() {
 			movingHearts && Object.keys(movingHearts).length === 2;
 
 		if (isHeartsMoving) {
+			const isHeartSwapPossible = Object.values(movingHearts).every(
+				heart => !heart.isReturning,
+			);
+
+			if (!isHeartSwapPossible) {
+				playSoundEffect(SOUND_EFFECT_TYPE.HEART_SWAP_FAIL);
+			}
+
 			animationTimer = setTimeout(() => {
-				const [first, second] = Object.keys(movingHearts);
-				if (
-					movingHearts[first].isReturning &&
-					movingHearts[second].isReturning
-				) {
-					dispatchGamePlay({ type: STOP_MOVING_HEARTS });
-				} else {
+				if (isHeartSwapPossible) {
 					dispatchGamePlay({ type: SWAP_HEARTS });
+				} else {
+					dispatchGamePlay({ type: STOP_MOVING_HEARTS });
 				}
 			}, animationDuration);
 		}
@@ -129,7 +133,7 @@ function Board() {
 		};
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [movingHearts]);
+	}, [movingHearts, playSoundEffect]);
 
 	// 하트 크러쉬 효과음 재생
 	// 하트 크러쉬 애니메이션 모션이 끝나면 하트 떨어뜨리기

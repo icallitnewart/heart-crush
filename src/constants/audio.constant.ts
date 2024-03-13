@@ -21,6 +21,7 @@ export const SOUND_EFFECT_AUDIO = {
 	MOUSE_HOVER: getSoundEffectSrc('mouse_hover.mp3'),
 	RESULT_WIN: getSoundEffectSrc('result_win.mp3'),
 	RESULT_LOSE: getSoundEffectSrc('result_lose.mp3'),
+	HEART_SWAP_FAIL: getSoundEffectSrc('heart_swap_fail.mp3'),
 };
 
 export const SOUND_EFFECT_TYPE = {
@@ -28,4 +29,5 @@ export const SOUND_EFFECT_TYPE = {
 	MOUSE_HOVER: 'mouseHover',
 	RESULT_WIN: 'resultWin',
 	RESULT_LOSE: 'resultLose',
+	HEART_SWAP_FAIL: 'heartSwapFail',
 } as const;
