@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+
+import { GameSettingsContext } from '../states/GameSettingsContext';
+import { SOUND_EFFECT_TYPE } from '../constants/audio.constant';
 
 const Button = styled.button`
 	flex-grow: 1;
@@ -17,6 +20,7 @@ const Button = styled.button`
 	border: 1px solid #888;
 	border-radius: 20px;
 	box-shadow: 2px 2px 0px #666;
+	transition: all 0.3s;
 
 	&:hover {
 		background-color: var(--sub-color-pink);
@@ -33,7 +37,16 @@ function TextButton({
 	children,
 	handleClick,
 }: TextButtonPropsType): React.ReactElement {
-	return <Button onClick={handleClick}>{children}</Button>;
+	const { playSoundEffect } = useContext(GameSettingsContext);
+	const handleMouseEnter = () => {
+		playSoundEffect(SOUND_EFFECT_TYPE.MOUSE_HOVER);
+	};
+
+	return (
+		<Button onClick={handleClick} onMouseEnter={handleMouseEnter}>
+			{children}
+		</Button>
+	);
 }
 
 // TODO: 제거 예정

@@ -7,6 +7,7 @@ import {
 	SWITCH_SCREEN,
 } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
+import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import { isStageNumberValid } from '../../utils/typeValidation';
 
 interface ButtonStylePropsType {
@@ -55,7 +56,8 @@ function StageNumberButton({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const { playSoundEffect, dispatchGameSettings } =
+		useContext(GameSettingsContext);
 	const isStageLocked = !isStageUnlocked;
 
 	const startGame = () => {
@@ -79,6 +81,7 @@ function StageNumberButton({
 			$isActive={isStageUnlocked}
 			onClick={startGame}
 			disabled={isStageLocked}
+			onMouseEnter={() => playSoundEffect(SOUND_EFFECT_TYPE.MOUSE_HOVER)}
 			onMouseOver={() => isStageLocked && createAlertMessage()}
 			onMouseOut={() => isStageLocked && removeAlertMessage()}
 		>

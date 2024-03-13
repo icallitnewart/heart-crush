@@ -18,8 +18,10 @@ export const BG_MUSIC = {
 
 export const SOUND_EFFECT = {
 	HEART_CRUSH: getSoundEffectSrc('heart_crush.mp3'),
+	MOUSE_HOVER: getSoundEffectSrc('mouse_hover.mp3'),
 };
 
 export const SOUND_EFFECT_TYPE = {
 	HEART_CRUSH: 'heartCrush',
+	MOUSE_HOVER: 'mouseHover',
 } as const;

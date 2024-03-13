@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+
+import { GameSettingsContext } from '../states/GameSettingsContext';
+import { SOUND_EFFECT_TYPE } from '../constants/audio.constant';
 
 interface ButtonStyleProps {
 	$size?: number;
@@ -60,6 +63,11 @@ function IconButton({
 	isActive,
 	handleClick,
 }: IconButtonProps): React.ReactElement {
+	const { playSoundEffect } = useContext(GameSettingsContext);
+	const handleMouseEnter = () => {
+		playSoundEffect(SOUND_EFFECT_TYPE.MOUSE_HOVER);
+	};
+
 	return (
 		<Button
 			$size={size}
@@ -67,6 +75,7 @@ function IconButton({
 			$iconStrokeWidth={iconStrokeWidth}
 			$isActive={isActive}
 			onClick={handleClick}
+			onMouseEnter={handleMouseEnter}
 		>
 			<span>{children}</span>
 		</Button>
