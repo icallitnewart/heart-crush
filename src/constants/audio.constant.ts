@@ -4,7 +4,7 @@ const SOUND_EFFECT_FOLDER = `${AUDIO_FOLDER}/soundEffect`;
 const getBgMusicSrc = (file: string) => `${BG_MUSIC_FOLDER}/${file}`;
 const getSoundEffectSrc = (file: string) => `${SOUND_EFFECT_FOLDER}/${file}`;
 
-export const BG_MUSIC = {
+export const BG_MUSIC_AUDIO = {
 	HOME: getBgMusicSrc('salty_ditty.mp3'),
 	GAME: [
 		getBgMusicSrc('newer_wave.mp3'),
@@ -16,7 +16,7 @@ export const BG_MUSIC = {
 	],
 };
 
-export const SOUND_EFFECT = {
+export const SOUND_EFFECT_AUDIO = {
 	HEART_CRUSH: getSoundEffectSrc('heart_crush.mp3'),
 	MOUSE_HOVER: getSoundEffectSrc('mouse_hover.mp3'),
 };

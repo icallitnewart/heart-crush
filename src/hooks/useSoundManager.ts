@@ -8,8 +8,8 @@ import {
 } from '../types/gameSettingsStates.type';
 import { POPUP, SCREEN } from '../constants/screen.constant';
 import {
-	BG_MUSIC,
-	SOUND_EFFECT,
+	BG_MUSIC_AUDIO,
+	SOUND_EFFECT_AUDIO,
 	SOUND_EFFECT_TYPE,
 } from '../constants/audio.constant';
 import { SoundEffectType } from '../types/common.type';
@@ -28,23 +28,23 @@ function useSoundManager(
 	const { bgMusic, soundEffect } = soundOptions;
 	const bgMusicAudioRef = useRef(new Audio());
 	const soundEffectsAudioRef = useRef<SoundEffectAudioRefType>({
-		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: new Audio(SOUND_EFFECT.MOUSE_HOVER),
+		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: new Audio(SOUND_EFFECT_AUDIO.MOUSE_HOVER),
 		[SOUND_EFFECT_TYPE.HEART_CRUSH]: new Array(5)
 			.fill(null)
-			.map(() => new Audio(SOUND_EFFECT.HEART_CRUSH)),
+			.map(() => new Audio(SOUND_EFFECT_AUDIO.HEART_CRUSH)),
 	});
 
 	const selectBgMusic = useCallback(
 		(currentScreen: ScreenType, stage?: StageNumberType) => {
 			switch (currentScreen) {
 				case SCREEN.HOME: {
-					return BG_MUSIC.HOME;
+					return BG_MUSIC_AUDIO.HOME;
 				}
 
 				case SCREEN.GAME: {
-					const total = BG_MUSIC.GAME.length;
+					const total = BG_MUSIC_AUDIO.GAME.length;
 					const idx = stage ? (stage - 1) % total : 0;
-					return BG_MUSIC.GAME[idx];
+					return BG_MUSIC_AUDIO.GAME[idx];
 				}
 
 				default: {
