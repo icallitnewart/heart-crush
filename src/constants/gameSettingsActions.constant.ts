@@ -10,3 +10,5 @@ export const SET_UNLOCKED_STAGE_NUMBER = 'SET_UNLOCKED_STAGE_NUMBER';
 export const SELECT_STAGE = 'SELECT_STAGE';
 // 배경 음악 켜기 / 끄기
 export const TOGGLE_BG_MUSIC = 'TOGGLE_BG_MUSIC';
+// 효과음 켜기 / 끄기
+export const TOGGLE_SOUND_EFFECT = 'TOGGLE_SOUND_EFFECT';

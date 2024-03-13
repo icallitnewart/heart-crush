@@ -5,6 +5,7 @@ import {
 	SELECT_STAGE,
 	SET_UNLOCKED_STAGE_NUMBER,
 	SWITCH_SCREEN,
+	TOGGLE_SOUND_EFFECT,
 } from '../constants/gameSettingsActions.constant';
 import {
 	GameSettingsActionType,
@@ -88,6 +89,19 @@ const gameSettingsReducer = (
 				soundOptions: {
 					...soundOptions,
 					bgMusic: !bgMusic,
+				},
+			};
+		}
+
+		case TOGGLE_SOUND_EFFECT: {
+			const { soundOptions } = state;
+			const { soundEffect } = soundOptions;
+
+			return {
+				...state,
+				soundOptions: {
+					...soundOptions,
+					soundEffect: !soundEffect,
 				},
 			};
 		}
