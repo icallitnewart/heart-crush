@@ -18,8 +18,8 @@ const Container = styled.div`
 function SoundOptions(): React.ReactElement {
 	return (
 		<Container>
-			<MusicButton size={60} />
 			<SoundEffectButton size={60} />
+			<MusicButton size={60} />
 		</Container>
 	);
 }
