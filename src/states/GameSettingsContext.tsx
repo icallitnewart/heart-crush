@@ -13,6 +13,7 @@ const initialContextValue: GameSettingsContextType = {
 	...initialState,
 	dispatchGameSettings: () => {},
 	playSoundEffect: () => {},
+	stopSoundEffect: () => {},
 	fadeOutBgMusic: () => {},
 };
 
@@ -27,7 +28,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 	const { screen, popup, soundOptions, unlockedStageNumber, selectedStage } =
 		state;
 
-	const { playSoundEffect, fadeOutBgMusic } = useSoundManager(
+	const { playSoundEffect, stopSoundEffect, fadeOutBgMusic } = useSoundManager(
 		soundOptions,
 		screen,
 		popup,
@@ -43,6 +44,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 			selectedStage,
 			dispatchGameSettings: dispatch,
 			playSoundEffect,
+			stopSoundEffect,
 			fadeOutBgMusic,
 		}),
 		[
@@ -52,6 +54,7 @@ function GameSettingsProvider({ children }: { children: React.ReactNode }) {
 			unlockedStageNumber,
 			selectedStage,
 			playSoundEffect,
+			stopSoundEffect,
 			fadeOutBgMusic,
 		],
 	);

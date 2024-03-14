@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { TEXT } from '../../constants/ui.constant';
 import { LAST_STAGE } from '../../constants/stage.constant';
@@ -85,10 +87,21 @@ const ButtonContainer = styled.div`
 
 function ResultPopup() {
 	const { currentStageNumber, score, result } = useContext(GamePlayContext);
+	const { stopSoundEffect } = useContext(GameSettingsContext);
 	const isVictory = result === RESULT.WIN;
 	const isLastStage = currentStageNumber === LAST_STAGE;
 	const isGameClear = isVictory && isLastStage;
 	const resultText = getResultText(isVictory, isGameClear);
+
+	useEffect(() => {
+		return () => {
+			const soundEffectType =
+				result === RESULT.WIN
+					? SOUND_EFFECT_TYPE.RESULT_WIN
+					: SOUND_EFFECT_TYPE.RESULT_LOSE;
+			stopSoundEffect(soundEffectType);
+		};
+	}, [stopSoundEffect, result]);
 
 	return (
 		<BackgroundLayer opacity={0.8}>

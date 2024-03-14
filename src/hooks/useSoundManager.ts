@@ -104,6 +104,27 @@ function useSoundManager(
 		[soundEffect, popup],
 	);
 
+	const stopSoundEffect = useCallback(
+		(type: SoundEffectType) => {
+			const isSoundActivated = popup !== POPUP.SOUND_ALERT;
+
+			if (soundEffect && isSoundActivated) {
+				const audio = soundEffectsAudioRef.current[type];
+				if (audio instanceof HTMLAudioElement) {
+					audio.pause();
+					audio.currentTime = 0;
+				} else if (Array.isArray(audio)) {
+					const availableAudio = audio.find(a => !a.paused);
+					if (availableAudio) {
+						availableAudio.pause();
+						availableAudio.currentTime = 0;
+					}
+				}
+			}
+		},
+		[soundEffect, popup],
+	);
+
 	const fadeOutBgMusic = useCallback(() => {
 		const audio = bgMusicAudioRef.current;
 		const intervalTime = 10;
@@ -146,7 +167,7 @@ function useSoundManager(
 		}
 	}, [bgMusic, screen, popup, stageNumber, playBgMusic, stopBgMusic]);
 
-	return { playSoundEffect, fadeOutBgMusic };
+	return { playSoundEffect, stopSoundEffect, fadeOutBgMusic };
 }
 
 export default useSoundManager;
