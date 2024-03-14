@@ -44,26 +44,26 @@ function useSoundManager(
 			.map(() => new Audio(SOUND_EFFECT_AUDIO.HEART_CRUSH)),
 	});
 
-	const selectBgMusic = useCallback(
-		(currentScreen: ScreenType, stage?: StageNumberType) => {
-			switch (currentScreen) {
-				case SCREEN.HOME: {
-					return BG_MUSIC_AUDIO.HOME;
-				}
-
-				case SCREEN.GAME: {
-					const total = BG_MUSIC_AUDIO.GAME.length;
-					const idx = stage ? (stage - 1) % total : 0;
-					return BG_MUSIC_AUDIO.GAME[idx];
-				}
-
-				default: {
-					return '';
-				}
+	const selectBgMusic = (
+		currentScreen: ScreenType,
+		stage?: StageNumberType,
+	) => {
+		switch (currentScreen) {
+			case SCREEN.HOME: {
+				return BG_MUSIC_AUDIO.HOME;
 			}
-		},
-		[],
-	);
+
+			case SCREEN.GAME: {
+				const total = BG_MUSIC_AUDIO.GAME.length;
+				const idx = stage ? (stage - 1) % total : 0;
+				return BG_MUSIC_AUDIO.GAME[idx];
+			}
+
+			default: {
+				return '';
+			}
+		}
+	};
 
 	const stopBgMusic = useCallback(() => {
 		const audio = bgMusicAudioRef.current;
@@ -87,19 +87,22 @@ function useSoundManager(
 		[bgMusic, bgMusicAudioRef, stopBgMusic],
 	);
 
-	const playSoundEffect = (type: SoundEffectType) => {
-		const isSoundActivated = popup !== POPUP.SOUND_ALERT;
+	const playSoundEffect = useCallback(
+		(type: SoundEffectType) => {
+			const isSoundActivated = popup !== POPUP.SOUND_ALERT;
 
-		if (soundEffect && isSoundActivated) {
-			const audio = soundEffectsAudioRef.current[type];
-			if (audio instanceof HTMLAudioElement) {
-				audio.play();
-			} else if (Array.isArray(audio)) {
-				const availableAudio = audio.find(a => a.paused);
-				if (availableAudio) availableAudio.play();
+			if (soundEffect && isSoundActivated) {
+				const audio = soundEffectsAudioRef.current[type];
+				if (audio instanceof HTMLAudioElement) {
+					audio.play();
+				} else if (Array.isArray(audio)) {
+					const availableAudio = audio.find(a => a.paused);
+					if (availableAudio) availableAudio.play();
+				}
 			}
-		}
-	};
+		},
+		[soundEffect, popup],
+	);
 
 	const fadeOutBgMusic = useCallback(() => {
 		const audio = bgMusicAudioRef.current;
@@ -141,15 +144,7 @@ function useSoundManager(
 		} else if (!audio.paused) {
 			stopBgMusic();
 		}
-	}, [
-		bgMusic,
-		screen,
-		popup,
-		stageNumber,
-		playBgMusic,
-		stopBgMusic,
-		selectBgMusic,
-	]);
+	}, [bgMusic, screen, popup, stageNumber, playBgMusic, stopBgMusic]);
 
 	return { playSoundEffect, fadeOutBgMusic };
 }
