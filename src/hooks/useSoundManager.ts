@@ -101,6 +101,23 @@ function useSoundManager(
 		}
 	};
 
+	const fadeOutBgMusic = useCallback(() => {
+		const audio = bgMusicAudioRef.current;
+		const intervalTime = 10;
+		const duration = 2000;
+		const step = audio.volume / (duration / intervalTime);
+
+		const fadeOutInterval = setInterval(() => {
+			if (audio.volume > step) {
+				audio.volume -= step;
+			} else {
+				audio.volume = 0;
+				stopBgMusic();
+				clearInterval(fadeOutInterval);
+			}
+		}, intervalTime);
+	}, [stopBgMusic]);
+
 	useEffect(() => {
 		const audio = bgMusicAudioRef.current;
 
@@ -111,6 +128,7 @@ function useSoundManager(
 				const isSoundActivated = popup !== POPUP.SOUND_ALERT;
 
 				if (isSoundActivated) {
+					audio.volume = 1;
 					audio.loop = true;
 					playBgMusic(src);
 				}
@@ -119,7 +137,6 @@ function useSoundManager(
 				const selectedMusic = new URL(src, window.location.href).toString();
 
 				if (selectedMusic !== currentMusic) playBgMusic(selectedMusic);
-				else if (popup === POPUP.RESULT) stopBgMusic();
 			}
 		} else if (!audio.paused) {
 			stopBgMusic();
@@ -134,7 +151,7 @@ function useSoundManager(
 		selectBgMusic,
 	]);
 
-	return { playSoundEffect };
+	return { playSoundEffect, fadeOutBgMusic };
 }
 
 export default useSoundManager;

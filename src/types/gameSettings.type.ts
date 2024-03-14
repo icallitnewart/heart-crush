@@ -19,6 +19,7 @@ export interface GameSettingsStateType {
 export interface GameSettingsContextType extends GameSettingsStateType {
 	dispatchGameSettings: React.Dispatch<GameSettingsActionType>;
 	playSoundEffect: (type: SoundEffectType) => void;
+	fadeOutBgMusic: () => void;
 }
 
 export interface GameSettingsActionType {

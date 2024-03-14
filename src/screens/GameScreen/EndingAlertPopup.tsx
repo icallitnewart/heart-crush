@@ -93,7 +93,7 @@ const AlertText = styled.h2<AlertTextPropsType>`
 
 function EndingAlertPopup(): React.ReactElement {
 	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
-	const { playSoundEffect, dispatchGameSettings } =
+	const { playSoundEffect, fadeOutBgMusic, dispatchGameSettings } =
 		useContext(GameSettingsContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
@@ -121,6 +121,8 @@ function EndingAlertPopup(): React.ReactElement {
 					playSoundEffect(SOUND_EFFECT_TYPE.BONUS_SCORE);
 				}, bonusScoreAnimationDuration);
 			} else {
+				// 배경 음악 fade-out 및 제거
+				fadeOutBgMusic();
 				// fade-out 애니메이션 효과 적용
 				setIsVisible(false);
 
