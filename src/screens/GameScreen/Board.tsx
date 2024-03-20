@@ -131,9 +131,7 @@ function Board() {
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [movingHearts, playSoundEffect]);
+	}, [movingHearts, dispatchGamePlay, playSoundEffect]);
 
 	// 하트 크러쉬 효과음 재생
 	// 하트 크러쉬 애니메이션 모션이 끝나면 하트 떨어뜨리기
@@ -152,9 +150,7 @@ function Board() {
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [crushedHearts]);
+	}, [crushedHearts, dispatchGamePlay, playSoundEffect]);
 
 	// 하트 떨어지는 애니메이션 모션이 끝나면
 	// 보드 배열 재배치
@@ -171,18 +167,14 @@ function Board() {
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [fallingHearts]);
+	}, [fallingHearts, dispatchGamePlay]);
 
 	// 하트 크러쉬 후 추가적인 매칭 검사
 	useEffect(() => {
 		if (matchingCandidates.length > 0) {
 			dispatchGamePlay({ type: CHECK_MATCHING_HEARTS });
 		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [matchingCandidates]);
+	}, [matchingCandidates, dispatchGamePlay]);
 
 	return (
 		<Container>

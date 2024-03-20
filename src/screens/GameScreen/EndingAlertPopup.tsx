@@ -105,9 +105,7 @@ function EndingAlertPopup(): React.ReactElement {
 		}, fadeInAndOutAnimationDuration);
 
 		return () => clearTimeout(animationTimer);
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatchGamePlay]);
 
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
@@ -138,9 +136,14 @@ function EndingAlertPopup(): React.ReactElement {
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isBonusTime, move, playSoundEffect]);
+	}, [
+		isBonusTime,
+		move,
+		dispatchGamePlay,
+		dispatchGameSettings,
+		fadeOutBgMusic,
+		playSoundEffect,
+	]);
 
 	return (
 		<BackgroundLayer opacity={0}>
