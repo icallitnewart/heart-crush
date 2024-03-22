@@ -84,7 +84,7 @@ const gamePlayReducer = (
 		}
 
 		case SWAP_HEARTS: {
-			const { movingHearts, board, score, move } = state;
+			const { movingHearts, board, boardStatus, score, move } = state;
 
 			if (!movingHearts) {
 				throw new Error(
@@ -109,6 +109,10 @@ const gamePlayReducer = (
 				return {
 					...state,
 					board: updatedBoard,
+					boardStatus: {
+						...boardStatus,
+						validSwap: null,
+					},
 					move: move - 1,
 					crushedHearts,
 					score: calculateScoreForCrushedHearts(score, crushedHearts),
