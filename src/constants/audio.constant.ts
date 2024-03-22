@@ -23,6 +23,7 @@ export const SOUND_EFFECT_AUDIO = {
 	RESULT_LOSE: getSoundEffectSrc('result_lose.mp3'),
 	HEART_SWAP_FAIL: getSoundEffectSrc('heart_swap_fail.mp3'),
 	BONUS_SCORE: getSoundEffectSrc('bonus_score.mp3'),
+	HEART_HIGHLIGHT: getSoundEffectSrc('heart_highlight.mp3'),
 };
 
 export const SOUND_EFFECT_TYPE = {
@@ -32,4 +33,5 @@ export const SOUND_EFFECT_TYPE = {
 	RESULT_LOSE: 'resultLose',
 	HEART_SWAP_FAIL: 'heartSwapFail',
 	BONUS_SCORE: 'bonusScore',
+	HEART_HIGHLIGHT: 'heartHighlight',
 } as const;

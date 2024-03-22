@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled, { RuleSet, css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
+import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import HEART_ICONS from '../../constants/heart.constant';
 import {
 	ANIMATION_DELAY,
@@ -149,6 +151,7 @@ function Cell({
 		fallingHearts,
 		boardStatus: { validSwap },
 	} = useContext(GamePlayContext);
+	const { playSoundEffect, stopSoundEffect } = useContext(GameSettingsContext);
 	const [isSwapHint, setIsSwapHint] = useState<boolean>(false);
 	const movingStatus = movingHearts?.[cellInfo.id];
 	const isCrushed = crushedHearts.find(cell => cell.id === id);
@@ -165,15 +168,18 @@ function Cell({
 		if (validSwap?.[id]) {
 			animationTimer = setTimeout(() => {
 				setIsSwapHint(true);
+				playSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
 			}, ANIMATION_DELAY.SWAP_HINT);
-		} else if (isSwapHint) {
+		} else {
 			setIsSwapHint(false);
+			stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
 		}
 
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
+			if (validSwap?.[id]) stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
 		};
-	}, [validSwap, id, isSwapHint]);
+	}, [validSwap, id, playSoundEffect, stopSoundEffect]);
 
 	return (
 		<Container
