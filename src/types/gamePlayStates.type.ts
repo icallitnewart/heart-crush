@@ -16,13 +16,15 @@ export interface GoalType {
 
 export type IsSwipeEnabledType = boolean;
 
-export interface ValidSwapCellInfo {
+export type IsBoardValidType = boolean | null;
+
+export interface ValidSwapCellInfoType {
 	[id: string]: CellType;
 }
 
-export type ValidSwapType = ValidSwapCellInfo | null;
+export type ValidSwapType = ValidSwapCellInfoType | null;
 
 export interface BoardStatusType {
-	isValid: boolean;
+	isValid: IsBoardValidType;
 	validSwap: ValidSwapType;
 }

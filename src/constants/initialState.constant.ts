@@ -5,7 +5,7 @@ import { POPUP, SCREEN } from './screen.constant';
 export const GAME_PLAY_INITIAL_STATE: GamePlayStateType = {
 	board: [],
 	boardStatus: {
-		isValid: true,
+		isValid: null,
 		validSwap: null,
 	},
 	currentStageNumber: null,

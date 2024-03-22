@@ -2,11 +2,14 @@ import { nanoid } from 'nanoid';
 
 import { BoardType } from '../../types/board.type';
 import { HeartType } from '../../types/common.type';
+import { BoardStatusType } from '../../types/gamePlayStates.type';
+
 import { getRandomHeart } from '../../utils/heartCreation';
 import {
 	isHeartsMatchLeftward,
 	isHeartsMatchUpward,
 } from '../../utils/heartMatching';
+import validateBoard from './validateBoard';
 
 function checkHeartMatch(
 	board: BoardType,
@@ -25,7 +28,7 @@ function checkHeartMatch(
 	);
 }
 
-function initialiseBoard(columns: number, rows: number): BoardType {
+function createBoard(columns: number, rows: number): BoardType {
 	const board = new Array(columns);
 
 	for (let c = 0; c < columns; c += 1) {
@@ -51,6 +54,21 @@ function initialiseBoard(columns: number, rows: number): BoardType {
 	}
 
 	return board;
+}
+
+function initialiseBoard(
+	columns: number,
+	rows: number,
+): { board: BoardType; boardStatus: BoardStatusType } {
+	let board = createBoard(columns, rows);
+	let boardStatus = validateBoard(board);
+
+	while (!boardStatus.isValid) {
+		board = createBoard(columns, rows);
+		boardStatus = validateBoard(board);
+	}
+
+	return { board, boardStatus };
 }
 
 export default initialiseBoard;
