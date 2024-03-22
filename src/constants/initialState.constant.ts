@@ -4,6 +4,10 @@ import { POPUP, SCREEN } from './screen.constant';
 
 export const GAME_PLAY_INITIAL_STATE: GamePlayStateType = {
 	board: [],
+	boardStatus: {
+		isValid: true,
+		validSwap: null,
+	},
 	currentStageNumber: null,
 	score: 0,
 	move: 0,

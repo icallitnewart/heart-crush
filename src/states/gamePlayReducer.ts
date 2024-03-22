@@ -19,10 +19,12 @@ import {
 	DISABLE_SWIPE,
 } from '../constants/gamePlayActions.constant';
 import { GAME_PLAY_INITIAL_STATE as initialState } from '../constants/initialState.constant';
+
 import {
 	initialiseBoard,
 	rearrangeBoard,
 	updateBoardWithSwappedHearts,
+	validateBoard,
 } from '../features/board';
 import {
 	findMatchedHearts,
@@ -153,22 +155,26 @@ const gamePlayReducer = (
 				matchingCandidates,
 			);
 
-			let newResult = result;
-			const isMoveFinished = crushedHearts.length === 0;
-			if (isMoveFinished) {
-				newResult = checkForWin(score, goal, move);
-			}
-
-			return {
+			const newState: GamePlayStateType = {
 				...state,
 				crushedHearts,
 				score: calculateScoreForCrushedHearts(score, crushedHearts),
-				...(isMoveFinished && { isSwipeEnabled: true }),
-				...(result !== newResult && {
-					result: newResult,
-					isSwipeEnabled: false,
-				}),
 			};
+
+			const isMoveFinished = crushedHearts.length === 0;
+			if (isMoveFinished) {
+				const newResult = checkForWin(score, goal, move);
+
+				if (result !== newResult) {
+					newState.result = newResult;
+					newState.isSwipeEnabled = false;
+				} else {
+					newState.boardStatus = validateBoard(board);
+					newState.isSwipeEnabled = true;
+				}
+			}
+
+			return newState;
 		}
 
 		case START_BONUS_TIME: {

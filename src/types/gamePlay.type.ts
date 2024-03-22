@@ -6,6 +6,7 @@ import {
 	MovingHeartsType,
 } from './heart.type';
 import {
+	BoardStatusType,
 	GoalType,
 	IsSwipeEnabledType,
 	MoveType,
@@ -16,6 +17,7 @@ import {
 
 export interface GamePlayStateType {
 	board: BoardType;
+	boardStatus: BoardStatusType;
 	currentStageNumber: StageNumberType | null;
 	score: ScoreType;
 	move: MoveType;

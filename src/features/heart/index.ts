@@ -3,6 +3,8 @@ import getFallingHearts from './getFallingHearts';
 import pickMatchingCandidates from './pickMatchingCandidates';
 import returnMovingHearts from './returnMovingHearts';
 import swapMovingHeartsPosition from './swapMovingHeartsPosition';
+import getMovingHearts from './getMovingHearts';
+import simulateHeartSwap from './simulateHeartSwap';
 
 export {
 	findMatchedHearts,
@@ -10,4 +12,6 @@ export {
 	pickMatchingCandidates,
 	swapMovingHeartsPosition,
 	returnMovingHearts,
+	getMovingHearts,
+	simulateHeartSwap,
 };
