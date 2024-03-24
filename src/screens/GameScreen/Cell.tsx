@@ -187,7 +187,7 @@ function Cell({
 			$direction={movingStatus?.direction}
 			$isReturning={!!movingStatus?.isReturning}
 			$isFalling={!!isFalling}
-			$isSwapHint={!!isSwapHint}
+			$isSwapHint={isSwapHint}
 			$fallingDistance={fallingDistance}
 			onTouchStart={handleSwipeStart}
 			onTouchMove={handleSwipeMove}
