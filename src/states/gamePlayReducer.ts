@@ -17,6 +17,7 @@ import {
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
+	RESET_BOARD,
 } from '../constants/gamePlayActions.constant';
 import { GAME_PLAY_INITIAL_STATE as initialState } from '../constants/initialState.constant';
 
@@ -64,6 +65,19 @@ const gamePlayReducer = (
 				score: 0,
 				move,
 				goal,
+			};
+		}
+
+		case RESET_BOARD: {
+			const { board } = state;
+			const columns = board.length;
+			const rows = board[0].cells.length;
+			const { board: newBoard, boardStatus } = initialiseBoard(columns, rows);
+
+			return {
+				...state,
+				board: newBoard,
+				boardStatus,
 			};
 		}
 

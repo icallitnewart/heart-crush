@@ -13,6 +13,7 @@ import {
 	CHECK_MATCHING_HEARTS,
 	DROP_HEARTS,
 	REARRANGE_BOARD,
+	RESET_BOARD,
 	STOP_MOVING_HEARTS,
 	SWAP_HEARTS,
 } from '../../constants/gamePlayActions.constant';
@@ -20,6 +21,7 @@ import { ANIMATION_DURATION } from '../../constants/ui.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import Column from './Column';
+import ResetAlert from './ResetAlert';
 
 const Container = styled.main`
 	display: flex;
@@ -83,6 +85,7 @@ function Board() {
 	const isMountedRef = useRef(false);
 	const {
 		board,
+		boardStatus,
 		movingHearts,
 		crushedHearts,
 		fallingHearts,
@@ -90,6 +93,7 @@ function Board() {
 		dispatchGamePlay,
 	} = useContext(GamePlayContext);
 	const { playSoundEffect } = useContext(GameSettingsContext);
+	const [resetAlert, setResetAlert] = useState<boolean>(false);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
 
@@ -176,19 +180,40 @@ function Board() {
 		}
 	}, [matchingCandidates, dispatchGamePlay]);
 
+	// 보드가 유효하지 않으면 보드 초기화
+	useEffect(() => {
+		let alertTimer: ReturnType<typeof setTimeout> | undefined;
+		if (boardStatus.isValid === false) {
+			setResetAlert(true);
+
+			alertTimer = setTimeout(() => {
+				dispatchGamePlay({ type: RESET_BOARD });
+				setResetAlert(false);
+			}, ANIMATION_DURATION.RESET_BOARD_ALERT);
+		}
+
+		return () => {
+			if (alertTimer) clearTimeout(alertTimer);
+		};
+	}, [boardStatus.isValid, dispatchGamePlay]);
+
 	return (
 		<Container>
 			<Wrapper $isBoardReady={boardBoxHeight > 0}>
 				<BoardBox $boardBoxHeight={boardBoxHeight}>
-					{board.map((columnData, columnIndex) => (
-						<Column
-							key={columnData.id}
-							ref={columnRef}
-							columnData={columnData}
-							columns={board.length}
-							columnIndex={columnIndex}
-						/>
-					))}
+					{resetAlert ? (
+						<ResetAlert />
+					) : (
+						board.map((columnData, columnIndex) => (
+							<Column
+								key={columnData.id}
+								ref={columnRef}
+								columnData={columnData}
+								columns={board.length}
+								columnIndex={columnIndex}
+							/>
+						))
+					)}
 				</BoardBox>
 			</Wrapper>
 		</Container>

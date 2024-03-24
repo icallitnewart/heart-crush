@@ -1,5 +1,7 @@
 // 게임 시작
 export const START_GAME = 'START_GAME';
+// 보드 초기화
+export const RESET_BOARD = 'RESET_BOARD';
 // 하트 이동
 export const MOVE_HEARTS = 'MOVE_HEARTS';
 // 하트 교환
