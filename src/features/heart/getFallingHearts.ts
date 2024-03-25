@@ -1,5 +1,6 @@
 import { BoardType } from '../../types/board.type';
 import { CrushedHeartsType, FallingHeartsType } from '../../types/heart.type';
+
 import { categoriseHeartsByColumn } from '../../utils/heartSorting';
 
 function getFallingHearts(
@@ -7,27 +8,37 @@ function getFallingHearts(
 	crushedHearts: CrushedHeartsType,
 ): FallingHeartsType {
 	const heartsByColumn = categoriseHeartsByColumn(crushedHearts);
-	const fallingHearts = Object.entries(heartsByColumn).flatMap(
-		([columnIdx, hearts]: [string, CrushedHeartsType]) => {
-			const columnIndex = Number(columnIdx);
-			const distance = hearts.length;
-			const rowIndexes = hearts.map(heart => heart.position.rowIndex);
-			const minRowIndex = Math.min(...rowIndexes);
+	return Object.entries(heartsByColumn).flatMap(
+		([colIdx, hearts]: [string, CrushedHeartsType]) => {
+			const columnIndex = Number(colIdx);
+			const column = board[columnIndex];
+			const crushedRowIndexes = hearts.map(heart => heart.position.rowIndex);
 
-			return board[columnIndex].cells
-				.slice(0, minRowIndex)
-				.map((heart, rowIndex) => ({
-					...heart,
-					position: {
-						columnIndex,
-						rowIndex: rowIndex + distance,
-					},
-					distance,
-				}));
+			let distance = 0;
+			const fallingHearts = [] as FallingHeartsType;
+
+			for (
+				let rowIndex = column.cells.length - 1;
+				rowIndex >= 0;
+				rowIndex -= 1
+			) {
+				if (crushedRowIndexes.includes(rowIndex)) {
+					distance += 1;
+				} else if (distance > 0) {
+					fallingHearts.push({
+						...column.cells[rowIndex],
+						position: {
+							columnIndex,
+							rowIndex: rowIndex + distance,
+						},
+						distance,
+					});
+				}
+			}
+
+			return fallingHearts;
 		},
 	);
-
-	return fallingHearts;
 }
 
 export default getFallingHearts;
