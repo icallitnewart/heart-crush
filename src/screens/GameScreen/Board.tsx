@@ -10,11 +10,11 @@ import styled from 'styled-components';
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import {
-	CHECK_MATCHING_HEARTS,
+	CHECK_EXTRA_MATCHING_HEARTS,
 	DROP_HEARTS,
 	REARRANGE_BOARD,
 	RESET_BOARD,
-	STOP_MOVING_HEARTS,
+	RETURN_HEARTS,
 	SWAP_HEARTS,
 } from '../../constants/gamePlayActions.constant';
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
@@ -111,23 +111,21 @@ function Board() {
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
 		const animationDuration = ANIMATION_DURATION.MOVING_HEART;
-		const isHeartsMoving =
-			movingHearts && Object.keys(movingHearts).length === 2;
 
-		if (isHeartsMoving) {
-			const isHeartSwapPossible = Object.values(movingHearts).every(
+		if (movingHearts) {
+			const canHeartSwap = Object.values(movingHearts).every(
 				heart => !heart.isReturning,
 			);
 
-			if (!isHeartSwapPossible) {
+			if (!canHeartSwap) {
 				playSoundEffect(SOUND_EFFECT_TYPE.HEART_SWAP_FAIL);
 			}
 
 			animationTimer = setTimeout(() => {
-				if (isHeartSwapPossible) {
+				if (canHeartSwap) {
 					dispatchGamePlay({ type: SWAP_HEARTS });
 				} else {
-					dispatchGamePlay({ type: STOP_MOVING_HEARTS });
+					dispatchGamePlay({ type: RETURN_HEARTS });
 				}
 			}, animationDuration);
 		}
@@ -173,10 +171,10 @@ function Board() {
 		};
 	}, [fallingHearts, dispatchGamePlay]);
 
-	// 하트 크러쉬 후 추가적인 매칭 검사
+	// 보드 재배치 후 추가적인 매칭 검사
 	useEffect(() => {
 		if (matchingCandidates.length > 0) {
-			dispatchGamePlay({ type: CHECK_MATCHING_HEARTS });
+			dispatchGamePlay({ type: CHECK_EXTRA_MATCHING_HEARTS });
 		}
 	}, [matchingCandidates, dispatchGamePlay]);
 
@@ -202,7 +200,7 @@ function Board() {
 			<Wrapper $isBoardReady={boardBoxHeight > 0}>
 				<BoardBox $boardBoxHeight={boardBoxHeight}>
 					{resetAlert ? (
-						<ResetAlert />
+						<ResetAlert /> // TODO: BoardBox 밖으로 빼기
 					) : (
 						board.map((columnData, columnIndex) => (
 							<Column

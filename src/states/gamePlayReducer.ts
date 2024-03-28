@@ -8,16 +8,16 @@ import {
 import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
-	CHECK_MATCHING_HEARTS,
 	END_BONUS_TIME,
 	DROP_HEARTS,
 	MOVE_HEARTS,
 	REARRANGE_BOARD,
 	START_GAME,
-	STOP_MOVING_HEARTS,
+	RETURN_HEARTS,
 	SWAP_HEARTS,
 	DISABLE_SWIPE,
 	RESET_BOARD,
+	CHECK_EXTRA_MATCHING_HEARTS,
 } from '../constants/gamePlayActions.constant';
 import { GAME_PLAY_INITIAL_STATE as initialState } from '../constants/initialState.constant';
 
@@ -45,6 +45,7 @@ const gamePlayReducer = (
 	action: GamePlayActionType,
 ) => {
 	switch (action.type) {
+		// 게임 시작
 		case START_GAME: {
 			const { stage } = action;
 
@@ -68,6 +69,7 @@ const gamePlayReducer = (
 			};
 		}
 
+		// 보드 초기화
 		case RESET_BOARD: {
 			const { board } = state;
 			const columns = board.length;
@@ -81,7 +83,7 @@ const gamePlayReducer = (
 			};
 		}
 
-		// 하트 이동 시작 애니메이션 효과
+		// 하트 이동 (스와이프로 인해 임시로 이동)
 		case MOVE_HEARTS: {
 			const { movingHearts } = action;
 
@@ -97,6 +99,7 @@ const gamePlayReducer = (
 			};
 		}
 
+		// 하트 스왑 (보드에서 위치 교환)
 		case SWAP_HEARTS: {
 			const { movingHearts, board, boardStatus, score, move } = state;
 
@@ -119,6 +122,7 @@ const gamePlayReducer = (
 				matchingCandidates,
 			);
 
+			// 하트 매칭 성공시
 			if (crushedHearts.length > 0) {
 				return {
 					...state,
@@ -134,6 +138,7 @@ const gamePlayReducer = (
 				};
 			}
 
+			// 하트 매칭 실패시
 			return {
 				...state,
 				movingHearts: returnMovingHearts(movingHearts),
@@ -141,13 +146,15 @@ const gamePlayReducer = (
 			};
 		}
 
-		case STOP_MOVING_HEARTS: {
+		// 하트 리턴 (원위치로 되돌리기)
+		case RETURN_HEARTS: {
 			return {
 				...state,
 				movingHearts: null,
 			};
 		}
 
+		// 하트 드롭 (밑으로 떨어뜨리기)
 		case DROP_HEARTS: {
 			const { board, crushedHearts } = state;
 
@@ -157,6 +164,7 @@ const gamePlayReducer = (
 			};
 		}
 
+		// 보드 재배치
 		case REARRANGE_BOARD: {
 			const { board, fallingHearts } = state;
 
@@ -168,7 +176,8 @@ const gamePlayReducer = (
 			};
 		}
 
-		case CHECK_MATCHING_HEARTS: {
+		// 크러쉬 후 추가 하트 매칭 검사
+		case CHECK_EXTRA_MATCHING_HEARTS: {
 			const { board, matchingCandidates, score, move, goal, result } = state;
 			const crushedHearts: CrushedHeartsType = findMatchedHearts(
 				board,
@@ -197,6 +206,7 @@ const gamePlayReducer = (
 			return newState;
 		}
 
+		// 보너스 타임 시작
 		case START_BONUS_TIME: {
 			return {
 				...state,
@@ -204,6 +214,7 @@ const gamePlayReducer = (
 			};
 		}
 
+		// 보너스 타임 종료
 		case END_BONUS_TIME: {
 			return {
 				...state,
@@ -211,6 +222,7 @@ const gamePlayReducer = (
 			};
 		}
 
+		// 보너스 점수 추가
 		case ADD_BONUS_SCORE: {
 			const { move, score } = state;
 
@@ -221,6 +233,7 @@ const gamePlayReducer = (
 			};
 		}
 
+		// 스와이프 비활성화
 		case DISABLE_SWIPE: {
 			return {
 				...state,
