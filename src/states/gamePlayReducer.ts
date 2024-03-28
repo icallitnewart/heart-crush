@@ -1,10 +1,5 @@
 import { GamePlayActionType, GamePlayStateType } from '../types/gamePlay.type';
-import { BoardType } from '../types/board.type';
-import {
-	CrushedHeartsType,
-	MatchingCandidatesType,
-	MovingHeartsType,
-} from '../types/heart.type';
+import { CrushedHeartsType } from '../types/heart.type';
 import {
 	START_BONUS_TIME,
 	ADD_BONUS_SCORE,
@@ -24,7 +19,6 @@ import { GAME_PLAY_INITIAL_STATE as initialState } from '../constants/initialSta
 import {
 	initialiseBoard,
 	rearrangeBoard,
-	updateBoardWithSwappedHearts,
 	validateBoard,
 } from '../features/board';
 import {
@@ -32,7 +26,7 @@ import {
 	getFallingHearts,
 	pickMatchingCandidates,
 	returnMovingHearts,
-	swapMovingHeartsPosition,
+	simulateHeartSwap,
 } from '../features/heart';
 import {
 	calculateScoreForCrushedHearts,
@@ -109,21 +103,13 @@ const gamePlayReducer = (
 				);
 			}
 
-			const updatedBoard: BoardType = updateBoardWithSwappedHearts(
+			const { updatedBoard, crushedHearts, isSwapValid } = simulateHeartSwap(
 				movingHearts,
 				board,
 			);
-			const swappedHearts: MovingHeartsType =
-				swapMovingHeartsPosition(movingHearts);
-			const matchingCandidates: MatchingCandidatesType =
-				Object.values(swappedHearts);
-			const crushedHearts: CrushedHeartsType = findMatchedHearts(
-				updatedBoard,
-				matchingCandidates,
-			);
 
 			// 하트 매칭 성공시
-			if (crushedHearts.length > 0) {
+			if (isSwapValid) {
 				return {
 					...state,
 					board: updatedBoard,

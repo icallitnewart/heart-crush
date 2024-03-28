@@ -23,8 +23,6 @@ function simulateHeartSwap(movingHearts: MovingHeartsType, board: BoardType) {
 
 	return {
 		updatedBoard,
-		swappedHearts,
-		matchingCandidates,
 		crushedHearts,
 		isSwapValid,
 	};
