@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import PlayButton from './PlayButton';
 import StagesButton from './StagesButton';
+import CreditsButton from './CreditsButton';
 
 const Container = styled.ul`
 	width: 100%;
@@ -30,6 +31,9 @@ function GameMenu(): React.ReactElement {
 			</ButtonBox>
 			<ButtonBox>
 				<StagesButton />
+			</ButtonBox>
+			<ButtonBox>
+				<CreditsButton />
 			</ButtonBox>
 		</Container>
 	);

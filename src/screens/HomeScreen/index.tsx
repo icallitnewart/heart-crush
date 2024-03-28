@@ -10,6 +10,7 @@ import GameMenu from './GameMenu';
 import SoundOptions from './SoundOptions';
 import StagePopup from './StagePopup';
 import SoundAlertPopup from './SoundAlertPopup';
+import CreditsPopup from './CreditsPopup';
 
 const Background = styled.div`
 	width: 100%;
@@ -47,6 +48,7 @@ function HomeScreen(): React.ReactElement {
 			</Background>
 			{popup === POPUP.SOUND_ALERT && <SoundAlertPopup />}
 			{popup === POPUP.STAGE && <StagePopup />}
+			{popup === POPUP.CREDITS && <CreditsPopup />}
 		</>
 	);
 }
