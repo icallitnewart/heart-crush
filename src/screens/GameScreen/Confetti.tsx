@@ -1,4 +1,3 @@
-// Confetti.js
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { nanoid } from 'nanoid';
