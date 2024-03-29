@@ -13,7 +13,6 @@ import { START_GAME } from '../../constants/gamePlayActions.constant';
 import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { LAST_STAGE } from '../../constants/stage.constant';
-import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -32,8 +31,7 @@ const Container = styled.div`
 `;
 
 function GameScreen(): React.ReactElement {
-	const { popup, playSoundEffect, dispatchGameSettings } =
-		useContext(GameSettingsContext);
+	const { popup, dispatchGameSettings } = useContext(GameSettingsContext);
 	const { currentStageNumber, result, dispatchGamePlay } =
 		useContext(GamePlayContext);
 	const stage = useStageConfig();
@@ -53,16 +51,6 @@ function GameScreen(): React.ReactElement {
 			dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.ENDING_ALERT });
 		}
 	}, [result, dispatchGameSettings]);
-
-	useEffect(() => {
-		if (popup === POPUP.RESULT) {
-			if (result === RESULT.WIN) {
-				playSoundEffect(SOUND_EFFECT_TYPE.RESULT_WIN);
-			} else if (result === RESULT.LOSE) {
-				playSoundEffect(SOUND_EFFECT_TYPE.RESULT_LOSE);
-			}
-		}
-	}, [result, popup, playSoundEffect]);
 
 	// 우승시 로컬 스토리지에 저장된 최대 진행 스테이지 업데이트
 	useEffect(() => {

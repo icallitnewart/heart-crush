@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
@@ -89,21 +89,33 @@ const ButtonContainer = styled.div`
 function ResultPopup() {
 	const { currentStageNumber, score, result } = useContext(GamePlayContext);
 	const [confetti, setConfetti] = useState(false);
-	const { stopSoundEffect } = useContext(GameSettingsContext);
+	const { playSoundEffect, stopSoundEffect } = useContext(GameSettingsContext);
 	const isVictory = result === RESULT.WIN;
 	const isLastStage = currentStageNumber === LAST_STAGE;
 	const isGameClear = isVictory && isLastStage;
 	const resultText = getResultText(isVictory, isGameClear);
 
 	useEffect(() => {
-		return () => {
-			const soundEffectType =
-				result === RESULT.WIN
-					? SOUND_EFFECT_TYPE.RESULT_WIN
-					: SOUND_EFFECT_TYPE.RESULT_LOSE;
-			stopSoundEffect(soundEffectType);
+		const getSoundEffectType = () => {
+			switch (result) {
+				case RESULT.WIN:
+					return isLastStage
+						? SOUND_EFFECT_TYPE.GAME_CLEAR
+						: SOUND_EFFECT_TYPE.RESULT_WIN;
+				case RESULT.LOSE:
+					return SOUND_EFFECT_TYPE.RESULT_LOSE;
+				default:
+					return null;
+			}
 		};
-	}, [stopSoundEffect, result]);
+
+		const soundEffectType = getSoundEffectType();
+		if (soundEffectType) playSoundEffect(soundEffectType);
+
+		return () => {
+			if (soundEffectType) stopSoundEffect(soundEffectType);
+		};
+	}, [playSoundEffect, stopSoundEffect, result, isLastStage]);
 
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
