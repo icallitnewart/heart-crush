@@ -1,16 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
-import { TEXT } from '../../constants/ui.constant';
+import { ANIMATION_DURATION, TEXT } from '../../constants/ui.constant';
 import { LAST_STAGE } from '../../constants/stage.constant';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
 import NewGameButton from './NewGameButton';
+import Confetti from './Confetti';
 
 const victoryText = TEXT.RESULT_WIN;
 const defeatText = TEXT.RESULT_LOSE;
@@ -87,6 +88,7 @@ const ButtonContainer = styled.div`
 
 function ResultPopup() {
 	const { currentStageNumber, score, result } = useContext(GamePlayContext);
+	const [confetti, setConfetti] = useState(false);
 	const { stopSoundEffect } = useContext(GameSettingsContext);
 	const isVictory = result === RESULT.WIN;
 	const isLastStage = currentStageNumber === LAST_STAGE;
@@ -103,29 +105,48 @@ function ResultPopup() {
 		};
 	}, [stopSoundEffect, result]);
 
+	useEffect(() => {
+		let animationTimer: ReturnType<typeof setTimeout> | undefined;
+
+		if (isGameClear) {
+			setConfetti(true);
+
+			animationTimer = setTimeout(() => {
+				setConfetti(false);
+			}, ANIMATION_DURATION.CONFETTI);
+		}
+
+		return () => {
+			if (animationTimer) clearTimeout(animationTimer);
+		};
+	}, [isGameClear]);
+
 	return (
-		<BackgroundLayer opacity={0.8}>
-			<PopupBox>
-				<ResultContainer>
-					<ResultText data-text={resultText}>
-						<span>{resultText}</span>
-					</ResultText>
-					<ScoreText>{score}</ScoreText>
-					{currentStageNumber && (
-						<ButtonContainer>
-							<NewGameButton stageNumber={currentStageNumber}>
-								Retry
-							</NewGameButton>
-							{isVictory && !isLastStage && (
-								<NewGameButton stageNumber={currentStageNumber + 1}>
-									Next
+		<>
+			<BackgroundLayer opacity={0.8}>
+				<PopupBox>
+					<ResultContainer>
+						<ResultText data-text={resultText}>
+							<span>{resultText}</span>
+						</ResultText>
+						<ScoreText>{score}</ScoreText>
+						{currentStageNumber && (
+							<ButtonContainer>
+								<NewGameButton stageNumber={currentStageNumber}>
+									Retry
 								</NewGameButton>
-							)}
-						</ButtonContainer>
-					)}
-				</ResultContainer>
-			</PopupBox>
-		</BackgroundLayer>
+								{isVictory && !isLastStage && (
+									<NewGameButton stageNumber={currentStageNumber + 1}>
+										Next
+									</NewGameButton>
+								)}
+							</ButtonContainer>
+						)}
+					</ResultContainer>
+				</PopupBox>
+			</BackgroundLayer>
+			{confetti && <Confetti />}
+		</>
 	);
 }
 
