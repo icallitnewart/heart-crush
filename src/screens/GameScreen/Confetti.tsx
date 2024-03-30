@@ -27,7 +27,12 @@ const Container = styled.div`
 	overflow: hidden;
 `;
 
-const ConfettiPiece = styled.div`
+const ConfettiPiece = styled.div.attrs(() => ({
+	style: {
+		left: `${Math.random() * 100}%`,
+		top: `${Math.random() * 100}%`,
+	},
+}))`
 	position: absolute;
 	width: 30px;
 	height: 30px;
@@ -39,7 +44,11 @@ interface HeartIconPropsType {
 	$color: string;
 }
 
-const HeartIcon = styled(FaHeart)<HeartIconPropsType>`
+const HeartIcon = styled(FaHeart).attrs(() => ({
+	style: {
+		transform: `rotate(${Math.random() * 360}deg)`,
+	},
+}))<HeartIconPropsType>`
 	width: 100%;
 	height: 100%;
 	color: var(--heart-color-${props => props.$color});
@@ -55,17 +64,8 @@ const generateConfettiPieces = (numberOfPieces: number) => {
 		const color = colors[Math.floor(Math.random() * colors.length)];
 
 		return (
-			<ConfettiPiece
-				key={id}
-				style={{
-					left: `${Math.random() * 100}%`,
-					top: `${Math.random() * 100}%`,
-				}}
-			>
-				<HeartIcon
-					$color={color}
-					style={{ transform: `rotate(${Math.random() * 360}deg)` }}
-				/>
+			<ConfettiPiece key={id}>
+				<HeartIcon $color={color} />
 			</ConfettiPiece>
 		);
 	});
