@@ -19,6 +19,7 @@ import {
 } from '../../constants/gamePlayActions.constant';
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
+import { calculateLongestFallingSpeed } from '../../utils/heartFallingSpeed';
 
 import Column from './Column';
 import ResetAlert from './ResetAlert';
@@ -158,7 +159,7 @@ function Board() {
 	// 보드 배열 재배치
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
-		const animationDuration = ANIMATION_DURATION.FALLING_HEART;
+		const animationDuration = calculateLongestFallingSpeed(fallingHearts);
 
 		if (fallingHearts.length > 0) {
 			animationTimer = setTimeout(() => {

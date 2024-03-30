@@ -12,6 +12,7 @@ import {
 import { CellInfoType, CellType } from '../../types/board.type';
 import { HeartMovingDirectionType } from '../../types/heart.type';
 import useSwipeHearts from '../../hooks/useSwipeHearts';
+import { calculateFallingSpeed } from '../../utils/heartFallingSpeed';
 
 import Heart from '../../components/Heart';
 
@@ -101,9 +102,9 @@ const Container = styled.div<ContainerStylePropsType>`
 			`;
 		} else if ($isFalling) {
 			animationStyle = css`
-				${fallAnimation(
+				${fallAnimation($fallingDistance)} ${calculateFallingSpeed(
 					$fallingDistance,
-				)} ${ANIMATION_DURATION.FALLING_HEART}ms cubic-bezier(0.4, 0, 0.2, 1)
+				)}ms cubic-bezier(0.4, 0, 0.2, 1)
 			`;
 		} else if ($isSwapHint) {
 			animationStyle = css`
