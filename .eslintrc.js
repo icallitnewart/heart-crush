@@ -36,6 +36,16 @@ module.exports = {
 	rules: {
 		'@typescript-eslint/no-unused-vars': 'warn',
 		'react/no-unused-prop-types': 'warn',
-		'import/prefer-default-export': 'off'
+		'import/prefer-default-export': 'off',
+		"no-param-reassign": [
+			"error",
+			{
+				"props": true,
+				"ignorePropertyModificationsFor": [
+					"state",
+					"acc"
+				]
+			}
+		],
 	},
 };
