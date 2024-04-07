@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 
+import store from './redux/store';
 import { GameSettingsProvider } from './states/GameSettingsContext';
 
 import App from './App';
@@ -10,8 +12,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 	<React.StrictMode>
-		<GameSettingsProvider>
-			<App />
-		</GameSettingsProvider>
+		<Provider store={store}>
+			<GameSettingsProvider>
+				<App />
+			</GameSettingsProvider>
+		</Provider>
 	</React.StrictMode>,
 );
