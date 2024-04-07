@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
-import {
-	CLOSE_POPUP,
-	SELECT_STAGE,
-} from '../../constants/gameSettingsActions.constant';
+import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
+
 import { isStageNumberValid } from '../../utils/typeValidation';
+import { closePopup } from '../../redux/slices/displaySlice';
 
 import TextButton from '../../components/TextButton';
 
@@ -18,6 +18,7 @@ function NewGameButton({
 	stageNumber,
 	children,
 }: NewGameButtonPropsType): React.ReactElement {
+	const dispatch = useDispatch();
 	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
 	const startGame = () => {
@@ -34,7 +35,7 @@ function NewGameButton({
 			selectedStageNumber: stageNumber,
 		});
 
-		dispatchGameSettings({ type: CLOSE_POPUP });
+		dispatch(closePopup());
 	};
 
 	return <TextButton handleClick={startGame}>{children}</TextButton>;

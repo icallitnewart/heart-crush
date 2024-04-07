@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { BiSolidHomeHeart } from 'react-icons/bi';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 import { POPUP } from '../../constants/screen.constant';
+
+import { openPopup } from '../../redux/slices/displaySlice';
 
 import IconButton from '../../components/IconButton';
 
 function HomeButton(): React.ReactElement {
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useDispatch();
 
 	const moveToHome = () => {
-		dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.EXIT_GAME });
+		dispatch(openPopup(POPUP.EXIT_GAME));
 	};
 
 	return (

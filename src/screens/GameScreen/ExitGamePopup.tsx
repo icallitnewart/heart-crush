@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { CLOSE_POPUP } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
 
-import { switchScreen } from '../../redux/slices/displaySlice';
+import { closePopup, switchScreen } from '../../redux/slices/displaySlice';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -78,14 +76,13 @@ const ButtonContainer = styled.div`
 
 function ExitGamePopup(): React.ReactElement {
 	const dispatch = useDispatch();
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
-	const closePopup = () => {
-		dispatchGameSettings({ type: CLOSE_POPUP });
+	const removePopup = () => {
+		dispatch(closePopup());
 	};
 
 	const moveToHome = () => {
-		closePopup();
+		removePopup();
 		dispatch(switchScreen(SCREEN.HOME));
 	};
 
@@ -99,7 +96,7 @@ function ExitGamePopup(): React.ReactElement {
 					<Text>Quit game and move to home?</Text>
 					<ButtonContainer>
 						<TextButton handleClick={moveToHome}>YES</TextButton>
-						<TextButton handleClick={closePopup}>NO</TextButton>
+						<TextButton handleClick={removePopup}>NO</TextButton>
 					</ButtonContainer>
 				</Container>
 			</PopupBox>

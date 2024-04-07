@@ -1,18 +1,20 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { StoreStateType } from '../../types/state.type';
+import { POPUP } from '../../constants/screen.constant';
+import { START_GAME } from '../../constants/gamePlayActions.constant';
+import { RESULT } from '../../constants/gameStatus.constant';
+import { LAST_STAGE } from '../../constants/stage.constant';
+
 import useStageConfig from '../../hooks/useStageConfig';
 import {
 	getMaxStageNumberInLocalStorage,
 	setMaxStageNumberInLocalStorage,
 } from '../../utils/stageStorage';
-import { POPUP } from '../../constants/screen.constant';
-import { START_GAME } from '../../constants/gamePlayActions.constant';
-import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
-import { RESULT } from '../../constants/gameStatus.constant';
-import { LAST_STAGE } from '../../constants/stage.constant';
+import { openPopup } from '../../redux/slices/displaySlice';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -31,7 +33,8 @@ const Container = styled.div`
 `;
 
 function GameScreen(): React.ReactElement {
-	const { popup, dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useDispatch();
+	const popup = useSelector((state: StoreStateType) => state.display.popup);
 	const { currentStageNumber, result, dispatchGamePlay } =
 		useContext(GamePlayContext);
 	const stage = useStageConfig();
@@ -48,9 +51,9 @@ function GameScreen(): React.ReactElement {
 	// 게임 결과가 나오면 게임 종료 알림 문구 팝업 띄우기
 	useEffect(() => {
 		if (result) {
-			dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.ENDING_ALERT });
+			dispatch(openPopup(POPUP.ENDING_ALERT));
 		}
-	}, [result, dispatchGameSettings]);
+	}, [result, dispatch]);
 
 	// 우승시 로컬 스토리지에 저장된 최대 진행 스테이지 업데이트
 	useEffect(() => {

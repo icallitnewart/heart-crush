@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { GameSettingsContext } from '../../states/GameSettingsContext';
@@ -13,9 +14,10 @@ import {
 	ADD_BONUS_SCORE,
 	END_BONUS_TIME,
 } from '../../constants/gamePlayActions.constant';
-import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 import { POPUP } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
+
+import { openPopup } from '../../redux/slices/displaySlice';
 
 import Logo from '../../components/Logo';
 import BackgroundLayer from '../../components/BackgroundLayer';
@@ -92,9 +94,9 @@ const AlertText = styled.h2<AlertTextPropsType>`
 `;
 
 function EndingAlertPopup(): React.ReactElement {
+	const dispatch = useDispatch();
 	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
-	const { playSoundEffect, fadeOutBgMusic, dispatchGameSettings } =
-		useContext(GameSettingsContext);
+	const { playSoundEffect, fadeOutBgMusic } = useContext(GameSettingsContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
 
@@ -128,7 +130,7 @@ function EndingAlertPopup(): React.ReactElement {
 				// 보너스 타임 종료 및 결과 팝업 열기
 				animationTimer = setTimeout(() => {
 					dispatchGamePlay({ type: END_BONUS_TIME });
-					dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.RESULT });
+					dispatch(openPopup(POPUP.RESULT));
 				}, fadeOutAnimationDelay + fadeInAndOutAnimationDuration);
 			}
 		}
@@ -140,7 +142,7 @@ function EndingAlertPopup(): React.ReactElement {
 		isBonusTime,
 		move,
 		dispatchGamePlay,
-		dispatchGameSettings,
+		dispatch,
 		fadeOutBgMusic,
 		playSoundEffect,
 	]);
