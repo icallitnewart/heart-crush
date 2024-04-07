@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { CLOSE_POPUP } from '../../constants/gameSettingsActions.constant';
+import { closePopup } from '../../redux/slices/displaySlice';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -69,10 +69,10 @@ const ButtonBox = styled.div`
 `;
 
 function SoundAlertPopup() {
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useDispatch();
 
 	const confirmToPlayAudio = () => {
-		dispatchGameSettings({ type: CLOSE_POPUP });
+		dispatch(closePopup());
 	};
 
 	return (

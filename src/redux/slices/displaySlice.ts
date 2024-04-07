@@ -13,9 +13,15 @@ export const displaySlice = createSlice({
 		switchScreen: (state, action) => {
 			state.screen = action.payload;
 		},
+		openPopup: (state, action) => {
+			state.popup = action.payload;
+		},
+		closePopup: state => {
+			state.popup = null;
+		},
 	},
 });
 
-export const { switchScreen } = displaySlice.actions;
+export const { switchScreen, openPopup, closePopup } = displaySlice.actions;
 
 export default displaySlice.reducer;

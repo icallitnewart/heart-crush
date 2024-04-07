@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
+import { useDispatch } from 'react-redux';
 import { IoClose } from 'react-icons/io5';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { CLOSE_POPUP } from '../../constants/gameSettingsActions.constant';
+import { closePopup } from '../../redux/slices/displaySlice';
 
 const Button = styled.button`
 	position: absolute;
@@ -28,14 +28,14 @@ const Button = styled.button`
 `;
 
 function CloseButton(): React.ReactElement {
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useDispatch();
 
-	const closeStagePopup = () => {
-		dispatchGameSettings({ type: CLOSE_POPUP });
+	const closeCurrentPopup = () => {
+		dispatch(closePopup());
 	};
 
 	return (
-		<Button onClick={closeStagePopup}>
+		<Button onClick={closeCurrentPopup}>
 			<IoClose />
 		</Button>
 	);

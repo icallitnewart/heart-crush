@@ -1,16 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 import { POPUP } from '../../constants/screen.constant';
+
+import { openPopup } from '../../redux/slices/displaySlice';
 
 import TextButton from '../../components/TextButton';
 
 function CreditsButton(): React.ReactElement {
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useDispatch();
 
 	const openCreditsPopup = () => {
-		dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.CREDITS });
+		dispatch(openPopup(POPUP.CREDITS));
 	};
 
 	return <TextButton handleClick={openCreditsPopup}>Credits</TextButton>;

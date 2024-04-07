@@ -1,16 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { OPEN_POPUP } from '../../constants/gameSettingsActions.constant';
 import { POPUP } from '../../constants/screen.constant';
+
+import { openPopup } from '../../redux/slices/displaySlice';
 
 import TextButton from '../../components/TextButton';
 
 function StagesButton(): React.ReactElement {
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useDispatch();
 
 	const openStagePopup = () => {
-		dispatchGameSettings({ type: OPEN_POPUP, popup: POPUP.STAGE });
+		dispatch(openPopup(POPUP.STAGE));
 	};
 
 	return <TextButton handleClick={openStagePopup}>Stages</TextButton>;
