@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { GamePlayProvider } from './states/GamePlayContext';
-import { GameSettingsContext } from './states/GameSettingsContext';
+import { StoreStateType } from './types/state.type';
 import { SCREEN } from './constants/screen.constant';
 
 import GlobalStyles from './GlobalStyles';
@@ -10,7 +11,7 @@ import GameScreen from './screens/GameScreen';
 import HomeScreen from './screens/HomeScreen';
 
 function App() {
-	const { screen } = useContext(GameSettingsContext);
+	const screen = useSelector((state: StoreStateType) => state.display.screen);
 
 	return (
 		<>

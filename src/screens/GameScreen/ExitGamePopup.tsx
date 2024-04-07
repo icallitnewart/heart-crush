@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
-import {
-	CLOSE_POPUP,
-	SWITCH_SCREEN,
-} from '../../constants/gameSettingsActions.constant';
+import { CLOSE_POPUP } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
+
+import { switchScreen } from '../../redux/slices/displaySlice';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -77,6 +77,7 @@ const ButtonContainer = styled.div`
 `;
 
 function ExitGamePopup(): React.ReactElement {
+	const dispatch = useDispatch();
 	const { dispatchGameSettings } = useContext(GameSettingsContext);
 
 	const closePopup = () => {
@@ -85,7 +86,7 @@ function ExitGamePopup(): React.ReactElement {
 
 	const moveToHome = () => {
 		closePopup();
-		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.HOME });
+		dispatch(switchScreen(SCREEN.HOME));
 	};
 
 	return (

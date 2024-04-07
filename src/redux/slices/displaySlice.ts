@@ -9,7 +9,13 @@ export const displaySlice = createSlice({
 		screen: SCREEN.HOME,
 		popup: POPUP.SOUND_ALERT,
 	} as DisplaySliceStateType,
-	reducers: {},
+	reducers: {
+		switchScreen: (state, action) => {
+			state.screen = action.payload;
+		},
+	},
 });
+
+export const { switchScreen } = displaySlice.actions;
 
 export default displaySlice.reducer;

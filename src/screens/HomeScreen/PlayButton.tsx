@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { SCREEN } from '../../constants/screen.constant';
-import {
-	SELECT_STAGE,
-	SWITCH_SCREEN,
-} from '../../constants/gameSettingsActions.constant';
+import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
+
+import { switchScreen } from '../../redux/slices/displaySlice';
 
 import TextButton from '../../components/TextButton';
 
 function PlayButton(): React.ReactElement {
+	const dispatch = useDispatch();
 	const { unlockedStageNumber, dispatchGameSettings } =
 		useContext(GameSettingsContext);
 
@@ -22,7 +23,7 @@ function PlayButton(): React.ReactElement {
 			type: SELECT_STAGE,
 			selectedStageNumber: unlockedStageNumber,
 		});
-		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.GAME });
+		dispatch(switchScreen(SCREEN.GAME));
 	};
 
 	return <TextButton handleClick={startGame}>Play</TextButton>;

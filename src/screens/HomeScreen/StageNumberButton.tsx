@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { css, styled } from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
-import {
-	SELECT_STAGE,
-	SWITCH_SCREEN,
-} from '../../constants/gameSettingsActions.constant';
+import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
+
 import { isStageNumberValid } from '../../utils/typeValidation';
+import { switchScreen } from '../../redux/slices/displaySlice';
 
 interface ButtonStylePropsType {
 	$isActive: boolean;
@@ -56,6 +56,7 @@ function StageNumberButton({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
+	const dispatch = useDispatch();
 	const { playSoundEffect, dispatchGameSettings } =
 		useContext(GameSettingsContext);
 	const isStageLocked = !isStageUnlocked;
@@ -73,7 +74,7 @@ function StageNumberButton({
 			type: SELECT_STAGE,
 			selectedStageNumber: stageNumber,
 		});
-		dispatchGameSettings({ type: SWITCH_SCREEN, screen: SCREEN.GAME });
+		dispatch(switchScreen(SCREEN.GAME));
 	};
 
 	return (
