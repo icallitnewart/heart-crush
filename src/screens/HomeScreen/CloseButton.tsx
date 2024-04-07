@@ -30,12 +30,12 @@ const Button = styled.button`
 function CloseButton(): React.ReactElement {
 	const dispatch = useDispatch();
 
-	const closeCurrentPopup = () => {
+	const removePopup = () => {
 		dispatch(closePopup());
 	};
 
 	return (
-		<Button onClick={closeCurrentPopup}>
+		<Button onClick={removePopup}>
 			<IoClose />
 		</Button>
 	);
