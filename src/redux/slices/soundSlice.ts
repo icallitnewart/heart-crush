@@ -13,9 +13,12 @@ export const soundSlice = createSlice({
 		activateSound: state => {
 			state.isSoundActivated = true;
 		},
+		toggleBgMusic: state => {
+			state.bgMusic = !state.bgMusic;
+		},
 	},
 });
 
-export const { activateSound } = soundSlice.actions;
+export const { activateSound, toggleBgMusic } = soundSlice.actions;
 
 export default soundSlice.reducer;

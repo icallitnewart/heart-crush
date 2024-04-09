@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BiSolidMusic } from 'react-icons/bi';
 
-import { GameSettingsContext } from '../states/GameSettingsContext';
-import { TOGGLE_BG_MUSIC } from '../constants/gameSettingsActions.constant';
+import { StoreStateType } from '../types/state.type';
+
+import { toggleBgMusic } from '../redux/slices/soundSlice';
 
 import IconButton from './IconButton';
 
@@ -11,19 +13,15 @@ interface MusicButtonPropsType {
 }
 
 function MusicButton({ size }: MusicButtonPropsType): React.ReactElement {
-	const { soundOptions, dispatchGameSettings } =
-		useContext(GameSettingsContext);
+	const dispatch = useDispatch();
+	const bgMusic = useSelector((state: StoreStateType) => state.sound.bgMusic);
 
-	const toggleBgMusic = () => {
-		dispatchGameSettings({ type: TOGGLE_BG_MUSIC });
+	const controlBgMusic = () => {
+		dispatch(toggleBgMusic());
 	};
 
 	return (
-		<IconButton
-			isActive={soundOptions?.bgMusic}
-			size={size}
-			handleClick={toggleBgMusic}
-		>
+		<IconButton isActive={bgMusic} size={size} handleClick={controlBgMusic}>
 			<BiSolidMusic />
 		</IconButton>
 	);
