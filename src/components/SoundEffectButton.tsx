@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiFillSound } from 'react-icons/ai';
 
-import { GameSettingsContext } from '../states/GameSettingsContext';
-import { TOGGLE_SOUND_EFFECT } from '../constants/gameSettingsActions.constant';
+import { StoreStateType } from '../types/state.type';
+
+import { toggleSoundEffect } from '../redux/slices/soundSlice';
 
 import IconButton from './IconButton';
 
@@ -13,19 +15,21 @@ interface SoundEffectButtonPropsType {
 function SoundEffectButton({
 	size,
 }: SoundEffectButtonPropsType): React.ReactElement {
-	const { soundOptions, dispatchGameSettings } =
-		useContext(GameSettingsContext);
+	const dispatch = useDispatch();
+	const soundEffect = useSelector(
+		(state: StoreStateType) => state.sound.soundEffect,
+	);
 
-	const toggleSoundEffect = () => {
-		dispatchGameSettings({ type: TOGGLE_SOUND_EFFECT });
+	const controlSoundEffect = () => {
+		dispatch(toggleSoundEffect());
 	};
 
 	return (
 		<IconButton
-			isActive={soundOptions?.soundEffect}
+			isActive={soundEffect}
 			size={size}
 			iconStrokeWidth={30}
-			handleClick={toggleSoundEffect}
+			handleClick={controlSoundEffect}
 		>
 			<AiFillSound />
 		</IconButton>
