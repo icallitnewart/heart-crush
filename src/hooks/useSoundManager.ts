@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
-import {
-	PopupType,
-	ScreenType,
-	SoundOptionsType,
-	StageNumberType,
-} from '../types/gameSettingsStates.type';
-import { POPUP, SCREEN } from '../constants/screen.constant';
+import { ScreenType, StageNumberType } from '../types/gameSettingsStates.type';
+import { SoundEffectType } from '../types/common.type';
+import { StoreStateType } from '../types/state.type';
+import { SCREEN } from '../constants/screen.constant';
 import {
 	BG_MUSIC_AUDIO,
 	SOUND_EFFECT_AUDIO,
 	SOUND_EFFECT_TYPE,
 } from '../constants/audio.constant';
-import { SoundEffectType } from '../types/common.type';
 
 interface SoundEffectAudioRefType {
 	[SOUND_EFFECT_TYPE.MOUSE_HOVER]: HTMLAudioElement;
@@ -25,13 +22,16 @@ interface SoundEffectAudioRefType {
 	[SOUND_EFFECT_TYPE.HEART_CRUSH]: HTMLAudioElement[];
 }
 
-function useSoundManager(
-	soundOptions: SoundOptionsType,
-	screen: ScreenType,
-	popup: PopupType,
-	stageNumber: StageNumberType | undefined,
-) {
-	const { bgMusic, soundEffect } = soundOptions;
+function useSoundManager() {
+	const stageNumber = 1; // TODO: 업데이트 필요
+	const bgMusic = useSelector((state: StoreStateType) => state.sound.bgMusic);
+	const soundEffect = useSelector(
+		(state: StoreStateType) => state.sound.soundEffect,
+	);
+	const isSoundActivated = useSelector(
+		(state: StoreStateType) => state.sound.isSoundActivated,
+	);
+	const screen = useSelector((state: StoreStateType) => state.display.screen);
 	const bgMusicAudioRef = useRef(new Audio());
 	const soundEffectsAudioRef = useRef<SoundEffectAudioRefType>({
 		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: new Audio(SOUND_EFFECT_AUDIO.MOUSE_HOVER),
@@ -95,8 +95,6 @@ function useSoundManager(
 
 	const playSoundEffect = useCallback(
 		(type: SoundEffectType) => {
-			const isSoundActivated = popup !== POPUP.SOUND_ALERT;
-
 			if (soundEffect && isSoundActivated) {
 				const audio = soundEffectsAudioRef.current[type];
 				if (audio instanceof HTMLAudioElement) {
@@ -107,13 +105,11 @@ function useSoundManager(
 				}
 			}
 		},
-		[soundEffect, popup],
+		[soundEffect, isSoundActivated],
 	);
 
 	const stopSoundEffect = useCallback(
 		(type: SoundEffectType) => {
-			const isSoundActivated = popup !== POPUP.SOUND_ALERT;
-
 			if (soundEffect && isSoundActivated) {
 				const audio = soundEffectsAudioRef.current[type];
 				if (audio instanceof HTMLAudioElement) {
@@ -128,7 +124,7 @@ function useSoundManager(
 				}
 			}
 		},
-		[soundEffect, popup],
+		[soundEffect, isSoundActivated],
 	);
 
 	const fadeOutBgMusic = useCallback(() => {
@@ -155,8 +151,6 @@ function useSoundManager(
 			const src = selectBgMusic(screen, stageNumber);
 
 			if (audio.paused) {
-				const isSoundActivated = popup !== POPUP.SOUND_ALERT;
-
 				if (isSoundActivated) {
 					audio.volume = 1;
 					audio.loop = true;
@@ -171,7 +165,14 @@ function useSoundManager(
 		} else if (!audio.paused) {
 			stopBgMusic();
 		}
-	}, [bgMusic, screen, popup, stageNumber, playBgMusic, stopBgMusic]);
+	}, [
+		bgMusic,
+		screen,
+		isSoundActivated,
+		stageNumber,
+		playBgMusic,
+		stopBgMusic,
+	]);
 
 	return { playSoundEffect, stopSoundEffect, fadeOutBgMusic };
 }

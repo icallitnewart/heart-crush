@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { BgMusicContext, SoundEffectContext } from '../../context/SoundManager';
 import {
 	ANIMATION_DELAY,
 	ANIMATION_DURATION,
@@ -96,7 +96,8 @@ const AlertText = styled.h2<AlertTextPropsType>`
 function EndingAlertPopup(): React.ReactElement {
 	const dispatch = useDispatch();
 	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
-	const { playSoundEffect, fadeOutBgMusic } = useContext(GameSettingsContext);
+	const { playSoundEffect } = useContext(SoundEffectContext);
+	const { fadeOutBgMusic } = useContext(BgMusicContext);
 	const [isVisible, setIsVisible] = useState(true);
 	const isFinish = move === 0;
 

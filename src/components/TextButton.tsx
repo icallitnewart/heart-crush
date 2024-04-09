@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import { GameSettingsContext } from '../states/GameSettingsContext';
+import { SoundEffectContext } from '../context/SoundManager';
 import { SOUND_EFFECT_TYPE } from '../constants/audio.constant';
 
 const Button = styled.button`
@@ -37,7 +37,7 @@ function TextButton({
 	children,
 	handleClick,
 }: TextButtonPropsType): React.ReactElement {
-	const { playSoundEffect } = useContext(GameSettingsContext);
+	const { playSoundEffect } = useContext(SoundEffectContext);
 	const handleMouseEnter = () => {
 		playSoundEffect(SOUND_EFFECT_TYPE.MOUSE_HOVER);
 	};

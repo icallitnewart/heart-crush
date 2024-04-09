@@ -8,7 +8,7 @@ import React, {
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SoundEffectContext } from '../../context/SoundManager';
 import {
 	CHECK_EXTRA_MATCHING_HEARTS,
 	DROP_HEARTS,
@@ -93,7 +93,7 @@ function Board() {
 		matchingCandidates,
 		dispatchGamePlay,
 	} = useContext(GamePlayContext);
-	const { playSoundEffect } = useContext(GameSettingsContext);
+	const { playSoundEffect } = useContext(SoundEffectContext);
 	const [resetAlert, setResetAlert] = useState<boolean>(false);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { GameSettingsContext } from '../states/GameSettingsContext';
+import { SoundEffectContext } from '../context/SoundManager';
 import { SOUND_EFFECT_TYPE } from '../constants/audio.constant';
 
 interface ButtonStyleProps {
@@ -74,7 +74,7 @@ function IconButton({
 	isActive,
 	handleClick,
 }: IconButtonProps): React.ReactElement {
-	const { playSoundEffect } = useContext(GameSettingsContext);
+	const { playSoundEffect } = useContext(SoundEffectContext);
 	const [isColorChangeDisabled, setIsColorChangeDisabled] = useState(false);
 
 	const handleMouseEnter = () => {

@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled, { RuleSet, css, keyframes } from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SoundEffectContext } from '../../context/SoundManager';
+import { CellInfoType, CellType } from '../../types/board.type';
+import { HeartMovingDirectionType } from '../../types/heart.type';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import HEART_ICONS from '../../constants/heart.constant';
 import {
 	ANIMATION_DELAY,
 	ANIMATION_DURATION,
 } from '../../constants/ui.constant';
-import { CellInfoType, CellType } from '../../types/board.type';
-import { HeartMovingDirectionType } from '../../types/heart.type';
+
 import useSwipeHearts from '../../hooks/useSwipeHearts';
 import { calculateFallingSpeed } from '../../utils/heartFallingSpeed';
 
@@ -152,7 +153,7 @@ function Cell({
 		fallingHearts,
 		boardStatus: { validSwap },
 	} = useContext(GamePlayContext);
-	const { playSoundEffect, stopSoundEffect } = useContext(GameSettingsContext);
+	const { playSoundEffect, stopSoundEffect } = useContext(SoundEffectContext);
 	const [isSwapHint, setIsSwapHint] = useState<boolean>(false);
 	const movingStatus = movingHearts?.[cellInfo.id];
 	const isCrushed = crushedHearts.find(cell => cell.id === id);

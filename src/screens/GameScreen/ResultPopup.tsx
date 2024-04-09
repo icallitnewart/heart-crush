@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SoundEffectContext } from '../../context/SoundManager';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { ANIMATION_DURATION, TEXT } from '../../constants/ui.constant';
@@ -89,7 +89,7 @@ const ButtonContainer = styled.div`
 function ResultPopup() {
 	const { currentStageNumber, score, result } = useContext(GamePlayContext);
 	const [confetti, setConfetti] = useState(false);
-	const { playSoundEffect, stopSoundEffect } = useContext(GameSettingsContext);
+	const { playSoundEffect, stopSoundEffect } = useContext(SoundEffectContext);
 	const isVictory = result === RESULT.WIN;
 	const isLastStage = currentStageNumber === LAST_STAGE;
 	const isGameClear = isVictory && isLastStage;

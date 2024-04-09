@@ -9,6 +9,13 @@ export const soundSlice = createSlice({
 		bgMusic: true,
 		soundEffect: true,
 	} as SoundSliceStateType,
-	reducers: {},
+	reducers: {
+		activateSound: state => {
+			state.isSoundActivated = true;
+		},
+	},
 });
+
+export const { activateSound } = soundSlice.actions;
+
 export default soundSlice.reducer;

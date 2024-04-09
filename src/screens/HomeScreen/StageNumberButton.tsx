@@ -3,6 +3,7 @@ import { css, styled } from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { SoundEffectContext } from '../../context/SoundManager';
 import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
@@ -57,8 +58,8 @@ function StageNumberButton({
 	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
 	const dispatch = useDispatch();
-	const { playSoundEffect, dispatchGameSettings } =
-		useContext(GameSettingsContext);
+	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const { playSoundEffect } = useContext(SoundEffectContext);
 	const isStageLocked = !isStageUnlocked;
 
 	const startGame = () => {

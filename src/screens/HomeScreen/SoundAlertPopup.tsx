@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import { closePopup } from '../../redux/slices/displaySlice';
+import { activateSound } from '../../redux/slices/soundSlice';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -72,6 +73,7 @@ function SoundAlertPopup() {
 	const dispatch = useDispatch();
 
 	const confirmToPlayAudio = () => {
+		dispatch(activateSound());
 		dispatch(closePopup());
 	};
 
