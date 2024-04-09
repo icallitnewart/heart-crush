@@ -5,6 +5,13 @@ export interface DisplaySliceStateType {
 	popup: keyof typeof POPUP | null;
 }
 
+export interface SoundSliceStateType {
+	isSoundActivated: boolean;
+	bgMusic: boolean;
+	soundEffect: boolean;
+}
+
 export interface StoreStateType {
 	display: DisplaySliceStateType;
+	sound: SoundSliceStateType;
 }
