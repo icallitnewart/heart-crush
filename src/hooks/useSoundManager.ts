@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../redux/store';
 
 import { ScreenType, StageNumberType } from '../types/gameSettingsStates.type';
 import { SoundEffectType } from '../types/common.type';
-import { StoreStateType } from '../types/state.type';
 import { SCREEN } from '../constants/screen.constant';
 import {
 	BG_MUSIC_AUDIO,
@@ -24,14 +23,12 @@ interface SoundEffectAudioRefType {
 
 function useSoundManager() {
 	const stageNumber = 1; // TODO: 업데이트 필요
-	const bgMusic = useSelector((state: StoreStateType) => state.sound.bgMusic);
-	const soundEffect = useSelector(
-		(state: StoreStateType) => state.sound.soundEffect,
+	const bgMusic = useAppSelector(state => state.sound.bgMusic);
+	const soundEffect = useAppSelector(state => state.sound.soundEffect);
+	const isSoundActivated = useAppSelector(
+		state => state.sound.isSoundActivated,
 	);
-	const isSoundActivated = useSelector(
-		(state: StoreStateType) => state.sound.isSoundActivated,
-	);
-	const screen = useSelector((state: StoreStateType) => state.display.screen);
+	const screen = useAppSelector(state => state.display.screen);
 	const bgMusicAudioRef = useRef(new Audio());
 	const soundEffectsAudioRef = useRef<SoundEffectAudioRefType>({
 		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: new Audio(SOUND_EFFECT_AUDIO.MOUSE_HOVER),

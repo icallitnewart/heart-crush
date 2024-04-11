@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/store';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { BgMusicContext, SoundEffectContext } from '../../context/SoundManager';
@@ -94,7 +94,7 @@ const AlertText = styled.h2<AlertTextPropsType>`
 `;
 
 function EndingAlertPopup(): React.ReactElement {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
 	const { playSoundEffect } = useContext(SoundEffectContext);
 	const { fadeOutBgMusic } = useContext(BgMusicContext);

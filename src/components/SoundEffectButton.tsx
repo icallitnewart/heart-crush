@@ -1,8 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { AiFillSound } from 'react-icons/ai';
-
-import { StoreStateType } from '../types/state.type';
+import { useAppDispatch, useAppSelector } from '../redux/store';
 
 import { toggleSoundEffect } from '../redux/slices/soundSlice';
 
@@ -15,10 +13,8 @@ interface SoundEffectButtonPropsType {
 function SoundEffectButton({
 	size,
 }: SoundEffectButtonPropsType): React.ReactElement {
-	const dispatch = useDispatch();
-	const soundEffect = useSelector(
-		(state: StoreStateType) => state.sound.soundEffect,
-	);
+	const dispatch = useAppDispatch();
+	const soundEffect = useAppSelector(state => state.sound.soundEffect);
 
 	const controlSoundEffect = () => {
 		dispatch(toggleSoundEffect());

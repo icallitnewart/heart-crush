@@ -1,8 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../redux/store';
 
-import { StoreStateType } from '../../types/state.type';
 import { POPUP } from '../../constants/screen.constant';
 
 import Logo from '../../components/Logo';
@@ -29,7 +28,7 @@ const Container = styled.div`
 `;
 
 function HomeScreen(): React.ReactElement {
-	const popup = useSelector((state: StoreStateType) => state.display.popup);
+	const popup = useAppSelector(state => state.display.popup);
 
 	return (
 		<>

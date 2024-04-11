@@ -1,8 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { BiSolidMusic } from 'react-icons/bi';
-
-import { StoreStateType } from '../types/state.type';
+import { useAppDispatch, useAppSelector } from '../redux/store';
 
 import { toggleBgMusic } from '../redux/slices/soundSlice';
 
@@ -13,8 +11,8 @@ interface MusicButtonPropsType {
 }
 
 function MusicButton({ size }: MusicButtonPropsType): React.ReactElement {
-	const dispatch = useDispatch();
-	const bgMusic = useSelector((state: StoreStateType) => state.sound.bgMusic);
+	const dispatch = useAppDispatch();
+	const bgMusic = useAppSelector(state => state.sound.bgMusic);
 
 	const controlBgMusic = () => {
 		dispatch(toggleBgMusic());

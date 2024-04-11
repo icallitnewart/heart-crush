@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { IoClose } from 'react-icons/io5';
+import { useAppDispatch } from '../../redux/store';
 
 import { closePopup } from '../../redux/slices/displaySlice';
 
@@ -28,7 +28,7 @@ const Button = styled.button`
 `;
 
 function CloseButton(): React.ReactElement {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const removePopup = () => {
 		dispatch(closePopup());

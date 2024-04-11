@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/store';
 
 import { closePopup } from '../../redux/slices/displaySlice';
 import { activateSound } from '../../redux/slices/soundSlice';
@@ -70,7 +70,7 @@ const ButtonBox = styled.div`
 `;
 
 function SoundAlertPopup() {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const confirmToPlayAudio = () => {
 		dispatch(activateSound());

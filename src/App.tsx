@@ -1,9 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from './redux/store';
 
 import { GamePlayProvider } from './states/GamePlayContext';
 import { SoundManagerProvider } from './context/SoundManager';
-import { StoreStateType } from './types/state.type';
 import { SCREEN } from './constants/screen.constant';
 
 import GlobalStyles from './GlobalStyles';
@@ -12,7 +11,7 @@ import GameScreen from './screens/GameScreen';
 import HomeScreen from './screens/HomeScreen';
 
 function App() {
-	const screen = useSelector((state: StoreStateType) => state.display.screen);
+	const screen = useAppSelector(state => state.display.screen);
 
 	return (
 		<SoundManagerProvider>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/store';
 
 import { SCREEN } from '../../constants/screen.constant';
 
@@ -75,7 +75,7 @@ const ButtonContainer = styled.div`
 `;
 
 function ExitGamePopup(): React.ReactElement {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const removePopup = () => {
 		dispatch(closePopup());
