@@ -42,7 +42,13 @@ export const fetchStageConfig = createAsyncThunk(
 export const stageSlice = createSlice({
 	name: 'stage',
 	initialState,
-	reducers: {},
+	reducers: {
+		setUnlockedStage: (state, action) => {
+			if (action.payload > state.unlockedStage.maxStageNumber) {
+				state.unlockedStage.maxStageNumber = action.payload;
+			}
+		},
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchStageConfig.fulfilled, (state, action) => {
@@ -59,5 +65,7 @@ export const stageSlice = createSlice({
 			});
 	},
 });
+
+export const { setUnlockedStage } = stageSlice.actions;
 
 export default stageSlice.reducer;

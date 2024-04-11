@@ -1,10 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { StoreStateType } from '../../types/state.type';
-import { SET_UNLOCKED_STAGE_NUMBER } from '../../constants/gameSettingsActions.constant';
 import { POPUP } from '../../constants/screen.constant';
 
 import Logo from '../../components/Logo';
@@ -32,13 +30,6 @@ const Container = styled.div`
 
 function HomeScreen(): React.ReactElement {
 	const popup = useSelector((state: StoreStateType) => state.display.popup);
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
-
-	useEffect(() => {
-		dispatchGameSettings({
-			type: SET_UNLOCKED_STAGE_NUMBER,
-		});
-	}, [dispatchGameSettings]);
 
 	return (
 		<>

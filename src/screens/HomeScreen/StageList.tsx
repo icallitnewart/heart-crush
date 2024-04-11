@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
+import { useAppSelector } from '../../redux/store';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { STAGE_FILES } from '../../constants/stage.constant';
 
 import StageNumberButton from './StageNumberButton';
@@ -28,7 +28,9 @@ function StageList({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageListPropsType): React.ReactElement {
-	const { unlockedStageNumber } = useContext(GameSettingsContext);
+	const unlockedMaxStageNumber = useAppSelector(
+		state => state.stage.unlockedStage.maxStageNumber,
+	);
 	const stages = Object.keys(STAGE_FILES).map(Number);
 
 	return (
@@ -38,7 +40,9 @@ function StageList({
 					<StageNumberButton
 						stageNumber={stageNumber}
 						isStageUnlocked={
-							!!(unlockedStageNumber && stageNumber <= unlockedStageNumber)
+							!!(
+								unlockedMaxStageNumber && stageNumber <= unlockedMaxStageNumber
+							)
 						}
 						createAlertMessage={createAlertMessage}
 						removeAlertMessage={removeAlertMessage}

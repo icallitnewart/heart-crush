@@ -1,20 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAppSelector } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
-import { StoreStateType } from '../../types/state.type';
 import { POPUP } from '../../constants/screen.constant';
 import { START_GAME } from '../../constants/gamePlayActions.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { LAST_STAGE } from '../../constants/stage.constant';
 
-import {
-	getMaxStageNumberInLocalStorage,
-	setMaxStageNumberInLocalStorage,
-} from '../../utils/stageStorage';
 import { openPopup } from '../../redux/slices/displaySlice';
+import { setUnlockedStage } from '../../redux/slices/stageSlice';
 
 import Navigation from './Navigation';
 import Information from './Information';
@@ -33,11 +28,12 @@ const Container = styled.div`
 `;
 
 function GameScreen(): React.ReactElement {
-	const dispatch = useDispatch();
-	const popup = useSelector((state: StoreStateType) => state.display.popup);
-	const currentStage = useAppSelector(
-		(state: StoreStateType) => state.stage.currentStage,
+	const dispatch = useAppDispatch();
+	const popup = useAppSelector(state => state.display.popup);
+	const unlockedMaxStageNumber = useAppSelector(
+		state => state.stage.unlockedStage.maxStageNumber,
 	);
+	const currentStage = useAppSelector(state => state.stage.currentStage);
 	const { currentStageNumber, result, dispatchGamePlay } =
 		useContext(GamePlayContext);
 
@@ -59,21 +55,20 @@ function GameScreen(): React.ReactElement {
 		}
 	}, [result, dispatch]);
 
-	// 우승시 로컬 스토리지에 저장된 최대 진행 스테이지 업데이트
+	// 우승시 잠금 해제된 최대 진행 스테이지 업데이트
 	useEffect(() => {
 		if (currentStageNumber && result === RESULT.WIN) {
 			const nextStageNumber = currentStageNumber + 1;
-			const storedMaxStageNumber = getMaxStageNumberInLocalStorage();
 
 			if (
-				storedMaxStageNumber &&
+				unlockedMaxStageNumber &&
 				nextStageNumber <= LAST_STAGE &&
-				storedMaxStageNumber < nextStageNumber
+				unlockedMaxStageNumber < nextStageNumber
 			) {
-				setMaxStageNumberInLocalStorage(nextStageNumber);
+				dispatch(setUnlockedStage(nextStageNumber));
 			}
 		}
-	}, [result, currentStageNumber]);
+	}, [result, currentStageNumber, unlockedMaxStageNumber, dispatch]);
 
 	return (
 		<>
