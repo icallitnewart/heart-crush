@@ -15,7 +15,7 @@ export const STAGE_FILES = {
 	10: getFilePath(10),
 };
 
-const STAGE_NUMBERS = Object.keys(STAGE_FILES).map(
+export const STAGE_NUMBERS = Object.keys(STAGE_FILES).map(
 	Number,
 ) as (keyof typeof STAGE_FILES)[];
 export const FIRST_STAGE = STAGE_NUMBERS[0];

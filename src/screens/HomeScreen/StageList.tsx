@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 import { useAppSelector } from '../../redux/store';
 
-import { STAGE_FILES } from '../../constants/stage.constant';
+import { STAGE_NUMBERS } from '../../constants/stage.constant';
 
 import StageNumberButton from './StageNumberButton';
 
@@ -31,7 +31,7 @@ function StageList({
 	const unlockedMaxStageNumber = useAppSelector(
 		state => state.stage.unlockedStage.maxStageNumber,
 	);
-	const stages = Object.keys(STAGE_FILES).map(Number);
+	const stages = STAGE_NUMBERS;
 
 	return (
 		<Container>
