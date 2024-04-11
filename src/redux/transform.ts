@@ -6,6 +6,7 @@ import {
 	UnlockedStageType,
 } from '../types/state.type';
 import { FIRST_STAGE, LAST_STAGE } from '../constants/stage.constant';
+import { initialCurrentStage } from './slices/stageSlice';
 
 export const StageTransform = createTransform(
 	(inboundState: StageSliceStateType) => {
@@ -29,8 +30,7 @@ export const StageTransform = createTransform(
 			unlockedStage: {
 				maxStageNumber: adjustMaxStageNumber(storedMaxStageNumber),
 			},
-			selectedStage: null,
-			currentStage: null,
+			currentStage: initialCurrentStage,
 		};
 	},
 	{ whitelist: ['stage'] },

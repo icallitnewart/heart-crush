@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector } from '../../redux/store';
 
 import { GamePlayContext } from '../../states/GamePlayContext';
 import { StoreStateType } from '../../types/state.type';
@@ -9,7 +10,6 @@ import { START_GAME } from '../../constants/gamePlayActions.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { LAST_STAGE } from '../../constants/stage.constant';
 
-import useStageConfig from '../../hooks/useStageConfig';
 import {
 	getMaxStageNumberInLocalStorage,
 	setMaxStageNumberInLocalStorage,
@@ -35,18 +35,22 @@ const Container = styled.div`
 function GameScreen(): React.ReactElement {
 	const dispatch = useDispatch();
 	const popup = useSelector((state: StoreStateType) => state.display.popup);
+	const currentStage = useAppSelector(
+		(state: StoreStateType) => state.stage.currentStage,
+	);
 	const { currentStageNumber, result, dispatchGamePlay } =
 		useContext(GamePlayContext);
-	const stage = useStageConfig();
 
 	useEffect(() => {
-		if (stage) {
+		const stageConfig = currentStage.data;
+
+		if (stageConfig) {
 			dispatchGamePlay({
 				type: START_GAME,
-				stage,
+				stage: stageConfig,
 			});
 		}
-	}, [stage, dispatchGamePlay]);
+	}, [currentStage, dispatchGamePlay]);
 
 	// 게임 결과가 나오면 게임 종료 알림 문구 팝업 띄우기
 	useEffect(() => {

@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
 import { css, styled } from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/store';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
 import { SoundEffectContext } from '../../context/SoundManager';
-import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
 import { SCREEN } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import { isStageNumberValid } from '../../utils/typeValidation';
 import { switchScreen } from '../../redux/slices/displaySlice';
+import { fetchStageConfig } from '../../redux/slices/stageSlice';
 
 interface ButtonStylePropsType {
 	$isActive: boolean;
@@ -57,8 +56,7 @@ function StageNumberButton({
 	createAlertMessage,
 	removeAlertMessage,
 }: StageButtonPropsType): React.ReactElement {
-	const dispatch = useDispatch();
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useAppDispatch();
 	const { playSoundEffect } = useContext(SoundEffectContext);
 	const isStageLocked = !isStageUnlocked;
 
@@ -71,10 +69,7 @@ function StageNumberButton({
 			throw new Error('유효하지 않은 stageNumber입니다.');
 		}
 
-		dispatchGameSettings({
-			type: SELECT_STAGE,
-			selectedStageNumber: stageNumber,
-		});
+		dispatch(fetchStageConfig(stageNumber));
 		dispatch(switchScreen(SCREEN.GAME));
 	};
 

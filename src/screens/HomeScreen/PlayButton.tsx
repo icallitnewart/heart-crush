@@ -1,28 +1,22 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
-import { GameSettingsContext } from '../../states/GameSettingsContext';
+import { StageNumberType, StoreStateType } from '../../types/state.type';
 import { SCREEN } from '../../constants/screen.constant';
-import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
 
 import { switchScreen } from '../../redux/slices/displaySlice';
+import { fetchStageConfig } from '../../redux/slices/stageSlice';
 
 import TextButton from '../../components/TextButton';
 
 function PlayButton(): React.ReactElement {
-	const dispatch = useDispatch();
-	const { unlockedStageNumber, dispatchGameSettings } =
-		useContext(GameSettingsContext);
+	const dispatch = useAppDispatch();
+	const unlockedMaxStageNumber: StageNumberType = useAppSelector(
+		(state: StoreStateType) => state.stage.unlockedStage.maxStageNumber,
+	);
 
 	const startGame = () => {
-		if (!unlockedStageNumber) {
-			throw new Error('unlockedStageNumber가 존재하지 않습니다.');
-		}
-
-		dispatchGameSettings({
-			type: SELECT_STAGE,
-			selectedStageNumber: unlockedStageNumber,
-		});
+		dispatch(fetchStageConfig(unlockedMaxStageNumber));
 		dispatch(switchScreen(SCREEN.GAME));
 	};
 

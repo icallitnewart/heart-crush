@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { GameSettingsContext } from '../../states/GameSettingsContext';
-import { SELECT_STAGE } from '../../constants/gameSettingsActions.constant';
+import React from 'react';
+import { useAppDispatch } from '../../redux/store';
 
 import { isStageNumberValid } from '../../utils/typeValidation';
 import { closePopup } from '../../redux/slices/displaySlice';
+import { fetchStageConfig } from '../../redux/slices/stageSlice';
 
 import TextButton from '../../components/TextButton';
 
@@ -18,8 +16,7 @@ function NewGameButton({
 	stageNumber,
 	children,
 }: NewGameButtonPropsType): React.ReactElement {
-	const dispatch = useDispatch();
-	const { dispatchGameSettings } = useContext(GameSettingsContext);
+	const dispatch = useAppDispatch();
 
 	const startGame = () => {
 		if (!stageNumber) {
@@ -30,11 +27,7 @@ function NewGameButton({
 			throw new Error('유효하지 않은 stageNumber입니다.');
 		}
 
-		dispatchGameSettings({
-			type: SELECT_STAGE,
-			selectedStageNumber: stageNumber,
-		});
-
+		dispatch(fetchStageConfig(stageNumber));
 		dispatch(closePopup());
 	};
 

@@ -19,7 +19,7 @@ export interface SoundSliceStateType {
 // StageSliceStateType : Start
 export type StageNumberType = keyof typeof STAGE_FILES;
 
-interface CurrentStageType {
+interface StageConfigType {
 	stageNumber: StageNumberType;
 	move: number;
 	columns: number;
@@ -29,9 +29,11 @@ interface CurrentStageType {
 	};
 }
 
-interface SelectedStageType {
-	stageNumber: StageNumberType;
-	timestamp: number;
+export interface CurrentStageType {
+	data: StageConfigType | null;
+	timestamp: number | null;
+	loading: boolean;
+	error: null | string;
 }
 
 export interface UnlockedStageType {
@@ -40,8 +42,7 @@ export interface UnlockedStageType {
 
 export interface StageSliceStateType {
 	unlockedStage: UnlockedStageType;
-	selectedStage: SelectedStageType | null;
-	currentStage: CurrentStageType | null;
+	currentStage: CurrentStageType;
 }
 // StageSliceStateType : End
 
