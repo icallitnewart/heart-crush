@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../redux/store';
 import { SCREEN } from '../../constants/screen.constant';
 
 import { closePopup, switchScreen } from '../../redux/slices/displaySlice';
+import { clearCurrentStage } from '../../redux/slices/stageSlice';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -83,6 +84,7 @@ function ExitGamePopup(): React.ReactElement {
 
 	const moveToHome = () => {
 		removePopup();
+		dispatch(clearCurrentStage());
 		dispatch(switchScreen(SCREEN.HOME));
 	};
 

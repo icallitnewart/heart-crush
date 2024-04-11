@@ -48,6 +48,9 @@ export const stageSlice = createSlice({
 				state.unlockedStage.maxStageNumber = action.payload;
 			}
 		},
+		clearCurrentStage: state => {
+			if (state.currentStage.data) state.currentStage = initialCurrentStage;
+		},
 	},
 	extraReducers: builder => {
 		builder
@@ -66,6 +69,6 @@ export const stageSlice = createSlice({
 	},
 });
 
-export const { setUnlockedStage } = stageSlice.actions;
+export const { setUnlockedStage, clearCurrentStage } = stageSlice.actions;
 
 export default stageSlice.reducer;
