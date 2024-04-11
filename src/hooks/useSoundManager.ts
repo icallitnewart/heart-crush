@@ -22,7 +22,12 @@ interface SoundEffectAudioRefType {
 }
 
 function useSoundManager() {
-	const stageNumber = 1; // TODO: 업데이트 필요
+	const stageNumber = useAppSelector(
+		state => state.stage.currentStage.data?.stageNumber,
+	);
+	const stageTimestamp = useAppSelector(
+		state => state.stage.currentStage.timestamp,
+	);
 	const bgMusic = useAppSelector(state => state.sound.bgMusic);
 	const soundEffect = useAppSelector(state => state.sound.soundEffect);
 	const isSoundActivated = useAppSelector(
@@ -167,6 +172,7 @@ function useSoundManager() {
 		screen,
 		isSoundActivated,
 		stageNumber,
+		stageTimestamp,
 		playBgMusic,
 		stopBgMusic,
 	]);
