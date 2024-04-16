@@ -7,7 +7,7 @@ import { SCREEN } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import { isStageNumberValid } from '../../utils/typeValidation';
-import { switchScreen } from '../../redux/slices/displaySlice';
+import { closePopup, switchScreen } from '../../redux/slices/displaySlice';
 import { fetchStageConfig } from '../../redux/slices/stageSlice';
 
 interface ButtonStylePropsType {
@@ -70,6 +70,7 @@ function StageNumberButton({
 		}
 
 		dispatch(fetchStageConfig(stageNumber));
+		dispatch(closePopup());
 		dispatch(switchScreen(SCREEN.GAME));
 	};
 
