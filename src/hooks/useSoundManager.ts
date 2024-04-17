@@ -22,12 +22,7 @@ interface SoundEffectAudioRefType {
 }
 
 function useSoundManager() {
-	const stageNumber = useAppSelector(
-		state => state.stage.currentStage.data?.stageNumber,
-	);
-	const stageTimestamp = useAppSelector(
-		state => state.stage.currentStage.timestamp,
-	);
+	const stage = useAppSelector(state => state.stage.currentStage.data);
 	const bgMusic = useAppSelector(state => state.sound.bgMusic);
 	const soundEffect = useAppSelector(state => state.sound.soundEffect);
 	const isSoundActivated = useAppSelector(
@@ -54,7 +49,7 @@ function useSoundManager() {
 
 	const selectBgMusic = (
 		currentScreen: ScreenType,
-		stage?: StageNumberType,
+		stageNumber?: StageNumberType,
 	) => {
 		switch (currentScreen) {
 			case SCREEN.HOME: {
@@ -63,7 +58,7 @@ function useSoundManager() {
 
 			case SCREEN.GAME: {
 				const total = BG_MUSIC_AUDIO.GAME.length;
-				const idx = stage ? (stage - 1) % total : 0;
+				const idx = stageNumber ? (stageNumber - 1) % total : 0;
 				return BG_MUSIC_AUDIO.GAME[idx];
 			}
 
@@ -150,7 +145,7 @@ function useSoundManager() {
 		const audio = bgMusicAudioRef.current;
 
 		if (bgMusic) {
-			const src = selectBgMusic(screen, stageNumber);
+			const src = selectBgMusic(screen, stage?.stageNumber);
 
 			if (audio.paused) {
 				if (isSoundActivated) {
@@ -167,15 +162,7 @@ function useSoundManager() {
 		} else if (!audio.paused) {
 			stopBgMusic();
 		}
-	}, [
-		bgMusic,
-		screen,
-		isSoundActivated,
-		stageNumber,
-		stageTimestamp,
-		playBgMusic,
-		stopBgMusic,
-	]);
+	}, [bgMusic, screen, isSoundActivated, stage, playBgMusic, stopBgMusic]);
 
 	return { playSoundEffect, stopSoundEffect, fadeOutBgMusic };
 }
