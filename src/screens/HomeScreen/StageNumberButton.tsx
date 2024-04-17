@@ -60,7 +60,7 @@ function StageNumberButton({
 	const { playSoundEffect } = useContext(SoundEffectContext);
 	const isStageLocked = !isStageUnlocked;
 
-	const startGame = () => {
+	const startGame = async () => {
 		if (!stageNumber) {
 			throw new Error('stageNumber 정보가 존재하지 않습니다.');
 		}
@@ -69,9 +69,15 @@ function StageNumberButton({
 			throw new Error('유효하지 않은 stageNumber입니다.');
 		}
 
-		dispatch(fetchStageConfig(stageNumber));
-		dispatch(closePopup());
-		dispatch(switchScreen(SCREEN.GAME));
+		const result = await dispatch(fetchStageConfig(stageNumber));
+		if (fetchStageConfig.fulfilled.match(result)) {
+			dispatch(closePopup());
+			dispatch(switchScreen(SCREEN.GAME));
+		} else {
+			// TODO: 에러 UI 처리
+			console.error(result.error?.message);
+			throw new Error('Failed to load stage data.');
+		}
 	};
 
 	return (

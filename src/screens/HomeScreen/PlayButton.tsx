@@ -15,9 +15,15 @@ function PlayButton(): React.ReactElement {
 		(state: StoreStateType) => state.stage.unlockedStage.maxStageNumber,
 	);
 
-	const startGame = () => {
-		dispatch(fetchStageConfig(unlockedMaxStageNumber));
-		dispatch(switchScreen(SCREEN.GAME));
+	const startGame = async () => {
+		const result = await dispatch(fetchStageConfig(unlockedMaxStageNumber));
+		if (fetchStageConfig.fulfilled.match(result)) {
+			dispatch(switchScreen(SCREEN.GAME));
+		} else {
+			// TODO: 에러 UI 처리
+			console.error(result.error?.message);
+			throw new Error('Failed to load stage data.');
+		}
 	};
 
 	return <TextButton handleClick={startGame}>Play</TextButton>;
