@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import store, { persistor } from './redux/store';
-import { GameSettingsProvider } from './states/GameSettingsContext';
 
 import App from './App';
 
@@ -15,9 +14,7 @@ root.render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<GameSettingsProvider>
-					<App />
-				</GameSettingsProvider>
+				<App />
 			</PersistGate>
 		</Provider>
 	</React.StrictMode>,

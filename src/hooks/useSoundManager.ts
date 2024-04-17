@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAppSelector } from '../redux/store';
 
-import { ScreenType, StageNumberType } from '../types/gameSettingsStates.type';
+import { ScreenType, StageNumberType } from '../types/state.type';
 import { SoundEffectType } from '../types/common.type';
 import { SCREEN } from '../constants/screen.constant';
 import {

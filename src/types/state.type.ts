@@ -2,9 +2,12 @@ import { POPUP, SCREEN } from '../constants/screen.constant';
 import { STAGE_FILES } from '../constants/stage.constant';
 
 // DisplaySliceStateType : Start
+export type ScreenType = keyof typeof SCREEN;
+export type PopupType = keyof typeof POPUP | null;
+
 export interface DisplaySliceStateType {
-	screen: keyof typeof SCREEN;
-	popup: keyof typeof POPUP | null;
+	screen: ScreenType;
+	popup: PopupType;
 }
 // DisplaySliceStateType : End
 
