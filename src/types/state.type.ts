@@ -1,5 +1,13 @@
+import { RESULT } from '../constants/gameStatus.constant';
 import { POPUP, SCREEN } from '../constants/screen.constant';
 import { STAGE_FILES } from '../constants/stage.constant';
+import { BoardStatusType, BoardType } from './board.type';
+import {
+	CrushedHeartsType,
+	FallingHeartsType,
+	MatchingCandidatesType,
+	MovingHeartsType,
+} from './heart.type';
 
 // DisplaySliceStateType : Start
 export type ScreenType = keyof typeof SCREEN;
@@ -49,8 +57,40 @@ export interface StageSliceStateType {
 }
 // StageSliceStateType : End
 
+// GameSliceStateType : Start
+export type ScoreType = number;
+
+export type MoveType = number;
+
+export type ResultType = typeof RESULT.WIN | typeof RESULT.LOSE | null;
+
+export interface GoalType {
+	score?: number;
+}
+
+export type IsSwipeEnabledType = boolean;
+
+export type IsBonusTimeType = boolean;
+
+export interface GameSliceStateType {
+	board: BoardType;
+	boardStatus: BoardStatusType;
+	score: ScoreType;
+	move: MoveType;
+	goal: GoalType;
+	result: ResultType;
+	crushedHearts: CrushedHeartsType;
+	fallingHearts: FallingHeartsType;
+	matchingCandidates: MatchingCandidatesType;
+	movingHearts: MovingHeartsType | null;
+	isSwipeEnabled: IsSwipeEnabledType;
+	isBonusTime: IsBonusTimeType;
+}
+// GameSliceStateType : End
+
 export interface StoreStateType {
 	display: DisplaySliceStateType;
 	sound: SoundSliceStateType;
 	stage: StageSliceStateType;
+	game: GameSliceStateType;
 }

@@ -17,3 +17,16 @@ export interface ColumnType {
 }
 
 export type BoardType = ColumnType[];
+
+export type IsBoardValidType = boolean | null;
+
+export interface ValidSwapCellInfoType {
+	[id: string]: CellType;
+}
+
+export type ValidSwapType = ValidSwapCellInfoType | null;
+
+export interface BoardStatusType {
+	isValid: IsBoardValidType;
+	validSwap: ValidSwapType;
+}
