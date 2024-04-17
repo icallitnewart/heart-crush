@@ -2,13 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { SoundSliceStateType } from '../../types/state.type';
 
+const initialState: SoundSliceStateType = {
+	isSoundActivated: false,
+	bgMusic: true,
+	soundEffect: true,
+};
+
 export const soundSlice = createSlice({
 	name: 'sound',
-	initialState: {
-		isSoundActivated: false,
-		bgMusic: true,
-		soundEffect: true,
-	} as SoundSliceStateType,
+	initialState,
 	reducers: {
 		activateSound: state => {
 			state.isSoundActivated = true;
