@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
-
-import { GamePlayContext } from '../../states/GamePlayContext';
+import { useAppSelector } from '../../redux/store';
 
 const Container = styled.div`
 	position: relative;
@@ -40,12 +39,14 @@ const StageNumber = styled.span`
 `;
 
 function Stage(): React.ReactElement {
-	const { currentStageNumber } = useContext(GamePlayContext);
+	const stageNumber = useAppSelector(
+		state => state.stage.currentStage.data?.stageNumber,
+	);
 
 	return (
 		<Container>
 			<FaHeart viewBox="-10 10 550 550" />
-			<StageNumber>{currentStageNumber}</StageNumber>
+			<StageNumber>{stageNumber}</StageNumber>
 		</Container>
 	);
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useAppSelector } from '../../redux/store';
 
-import { GamePlayContext } from '../../states/GamePlayContext';
 import { SoundEffectContext } from '../../context/SoundManager';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
@@ -87,7 +87,11 @@ const ButtonContainer = styled.div`
 `;
 
 function ResultPopup() {
-	const { currentStageNumber, score, result } = useContext(GamePlayContext);
+	const score = useAppSelector(state => state.game.score);
+	const result = useAppSelector(state => state.game.result);
+	const currentStageNumber = useAppSelector(
+		state => state.stage.currentStage.data?.stageNumber,
+	);
 	const [confetti, setConfetti] = useState(false);
 	const { playSoundEffect, stopSoundEffect } = useContext(SoundEffectContext);
 	const isVictory = result === RESULT.WIN;

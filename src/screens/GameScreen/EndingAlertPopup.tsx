@@ -1,23 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { useAppDispatch } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
-import { GamePlayContext } from '../../states/GamePlayContext';
-import { BgMusicContext, SoundEffectContext } from '../../context/SoundManager';
 import {
 	ANIMATION_DELAY,
 	ANIMATION_DURATION,
 	TEXT,
 } from '../../constants/ui.constant';
-import {
-	START_BONUS_TIME,
-	ADD_BONUS_SCORE,
-	END_BONUS_TIME,
-} from '../../constants/gamePlayActions.constant';
 import { POPUP } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
+import { BgMusicContext, SoundEffectContext } from '../../context/SoundManager';
 import { openPopup } from '../../redux/slices/displaySlice';
+import {
+	addBonusScore,
+	endBonusTime,
+	startBonusTime,
+} from '../../redux/slices/gameSlice';
 
 import Logo from '../../components/Logo';
 import BackgroundLayer from '../../components/BackgroundLayer';
@@ -95,7 +94,8 @@ const AlertText = styled.h2<AlertTextPropsType>`
 
 function EndingAlertPopup(): React.ReactElement {
 	const dispatch = useAppDispatch();
-	const { isBonusTime, move, dispatchGamePlay } = useContext(GamePlayContext);
+	const move = useAppSelector(state => state.game.move);
+	const isBonusTime = useAppSelector(state => state.game.isBonusTime);
 	const { playSoundEffect } = useContext(SoundEffectContext);
 	const { fadeOutBgMusic } = useContext(BgMusicContext);
 	const [isVisible, setIsVisible] = useState(true);
@@ -104,11 +104,11 @@ function EndingAlertPopup(): React.ReactElement {
 	// fade-in 애니메이션 효과가 끝나면 보너스 타임 활성화
 	useEffect(() => {
 		const animationTimer = setTimeout(() => {
-			dispatchGamePlay({ type: START_BONUS_TIME });
+			dispatch(startBonusTime());
 		}, fadeInAndOutAnimationDuration);
 
 		return () => clearTimeout(animationTimer);
-	}, [dispatchGamePlay]);
+	}, [dispatch]);
 
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
@@ -118,7 +118,7 @@ function EndingAlertPopup(): React.ReactElement {
 				// 하나의 MOVE를 위한 보너스 점수 카운팅 애니메이션 효과가 끝나면
 				// 새로운 MOVE를 위한 보너스 점수 추가 및 효과음 재생
 				animationTimer = setTimeout(() => {
-					dispatchGamePlay({ type: ADD_BONUS_SCORE });
+					dispatch(addBonusScore());
 					playSoundEffect(SOUND_EFFECT_TYPE.BONUS_SCORE);
 				}, bonusScoreAnimationDuration);
 			} else {
@@ -130,7 +130,7 @@ function EndingAlertPopup(): React.ReactElement {
 				// fade-out 애니메이션 효과가 끝나면
 				// 보너스 타임 종료 및 결과 팝업 열기
 				animationTimer = setTimeout(() => {
-					dispatchGamePlay({ type: END_BONUS_TIME });
+					dispatch(endBonusTime());
 					dispatch(openPopup(POPUP.RESULT));
 				}, fadeOutAnimationDelay + fadeInAndOutAnimationDuration);
 			}
@@ -139,14 +139,7 @@ function EndingAlertPopup(): React.ReactElement {
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-	}, [
-		isBonusTime,
-		move,
-		dispatchGamePlay,
-		dispatch,
-		fadeOutBgMusic,
-		playSoundEffect,
-	]);
+	}, [isBonusTime, move, dispatch, fadeOutBgMusic, playSoundEffect]);
 
 	return (
 		<BackgroundLayer opacity={0}>

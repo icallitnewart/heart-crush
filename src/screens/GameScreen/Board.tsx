@@ -6,19 +6,20 @@ import React, {
 	useEffect,
 } from 'react';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
-import { GamePlayContext } from '../../states/GamePlayContext';
-import { SoundEffectContext } from '../../context/SoundManager';
-import {
-	CHECK_EXTRA_MATCHING_HEARTS,
-	DROP_HEARTS,
-	REARRANGE_BOARD,
-	RESET_BOARD,
-	RETURN_HEARTS,
-	SWAP_HEARTS,
-} from '../../constants/gamePlayActions.constant';
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
+
+import { SoundEffectContext } from '../../context/SoundManager';
+import {
+	checkExtraMatchingHearts,
+	dropHearts,
+	rearrangeBoard,
+	resetBoard,
+	returnHearts,
+	swapHearts,
+} from '../../redux/slices/gameSlice';
 import { calculateLongestFallingSpeed } from '../../utils/heartFallingSpeed';
 
 import Column from './Column';
@@ -84,15 +85,15 @@ const BoardBox = styled.ul<BoardBoxStyleProps>`
 
 function Board() {
 	const isMountedRef = useRef(false);
-	const {
-		board,
-		boardStatus,
-		movingHearts,
-		crushedHearts,
-		fallingHearts,
-		matchingCandidates,
-		dispatchGamePlay,
-	} = useContext(GamePlayContext);
+	const dispatch = useAppDispatch();
+	const board = useAppSelector(state => state.game.board);
+	const isBoardValid = useAppSelector(state => state.game.boardStatus.isValid);
+	const movingHearts = useAppSelector(state => state.game.movingHearts);
+	const crushedHearts = useAppSelector(state => state.game.crushedHearts);
+	const fallingHearts = useAppSelector(state => state.game.fallingHearts);
+	const matchingCandidates = useAppSelector(
+		state => state.game.matchingCandidates,
+	);
 	const { playSoundEffect } = useContext(SoundEffectContext);
 	const [resetAlert, setResetAlert] = useState<boolean>(false);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
@@ -124,9 +125,9 @@ function Board() {
 
 			animationTimer = setTimeout(() => {
 				if (canHeartSwap) {
-					dispatchGamePlay({ type: SWAP_HEARTS });
+					dispatch(swapHearts());
 				} else {
-					dispatchGamePlay({ type: RETURN_HEARTS });
+					dispatch(returnHearts());
 				}
 			}, animationDuration);
 		}
@@ -134,7 +135,7 @@ function Board() {
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-	}, [movingHearts, dispatchGamePlay, playSoundEffect]);
+	}, [movingHearts, dispatch, playSoundEffect]);
 
 	// 하트 크러쉬 효과음 재생
 	// 하트 크러쉬 애니메이션 모션이 끝나면 하트 떨어뜨리기
@@ -146,14 +147,14 @@ function Board() {
 			playSoundEffect(SOUND_EFFECT_TYPE.HEART_CRUSH);
 
 			animationTimer = setTimeout(() => {
-				dispatchGamePlay({ type: DROP_HEARTS });
+				dispatch(dropHearts());
 			}, animationDuration * 0.6);
 		}
 
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-	}, [crushedHearts, dispatchGamePlay, playSoundEffect]);
+	}, [crushedHearts, dispatch, playSoundEffect]);
 
 	// 하트 떨어지는 애니메이션 모션이 끝나면
 	// 보드 배열 재배치
@@ -163,30 +164,30 @@ function Board() {
 
 		if (fallingHearts.length > 0) {
 			animationTimer = setTimeout(() => {
-				dispatchGamePlay({ type: REARRANGE_BOARD });
+				dispatch(rearrangeBoard());
 			}, animationDuration);
 		}
 
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
 		};
-	}, [fallingHearts, dispatchGamePlay]);
+	}, [fallingHearts, dispatch]);
 
 	// 보드 재배치 후 추가적인 매칭 검사
 	useEffect(() => {
 		if (matchingCandidates.length > 0) {
-			dispatchGamePlay({ type: CHECK_EXTRA_MATCHING_HEARTS });
+			dispatch(checkExtraMatchingHearts());
 		}
-	}, [matchingCandidates, dispatchGamePlay]);
+	}, [matchingCandidates, dispatch]);
 
 	// 보드가 유효하지 않으면 보드 초기화
 	useEffect(() => {
 		let alertTimer: ReturnType<typeof setTimeout> | undefined;
-		if (boardStatus.isValid === false) {
+		if (isBoardValid === false) {
 			setResetAlert(true);
 
 			alertTimer = setTimeout(() => {
-				dispatchGamePlay({ type: RESET_BOARD });
+				dispatch(resetBoard());
 				setResetAlert(false);
 			}, ANIMATION_DURATION.RESET_BOARD_ALERT);
 		}
@@ -194,7 +195,7 @@ function Board() {
 		return () => {
 			if (alertTimer) clearTimeout(alertTimer);
 		};
-	}, [boardStatus.isValid, dispatchGamePlay]);
+	}, [isBoardValid, dispatch]);
 
 	return (
 		<Container>

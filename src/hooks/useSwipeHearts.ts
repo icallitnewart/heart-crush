@@ -1,9 +1,10 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../redux/store';
 
-import {
-	DISABLE_SWIPE,
-	MOVE_HEARTS,
-} from '../constants/gamePlayActions.constant';
+import { CellInfoType } from '../types/board.type';
+import { HeartCoordsType, MovingHeartsType } from '../types/heart.type';
+
+import { disableSwipe, moveHearts } from '../redux/slices/gameSlice';
 import {
 	getCoords,
 	getMovingDirection,
@@ -11,9 +12,6 @@ import {
 	getNearHeartPosition,
 	getOppositeMovingDirection,
 } from '../utils/heartSwipe';
-import { CellInfoType } from '../types/board.type';
-import { HeartCoordsType, MovingHeartsType } from '../types/heart.type';
-import { GamePlayContext } from '../states/GamePlayContext';
 
 function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 	const { id, position, heart } = cellInfo;
@@ -21,19 +19,9 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 
 	const swipeStartRef = useRef<HeartCoordsType>(initialCoords);
 	const swipeEndRef = useRef<HeartCoordsType>(initialCoords);
-	const { board, dispatchGamePlay, isSwipeEnabled } =
-		useContext(GamePlayContext);
-
-	const moveHearts = (movingHeartsInfo: MovingHeartsType) => {
-		dispatchGamePlay({
-			type: MOVE_HEARTS,
-			movingHearts: movingHeartsInfo,
-		});
-	};
-
-	const disableSwipe = () => {
-		dispatchGamePlay({ type: DISABLE_SWIPE });
-	};
+	const dispatch = useAppDispatch();
+	const board = useAppSelector(state => state.game.board);
+	const isSwipeEnabled = useAppSelector(state => state.game.isSwipeEnabled);
 
 	const handleSwipeStart = (
 		e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>,
@@ -66,7 +54,7 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 		const isSwipeValid = !((!x1 && !y1) || (!x2 && !y2));
 		if (!isSwipeValid) return;
 
-		disableSwipe();
+		dispatch(disableSwipe());
 
 		const direction = getMovingDirection(x1, x2, y1, y2);
 		if (direction) {
@@ -75,7 +63,7 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 
 			const oppositeDirection = getOppositeMovingDirection(direction);
 			const nearHeartPosition = getNearHeartPosition(position, direction);
-			const movingHeartsInfo: MovingHeartsType = {
+			const movingHearts: MovingHeartsType = {
 				[id]: {
 					heart,
 					direction,
@@ -90,7 +78,7 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 				},
 			};
 
-			moveHearts(movingHeartsInfo);
+			dispatch(moveHearts(movingHearts));
 			swipeStartRef.current = initialCoords;
 			swipeEndRef.current = initialCoords;
 		}

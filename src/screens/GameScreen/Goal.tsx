@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
-
-import { GamePlayContext } from '../../states/GamePlayContext';
+import React from 'react';
+import { useAppSelector } from '../../redux/store';
 
 import InfoBox from '../../components/InfoBox';
 
 function Goal(): React.ReactElement {
-	const { goal } = useContext(GamePlayContext);
+	const goal = useAppSelector(state => state.game.goal);
 
 	return (
 		<InfoBox title="goal" flex={2.5}>

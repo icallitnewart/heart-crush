@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { RuleSet, css, keyframes } from 'styled-components';
+import { useAppSelector } from '../../redux/store';
 
-import { GamePlayContext } from '../../states/GamePlayContext';
-import { SoundEffectContext } from '../../context/SoundManager';
 import { CellInfoType, CellType } from '../../types/board.type';
 import { HeartMovingDirectionType } from '../../types/heart.type';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
@@ -12,6 +11,7 @@ import {
 	ANIMATION_DURATION,
 } from '../../constants/ui.constant';
 
+import { SoundEffectContext } from '../../context/SoundManager';
 import useSwipeHearts from '../../hooks/useSwipeHearts';
 import { calculateFallingSpeed } from '../../utils/heartFallingSpeed';
 
@@ -147,15 +147,14 @@ function Cell({
 		},
 	};
 
-	const {
-		movingHearts,
-		crushedHearts,
-		fallingHearts,
-		boardStatus: { validSwap },
-	} = useContext(GamePlayContext);
 	const { playSoundEffect, stopSoundEffect } = useContext(SoundEffectContext);
 	const [isSwapHint, setIsSwapHint] = useState<boolean>(false);
-	const movingStatus = movingHearts?.[cellInfo.id];
+	const movingStatus = useAppSelector(state => state.game.movingHearts?.[id]);
+	const crushedHearts = useAppSelector(state => state.game.crushedHearts);
+	const fallingHearts = useAppSelector(state => state.game.fallingHearts);
+	const isValidSwap = useAppSelector(
+		state => state.game.boardStatus.validSwap?.[id],
+	);
 	const isCrushed = crushedHearts.find(cell => cell.id === id);
 	const isFalling = fallingHearts.find(cell => cell.id === id);
 	const fallingDistance = isFalling ? isFalling.distance : 1;
@@ -167,7 +166,7 @@ function Cell({
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
 
-		if (validSwap?.[id]) {
+		if (isValidSwap) {
 			animationTimer = setTimeout(() => {
 				setIsSwapHint(true);
 				playSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
@@ -179,9 +178,9 @@ function Cell({
 
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
-			if (validSwap?.[id]) stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
+			if (isValidSwap) stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
 		};
-	}, [validSwap, id, playSoundEffect, stopSoundEffect]);
+	}, [isValidSwap, playSoundEffect, stopSoundEffect]);
 
 	return (
 		<Container
