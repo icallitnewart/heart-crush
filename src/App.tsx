@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAppSelector } from './redux/store';
 
-import { GamePlayProvider } from './states/GamePlayContext';
 import { SoundManagerProvider } from './context/SoundManager';
 import { SCREEN } from './constants/screen.constant';
 
@@ -18,11 +17,7 @@ function App() {
 			<GlobalStyles />
 			<ScreenContainer>
 				{screen === SCREEN.HOME && <HomeScreen />}
-				{screen === SCREEN.GAME && (
-					<GamePlayProvider>
-						<GameScreen />
-					</GamePlayProvider>
-				)}
+				{screen === SCREEN.GAME && <GameScreen />}
 			</ScreenContainer>
 		</SoundManagerProvider>
 	);

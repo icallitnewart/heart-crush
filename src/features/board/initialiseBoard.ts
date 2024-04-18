@@ -1,8 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { BoardType } from '../../types/board.type';
+import { BoardType, BoardStatusType } from '../../types/board.type';
 import { HeartType } from '../../types/common.type';
-import { BoardStatusType } from '../../types/gamePlayStates.type';
 
 import { getRandomHeart } from '../../utils/heartCreation';
 import {

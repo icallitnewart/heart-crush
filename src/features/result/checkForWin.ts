@@ -1,10 +1,10 @@
-import { RESULT } from '../../constants/gameStatus.constant';
 import {
 	GoalType,
 	MoveType,
 	ResultType,
 	ScoreType,
-} from '../../types/gamePlayStates.type';
+} from '../../types/state.type';
+import { RESULT } from '../../constants/gameStatus.constant';
 
 function hasScoreReachedGoal(currentScore: ScoreType, goalScore: ScoreType) {
 	return currentScore >= goalScore;

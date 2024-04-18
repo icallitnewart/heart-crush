@@ -1,6 +1,10 @@
 import { MOVE_HEART } from '../../constants/heart.constant';
-import { BoardType, CellPositionType, CellType } from '../../types/board.type';
-import { BoardStatusType } from '../../types/gamePlayStates.type';
+import {
+	BoardType,
+	BoardStatusType,
+	CellPositionType,
+	CellType,
+} from '../../types/board.type';
 import { HeartMovingDirectionType } from '../../types/heart.type';
 
 import { getMovingHearts, simulateHeartSwap } from '../heart';
