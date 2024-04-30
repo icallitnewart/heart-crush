@@ -1,6 +1,8 @@
 import { BoardType, CellPositionType } from '../types/board.type';
 import { HeartType } from '../types/common.type';
 
+import { getBoardSize } from './boardSize';
+
 export function isHeartsMatchUpward(
 	board: BoardType,
 	position: CellPositionType,
@@ -22,7 +24,8 @@ export function isHeartsMatchDownward(
 	currentHeart: HeartType,
 ) {
 	const { columnIndex, rowIndex } = position;
-	const isRowIndexValid = rowIndex < board[0].cells.length - 2;
+	const { rows } = getBoardSize(board);
+	const isRowIndexValid = rowIndex < rows - 2;
 
 	return (
 		isRowIndexValid &&
@@ -52,7 +55,8 @@ export function isHeartsMatchRightward(
 	currentHeart: HeartType,
 ) {
 	const { columnIndex, rowIndex } = position;
-	const isColumnIndexValid = columnIndex < board.length - 2;
+	const { columns } = getBoardSize(board);
+	const isColumnIndexValid = columnIndex < columns - 2;
 
 	return (
 		isColumnIndexValid &&

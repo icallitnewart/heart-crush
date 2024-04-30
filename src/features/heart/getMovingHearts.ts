@@ -16,8 +16,7 @@ function getMovingHearts(
 	position: CellPositionType,
 	board: BoardType,
 ): MovingHeartsType | null {
-	const rows = board[0].cells.length;
-	const nearHeart = getNearHeart(board, position, rows, direction);
+	const nearHeart = getNearHeart(board, position, direction);
 	if (!nearHeart) return null;
 
 	const oppositeDirection = getOppositeMovingDirection(direction);

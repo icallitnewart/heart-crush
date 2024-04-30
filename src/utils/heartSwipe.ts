@@ -2,6 +2,8 @@ import { MOVE_HEART } from '../constants/heart.constant';
 import { BoardType, CellPositionType } from '../types/board.type';
 import { HeartCoordsType, HeartMovingDirectionType } from '../types/heart.type';
 
+import { getBoardSize } from './boardSize';
+
 export function getMovingDirection(
 	x1: number,
 	x2: number,
@@ -61,10 +63,10 @@ export function getCoords(
 export function getNearHeart(
 	board: BoardType,
 	position: CellPositionType,
-	rows: number,
 	direction: HeartMovingDirectionType,
 ) {
 	const { columnIndex, rowIndex } = position;
+	const { rows } = getBoardSize(board);
 	let nearHeart;
 
 	// TODO: checkIsInVisibleArea 함수 만들기

@@ -8,6 +8,7 @@ import {
 import { HeartMovingDirectionType } from '../../types/heart.type';
 
 import { getMovingHearts, simulateHeartSwap } from '../heart';
+import { getBoardSize } from '../../utils/boardSize';
 
 function getValidSwapDirection(
 	currentCell: CellType,
@@ -37,8 +38,7 @@ function getValidSwapDirection(
 }
 
 function findValidSwap(board: BoardType) {
-	const columns = board.length;
-	const rows = board[0].cells.length;
+	const { columns, rows } = getBoardSize(board);
 
 	for (let columnIndex = 0; columnIndex < columns - 1; columnIndex += 1) {
 		for (let rowIndex = rows / 2; rowIndex < rows - 1; rowIndex += 1) {

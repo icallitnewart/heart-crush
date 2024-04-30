@@ -5,16 +5,20 @@ import {
 	MovingHeartInfoType,
 } from '../../types/heart.type';
 
+import { getBoardSize } from '../../utils/boardSize';
+
 function isPositionValid(
 	board: BoardType,
 	columnIndex: number,
 	rowIndex: number,
 ): boolean {
+	const { columns, rows } = getBoardSize(board);
+
 	return (
 		columnIndex >= 0 &&
-		columnIndex < board.length &&
-		rowIndex >= board[columnIndex].cells.length / 2 &&
-		rowIndex < board[columnIndex].cells.length
+		columnIndex < columns &&
+		rowIndex >= rows / 2 &&
+		rowIndex < rows
 	);
 }
 
