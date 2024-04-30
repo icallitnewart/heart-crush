@@ -127,14 +127,12 @@ interface CellPropsType {
 	cellData: CellType;
 	columnIndex: number;
 	rowIndex: number;
-	rows: number;
 }
 
 function Cell({
 	cellData,
 	columnIndex,
 	rowIndex,
-	rows,
 }: CellPropsType): React.ReactElement {
 	const heartColor = HEART_ICONS[cellData.heart];
 	const { id, heart } = cellData;
@@ -158,10 +156,8 @@ function Cell({
 	const isCrushed = crushedHearts.find(cell => cell.id === id);
 	const isFalling = fallingHearts.find(cell => cell.id === id);
 	const fallingDistance = isFalling ? isFalling.distance : 1;
-	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } = useSwipeHearts(
-		cellInfo,
-		rows,
-	);
+	const { handleSwipeStart, handleSwipeMove, handleSwipeEnd } =
+		useSwipeHearts(cellInfo);
 
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;

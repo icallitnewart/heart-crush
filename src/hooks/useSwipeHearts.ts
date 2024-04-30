@@ -12,8 +12,9 @@ import {
 	getNearHeartPosition,
 	getOppositeMovingDirection,
 } from '../utils/heartSwipe';
+import { getBoardSize } from '../utils/boardSize';
 
-function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
+function useSwipeHearts(cellInfo: CellInfoType) {
 	const { id, position, heart } = cellInfo;
 	const initialCoords: HeartCoordsType = { x: 0, y: 0 };
 
@@ -58,6 +59,7 @@ function useSwipeHearts(cellInfo: CellInfoType, rows: number) {
 
 		const direction = getMovingDirection(x1, x2, y1, y2);
 		if (direction) {
+			const { rows } = getBoardSize(board);
 			const nearHeart = getNearHeart(board, position, rows, direction);
 			if (!nearHeart) return;
 

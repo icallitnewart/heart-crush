@@ -37,7 +37,6 @@ function Column(
 					cellData={cellData}
 					columnIndex={columnIndex}
 					rowIndex={rowIndex}
-					rows={columnData.cells.length}
 				/>
 			))}
 		</Container>
