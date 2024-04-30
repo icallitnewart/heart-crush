@@ -20,6 +20,7 @@ import {
 	calculateScoreForCrushedHearts,
 } from '../../features/score';
 import { checkForWin } from '../../features/result';
+import { getBoardSize } from '../../utils/boardSize';
 
 const initialState: GameSliceStateType = {
 	board: [],
@@ -60,9 +61,7 @@ export const gameSlice = createSlice({
 		},
 		// 보드 초기화
 		resetBoard: state => {
-			// TODO: getBoardSize 함수 구현 필요
-			const columns = state.board.length;
-			const rows = state.board[0].cells.length;
+			const { rows, columns } = getBoardSize(state.board);
 			const { board, boardStatus } = initialiseBoard(columns, rows);
 
 			state.board = board;
