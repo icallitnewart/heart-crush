@@ -47,7 +47,6 @@ export interface CurrentStageType {
 	data: StageConfigType | null;
 	timestamp: number | null;
 	loading: boolean;
-	error: null | string;
 }
 
 export interface UnlockedStageType {

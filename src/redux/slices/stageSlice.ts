@@ -8,7 +8,7 @@ import {
 	UnlockedStageType,
 } from '../../types/state.type';
 import { STAGE_FILES } from '../../constants/stage.constant';
-import { ERROR_SLICE } from '../../constants/error.constant';
+import { ERROR_REASON, ERROR_SLICE } from '../../constants/error.constant';
 
 const initialUnlockedStage: UnlockedStageType = {
 	maxStageNumber: 1,
@@ -18,7 +18,6 @@ const initialCurrentStage: CurrentStageType = {
 	data: null,
 	timestamp: null,
 	loading: false,
-	error: null,
 };
 
 const initialState: StageSliceStateType = {
@@ -39,7 +38,11 @@ export const fetchStageConfig = createAsyncThunk(
 
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(error);
+			return rejectWithValue({
+				reason: ERROR_REASON.STAGE_DATA_LOAD_FAILURE,
+				sliceName: ERROR_SLICE.STAGE,
+				message: `Failed to load stage data. ${(error as Error).message}`,
+			});
 		}
 	},
 );
@@ -76,9 +79,8 @@ export const stageSlice = createSlice({
 				state.currentStage.data = action.payload;
 				state.currentStage.timestamp = Date.now();
 			})
-			.addCase(fetchStageConfig.rejected, (state, action) => {
+			.addCase(fetchStageConfig.rejected, state => {
 				state.currentStage.loading = false;
-				state.currentStage.error = action.payload as string;
 			})
 			.addCase(fetchStageConfig.pending, state => {
 				state.currentStage.loading = true;

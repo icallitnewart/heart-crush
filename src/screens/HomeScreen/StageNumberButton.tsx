@@ -8,7 +8,7 @@ import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 
 import { isStageNumberValid } from '../../utils/typeValidation';
 import { closePopup, switchScreen } from '../../redux/slices/displaySlice';
-import { fetchStageConfig } from '../../redux/slices/stageSlice';
+import { fetchStageConfig, setStageError } from '../../redux/slices/stageSlice';
 
 interface ButtonStylePropsType {
 	$isActive: boolean;
@@ -73,10 +73,8 @@ function StageNumberButton({
 		if (fetchStageConfig.fulfilled.match(result)) {
 			dispatch(closePopup());
 			dispatch(switchScreen(SCREEN.GAME));
-		} else {
-			// TODO: 에러 UI 처리
-			console.error(result.error?.message);
-			throw new Error('Failed to load stage data.');
+		} else if (fetchStageConfig.rejected.match(result)) {
+			dispatch(setStageError(result.payload));
 		}
 	};
 
