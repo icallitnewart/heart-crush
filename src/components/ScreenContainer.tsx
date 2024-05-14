@@ -16,7 +16,7 @@ interface ScreenContainerPropsType {
 function ScreenContainer({
 	children,
 }: ScreenContainerPropsType): React.ReactElement {
-	return <Container>{children}</Container>;
+	return <Container id="screen-container">{children}</Container>;
 }
 
 export default ScreenContainer;
