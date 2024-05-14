@@ -5,6 +5,7 @@ import { SoundManagerProvider } from './context/SoundManager';
 import { SCREEN } from './constants/screen.constant';
 
 import GlobalStyles from './GlobalStyles';
+import ErrorBoundaryHandler from './components/ErrorBoundaryHandler';
 import ScreenContainer from './components/ScreenContainer';
 import GameScreen from './screens/GameScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -16,8 +17,10 @@ function App() {
 		<SoundManagerProvider>
 			<GlobalStyles />
 			<ScreenContainer>
-				{screen === SCREEN.HOME && <HomeScreen />}
-				{screen === SCREEN.GAME && <GameScreen />}
+				<ErrorBoundaryHandler>
+					{screen === SCREEN.HOME && <HomeScreen />}
+					{screen === SCREEN.GAME && <GameScreen />}
+				</ErrorBoundaryHandler>
 			</ScreenContainer>
 		</SoundManagerProvider>
 	);
