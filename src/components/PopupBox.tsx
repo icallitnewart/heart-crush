@@ -22,26 +22,38 @@ const Container = styled.div`
 	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
 `;
 
-const Wrapper = styled.div`
+interface WrapperStylePropsType {
+	$bgColor?: string;
+}
+
+const Wrapper = styled.div<WrapperStylePropsType>`
 	width: 100%;
 	height: 100%;
 
 	border-radius: 7px;
 	border: 1px solid #999;
-	background-color: var(--sub-color-blue);
+	background-color: ${({ $bgColor }) => $bgColor};
 	box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.15);
 `;
 
 interface PopupBoxPropsType {
 	children: React.ReactElement;
+	bgColor?: string;
 }
 
-function PopupBox({ children }: PopupBoxPropsType): React.ReactElement {
+function PopupBox({
+	children,
+	bgColor,
+}: PopupBoxPropsType): React.ReactElement {
 	return (
 		<Container>
-			<Wrapper>{children}</Wrapper>
+			<Wrapper $bgColor={bgColor}>{children}</Wrapper>
 		</Container>
 	);
 }
+
+PopupBox.defaultProps = {
+	bgColor: 'var(--sub-color-blue)',
+};
 
 export default PopupBox;

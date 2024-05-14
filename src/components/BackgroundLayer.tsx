@@ -2,7 +2,8 @@ import React from 'react';
 import { styled } from 'styled-components';
 
 interface BackgroundStylePropsType {
-	$opacity: number | undefined;
+	$opacity?: number;
+	$bgColor?: string;
 }
 
 const Background = styled.div<BackgroundStylePropsType>`
@@ -15,23 +16,33 @@ const Background = styled.div<BackgroundStylePropsType>`
 	align-items: center;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, ${({ $opacity }) => $opacity});
+	background-color: rgba(
+		${({ $bgColor }) => $bgColor},
+		${({ $opacity }) => $opacity}
+	);
 `;
 
 interface BackgroundLayerPropsType {
 	children: React.ReactElement | string;
 	opacity?: number;
+	bgColor?: string;
 }
 
 function BackgroundLayer({
 	children,
 	opacity,
+	bgColor,
 }: BackgroundLayerPropsType): React.ReactElement {
-	return <Background $opacity={opacity}>{children}</Background>;
+	return (
+		<Background $opacity={opacity} $bgColor={bgColor}>
+			{children}
+		</Background>
+	);
 }
 
 BackgroundLayer.defaultProps = {
 	opacity: 0.4,
+	bgColor: '0, 0, 0',
 };
 
 export default BackgroundLayer;
