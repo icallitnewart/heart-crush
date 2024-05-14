@@ -6,6 +6,7 @@ import { SCREEN } from './constants/screen.constant';
 
 import GlobalStyles from './GlobalStyles';
 import ErrorBoundaryHandler from './components/ErrorBoundaryHandler';
+import StateErrorHandler from './components/StateErrorHandler';
 import ScreenContainer from './components/ScreenContainer';
 import GameScreen from './screens/GameScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -18,8 +19,10 @@ function App() {
 			<GlobalStyles />
 			<ScreenContainer>
 				<ErrorBoundaryHandler>
-					{screen === SCREEN.HOME && <HomeScreen />}
-					{screen === SCREEN.GAME && <GameScreen />}
+					<StateErrorHandler>
+						{screen === SCREEN.HOME && <HomeScreen />}
+						{screen === SCREEN.GAME && <GameScreen />}
+					</StateErrorHandler>
 				</ErrorBoundaryHandler>
 			</ScreenContainer>
 		</SoundManagerProvider>
