@@ -2,6 +2,7 @@ import { RESULT } from '../constants/gameStatus.constant';
 import { POPUP, SCREEN } from '../constants/screen.constant';
 import { STAGE_FILES } from '../constants/stage.constant';
 import { BoardStatusType, BoardType } from './board.type';
+import { StateErrorType } from './common.type';
 import {
 	CrushedHeartsType,
 	FallingHeartsType,
@@ -14,6 +15,7 @@ export type ScreenType = keyof typeof SCREEN;
 export type PopupType = keyof typeof POPUP | null;
 
 export interface DisplaySliceStateType {
+	error: StateErrorType | null;
 	screen: ScreenType;
 	popup: PopupType;
 }
@@ -21,6 +23,7 @@ export interface DisplaySliceStateType {
 
 // SoundSliceStateType : Start
 export interface SoundSliceStateType {
+	error: StateErrorType | null;
 	isSoundActivated: boolean;
 	bgMusic: boolean;
 	soundEffect: boolean;
@@ -52,6 +55,7 @@ export interface UnlockedStageType {
 }
 
 export interface StageSliceStateType {
+	error: StateErrorType | null;
 	unlockedStage: UnlockedStageType;
 	currentStage: CurrentStageType;
 }
@@ -73,6 +77,7 @@ export type IsSwipeEnabledType = boolean;
 export type IsBonusTimeType = boolean;
 
 export interface GameSliceStateType {
+	error: StateErrorType | null;
 	board: BoardType;
 	boardStatus: BoardStatusType;
 	score: ScoreType;

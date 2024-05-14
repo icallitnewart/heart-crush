@@ -8,12 +8,13 @@ import {
 	UnlockedStageType,
 } from '../../types/state.type';
 import { STAGE_FILES } from '../../constants/stage.constant';
+import { ERROR_SLICE } from '../../constants/error.constant';
 
 const initialUnlockedStage: UnlockedStageType = {
 	maxStageNumber: 1,
 };
 
-export const initialCurrentStage: CurrentStageType = {
+const initialCurrentStage: CurrentStageType = {
 	data: null,
 	timestamp: null,
 	loading: false,
@@ -21,13 +22,17 @@ export const initialCurrentStage: CurrentStageType = {
 };
 
 const initialState: StageSliceStateType = {
+	error: null,
 	unlockedStage: initialUnlockedStage,
 	currentStage: initialCurrentStage,
 };
 
+export const initialStageState = initialState;
+
 export const fetchStageConfig = createAsyncThunk(
 	'stage/fetchStageConfig',
 	async (stageNumber: StageNumberType, { rejectWithValue }) => {
+		// TODO: timestamp 설정
 		try {
 			const filePath = STAGE_FILES[stageNumber];
 			const response = await axios.get(filePath);
@@ -43,6 +48,18 @@ export const stageSlice = createSlice({
 	name: 'stage',
 	initialState,
 	reducers: {
+		setStageError: (state, action) => {
+			const { reason, message } = action.payload;
+
+			state.error = {
+				reason,
+				message,
+				sliceName: ERROR_SLICE.STAGE,
+			};
+		},
+		clearStageError: state => {
+			state.error = null;
+		},
 		setUnlockedStage: (state, action) => {
 			if (action.payload > state.unlockedStage.maxStageNumber) {
 				state.unlockedStage.maxStageNumber = action.payload;
@@ -69,6 +86,11 @@ export const stageSlice = createSlice({
 	},
 });
 
-export const { setUnlockedStage, clearCurrentStage } = stageSlice.actions;
+export const {
+	setStageError,
+	clearStageError,
+	setUnlockedStage,
+	clearCurrentStage,
+} = stageSlice.actions;
 
 export default stageSlice.reducer;

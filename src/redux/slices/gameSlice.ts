@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { GameSliceStateType } from '../../types/state.type';
 import { CrushedHeartsType } from '../../types/heart.type';
+import { ERROR_SLICE } from '../../constants/error.constant';
 
 import {
 	initialiseBoard,
@@ -23,6 +24,7 @@ import { checkForWin } from '../../features/result';
 import { getBoardSize } from '../../utils/boardSize';
 
 const initialState: GameSliceStateType = {
+	error: null,
 	board: [],
 	boardStatus: {
 		isValid: null,
@@ -45,6 +47,18 @@ export const gameSlice = createSlice({
 	name: 'game',
 	initialState,
 	reducers: {
+		setGameError: (state, action) => {
+			const { reason, message } = action.payload;
+
+			state.error = {
+				reason,
+				message,
+				sliceName: ERROR_SLICE.GAME,
+			};
+		},
+		clearGameError: state => {
+			state.error = null;
+		},
 		// 게임 시작
 		startGame: (state, action) => {
 			const { columns, rows, move, goal } = action.payload;
@@ -169,6 +183,8 @@ export const gameSlice = createSlice({
 });
 
 export const {
+	setGameError,
+	clearGameError,
 	startGame,
 	resetBoard,
 	moveHearts,
