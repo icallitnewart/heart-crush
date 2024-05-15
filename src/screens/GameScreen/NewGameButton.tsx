@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAppDispatch } from '../../redux/store';
 
+import { ERROR_REASON } from '../../constants/error.constant';
+
 import { isStageNumberValid } from '../../utils/typeValidation';
 import { closePopup } from '../../redux/slices/displaySlice';
-import { fetchStageConfig } from '../../redux/slices/stageSlice';
+import { fetchStageConfig, setStageError } from '../../redux/slices/stageSlice';
 
 import TextButton from '../../components/TextButton';
 
@@ -20,11 +22,21 @@ function NewGameButton({
 
 	const startGame = () => {
 		if (!stageNumber) {
-			throw new Error('stageNumber 정보가 존재하지 않습니다.');
+			const error = {
+				reason: ERROR_REASON.INVALID_STAGE_NUMBER,
+				message: 'stageNumber is null or undefined.',
+			};
+			dispatch(setStageError(error));
+			return;
 		}
 
 		if (!isStageNumberValid(stageNumber)) {
-			throw new Error('유효하지 않은 stageNumber입니다.');
+			const error = {
+				reason: ERROR_REASON.INVALID_STAGE_NUMBER,
+				message: 'stageNumber is invalid.',
+			};
+			dispatch(setStageError(error));
+			return;
 		}
 
 		dispatch(fetchStageConfig(stageNumber));

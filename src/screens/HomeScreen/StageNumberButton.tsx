@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../redux/store';
 import { SoundEffectContext } from '../../context/SoundManager';
 import { SCREEN } from '../../constants/screen.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
+import { ERROR_REASON } from '../../constants/error.constant';
 
 import { isStageNumberValid } from '../../utils/typeValidation';
 import { closePopup, switchScreen } from '../../redux/slices/displaySlice';
@@ -62,11 +63,21 @@ function StageNumberButton({
 
 	const startGame = async () => {
 		if (!stageNumber) {
-			throw new Error('stageNumber 정보가 존재하지 않습니다.');
+			const error = {
+				reason: ERROR_REASON.INVALID_STAGE_NUMBER,
+				message: 'stageNumber is null or undefined.',
+			};
+			dispatch(setStageError(error));
+			return;
 		}
 
 		if (!isStageNumberValid(stageNumber)) {
-			throw new Error('유효하지 않은 stageNumber입니다.');
+			const error = {
+				reason: ERROR_REASON.INVALID_STAGE_NUMBER,
+				message: 'stageNumber is invalid.',
+			};
+			dispatch(setStageError(error));
+			return;
 		}
 
 		const result = await dispatch(fetchStageConfig(stageNumber));
