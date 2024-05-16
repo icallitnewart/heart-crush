@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { GameSliceStateType } from '../../types/state.type';
 import { CrushedHeartsType } from '../../types/heart.type';
-import { ERROR_SLICE } from '../../constants/error.constant';
+import { ERROR_REASON, ERROR_SLICE } from '../../constants/error.constant';
 
 import {
 	initialiseBoard,
@@ -42,7 +42,6 @@ const initialState: GameSliceStateType = {
 	isBonusTime: false,
 };
 
-// TODO: 데이터 검증 및 에러 처리 필요
 export const gameSlice = createSlice({
 	name: 'game',
 	initialState,
@@ -64,6 +63,15 @@ export const gameSlice = createSlice({
 			const { columns, rows, move, goal } = action.payload;
 			const { board, boardStatus } = initialiseBoard(columns, rows);
 
+			if (!boardStatus.isValid) {
+				state.error = {
+					reason: ERROR_REASON.INVALID_GAME_DATA,
+					message: 'Failed to produce a valid board.',
+					sliceName: ERROR_SLICE.GAME,
+				};
+				return state;
+			}
+
 			return {
 				...initialState,
 				board,
@@ -78,6 +86,15 @@ export const gameSlice = createSlice({
 			const { rows, columns } = getBoardSize(state.board);
 			const { board, boardStatus } = initialiseBoard(columns, rows);
 
+			if (!boardStatus.isValid) {
+				state.error = {
+					reason: ERROR_REASON.INVALID_GAME_DATA,
+					message: 'Failed to produce a valid board.',
+					sliceName: ERROR_SLICE.GAME,
+				};
+				return;
+			}
+
 			state.board = board;
 			state.boardStatus = boardStatus;
 		},
@@ -91,9 +108,12 @@ export const gameSlice = createSlice({
 		swapHearts: state => {
 			const { movingHearts, board, score, move } = state;
 
-			// TODO: 에러 처리 필요
 			if (!movingHearts) {
-				console.error('MovingHearts is missing.');
+				state.error = {
+					reason: ERROR_REASON.INVALID_GAME_DATA,
+					message: 'movingHearts is null or undefined.',
+					sliceName: ERROR_SLICE.GAME,
+				};
 				return;
 			}
 

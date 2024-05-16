@@ -75,9 +75,6 @@ function ErrorNotification({
 		moveToHome: () => {
 			dispatch(switchScreen(SCREEN.HOME));
 		},
-		restartGame: () => {
-			window.location.reload();
-		},
 		reload: () => {
 			window.location.reload();
 		},
@@ -115,8 +112,8 @@ function ErrorNotification({
 			message:
 				'Sorry, game has stopped due to an unexpected error. Please restart the game.',
 			button: {
-				function: () => resolveError(btnFunc.restartGame),
-				text: 'Restart',
+				function: () => resolveError(btnFunc.moveToHome),
+				text: 'Go back',
 			},
 		},
 		[ERROR_REASON.STAGE_DATA_LOAD_FAILURE]: {
