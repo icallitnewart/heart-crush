@@ -13,17 +13,24 @@ import { startGame } from '../../redux/slices/gameSlice';
 import Navigation from './Navigation';
 import Information from './Information';
 import Board from './Board';
+import Footer from '../../components/Footer';
 import EndingAlertPopup from './EndingAlertPopup';
 import ResultPopup from './ResultPopup';
 import ExitGamePopup from './ExitGamePopup';
 
 const Container = styled.div`
-	display: flex;
-	flex-direction: column;
 	width: 100%;
 	height: 100%;
+`;
+
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: calc(100% - 25px);
 	padding: 20px 20px 30px;
-	background-color: var(--sub-color-blue);
 `;
 
 function GameScreen(): React.ReactElement {
@@ -67,9 +74,12 @@ function GameScreen(): React.ReactElement {
 	return (
 		<>
 			<Container>
-				<Navigation />
-				<Information />
-				<Board />
+				<Wrapper>
+					<Navigation />
+					<Information />
+					<Board />
+				</Wrapper>
+				<Footer />
 			</Container>
 			{popup === POPUP.ENDING_ALERT && <EndingAlertPopup />}
 			{popup === POPUP.RESULT && <ResultPopup />}

@@ -7,24 +7,23 @@ import { POPUP } from '../../constants/screen.constant';
 import Logo from '../../components/Logo';
 import GameMenu from './GameMenu';
 import SoundOptions from './SoundOptions';
+import Footer from '../../components/Footer';
 import StagePopup from './StagePopup';
 import SoundAlertPopup from './SoundAlertPopup';
 import CreditsPopup from './CreditsPopup';
 
-const Background = styled.div`
+const Container = styled.div`
 	width: 100%;
 	height: 100%;
-	padding-top: 20vh;
-
-	background-color: var(--sub-color-blue);
 `;
 
-const Container = styled.div`
+const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	height: calc(100% - 25px);
 `;
 
 function HomeScreen(): React.ReactElement {
@@ -32,13 +31,14 @@ function HomeScreen(): React.ReactElement {
 
 	return (
 		<>
-			<Background>
-				<Container>
+			<Container>
+				<Wrapper>
 					<Logo fontSize="3em" />
 					<GameMenu />
 					<SoundOptions />
-				</Container>
-			</Background>
+				</Wrapper>
+				<Footer />
+			</Container>
 			{popup === POPUP.SOUND_ALERT && <SoundAlertPopup />}
 			{popup === POPUP.STAGE && <StagePopup />}
 			{popup === POPUP.CREDITS && <CreditsPopup />}

@@ -7,6 +7,8 @@ const Container = styled.div`
 	max-width: 480px;
 	height: 100vh;
 	max-height: 1000px;
+
+	background-color: var(--sub-color-blue);
 `;
 
 interface ScreenContainerPropsType {
