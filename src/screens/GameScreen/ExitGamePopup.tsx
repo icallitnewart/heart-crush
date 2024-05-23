@@ -27,7 +27,7 @@ const Title = styled.h1`
 
 	font-style: italic;
 	color: var(--main-color-yellow);
-	-webkit-text-stroke: 1.3px #333;
+	-webkit-text-stroke: 1px #333;
 	font-size: 2em;
 	font-family: var(--main-font);
 	letter-spacing: 3px;
@@ -59,8 +59,8 @@ const Text = styled.h2`
 	color: var(--sub-color-pink);
 	letter-spacing: 2px;
 	line-height: 1.5;
-	-webkit-text-stroke: 1.3px #444;
-	text-shadow: 1px 1px 0px #444;
+	-webkit-text-stroke: 1px #666;
+	text-shadow: 1px 1px 0px #666;
 `;
 
 const ButtonContainer = styled.div`
