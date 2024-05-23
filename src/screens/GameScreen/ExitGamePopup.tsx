@@ -25,7 +25,6 @@ const Title = styled.h1`
 	z-index: 9;
 	margin-bottom: 30px;
 
-	font-style: italic;
 	color: var(--main-color-yellow);
 	-webkit-text-stroke: 1px #333;
 	font-size: 2em;
