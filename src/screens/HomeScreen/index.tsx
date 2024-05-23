@@ -33,7 +33,7 @@ function HomeScreen(): React.ReactElement {
 		<>
 			<Container>
 				<Wrapper>
-					<Logo fontSize="3em" />
+					<Logo fontSize="3em" textStroke={1} />
 					<GameMenu />
 					<SoundOptions />
 				</Wrapper>
