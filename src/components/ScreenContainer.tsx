@@ -1,5 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const moveToLeftAnimation = keyframes`
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: -500px 0;
+	}
+`;
 
 const Container = styled.div`
 	position: relative;
@@ -9,6 +18,10 @@ const Container = styled.div`
 	max-height: 1000px;
 
 	background-color: var(--sub-color-blue);
+	background-image: url(${process.env.PUBLIC_URL}/assets/images/cloud.svg);
+	background-repeat: repeat;
+	background-size: auto;
+	animation: ${moveToLeftAnimation} 10000ms linear infinite;
 `;
 
 interface ScreenContainerPropsType {
