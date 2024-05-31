@@ -4,7 +4,7 @@ import { useAppSelector } from './redux/store';
 import { SoundManagerProvider } from './context/SoundManager';
 import { SCREEN } from './constants/screen.constant';
 
-import GlobalStyles from './GlobalStyles';
+import StyleProvider from './StyleProvider';
 import ErrorBoundaryHandler from './components/ErrorBoundaryHandler';
 import StateErrorHandler from './components/StateErrorHandler';
 import ScreenContainer from './components/ScreenContainer';
@@ -16,15 +16,16 @@ function App() {
 
 	return (
 		<SoundManagerProvider>
-			<GlobalStyles />
-			<ScreenContainer>
-				<ErrorBoundaryHandler>
-					<StateErrorHandler>
-						{screen === SCREEN.HOME && <HomeScreen />}
-						{screen === SCREEN.GAME && <GameScreen />}
-					</StateErrorHandler>
-				</ErrorBoundaryHandler>
-			</ScreenContainer>
+			<StyleProvider>
+				<ScreenContainer>
+					<ErrorBoundaryHandler>
+						<StateErrorHandler>
+							{screen === SCREEN.HOME && <HomeScreen />}
+							{screen === SCREEN.GAME && <GameScreen />}
+						</StateErrorHandler>
+					</ErrorBoundaryHandler>
+				</ScreenContainer>
+			</StyleProvider>
 		</SoundManagerProvider>
 	);
 }
