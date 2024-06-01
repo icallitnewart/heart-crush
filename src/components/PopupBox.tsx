@@ -62,6 +62,10 @@ const Container = styled.div`
 		${fadeInAndMoveDownAnimation} 500ms forwards,
 		${backgroundColorAnimation} 600ms infinite;
 	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+
+	@media ${({ theme }) => theme.smallMobile} {
+		padding: 12px;
+	}
 `;
 
 interface WrapperStylePropsType {
