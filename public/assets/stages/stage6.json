@@ -2,7 +2,7 @@
   "stageNumber": 6,
   "move": 15,
   "columns": 8,
-  "rows": 20,
+  "rows": 16,
   "goal": {
     "score": 450
   }
