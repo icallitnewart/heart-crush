@@ -7,8 +7,19 @@ import CreditsButton from './CreditsButton';
 
 const Container = styled.ul`
 	width: 100%;
-	padding: clamp(50px, 20vw, 100px) clamp(50px, 15vw, 100px)
-		clamp(30px, 10vw, 80px);
+	padding: 80px 80px 60px;
+
+	@media ${({ theme }) => theme.tablet} {
+		padding: 80px 15vw 60px;
+	}
+
+	@media ${({ theme }) => theme.mobile} {
+		padding: 70px clamp(40px, 15vw, 80px) 50px;
+	}
+
+	@media ${({ theme }) => theme.smallMobile} {
+		padding: 50px clamp(40px, 15vw, 80px) 40px;
+	}
 `;
 
 const ButtonBox = styled.li`
