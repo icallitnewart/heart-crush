@@ -24,8 +24,8 @@ const HeartIconCommonStyle = css<HeartIconStyleProps>`
 	width: 100%;
 	height: 100%;
 	color: var(--heart-color-${props => props.$heartColor});
-	stroke: #555;
-	stroke-width: 15;
+	stroke: #333;
+	stroke-width: 10;
 	filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
 `;
 
