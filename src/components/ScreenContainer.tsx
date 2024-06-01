@@ -77,6 +77,11 @@ const ScreenWrapper = styled.div`
 	background-repeat: repeat;
 	background-size: auto;
 	animation: ${moveToLeftAnimation} 10000ms linear infinite;
+
+	@media ${({ theme }) => theme.mobile} {
+		width: 100vw;
+		min-width: 400px;
+	}
 `;
 
 const DesktopScreen = styled.div`
