@@ -10,7 +10,7 @@ const Container = styled.ul`
 	padding: 80px 80px 60px;
 
 	@media ${({ theme }) => theme.tablet} {
-		padding: 80px 15vw 60px;
+		padding: 80px clamp(50px, 15vw, 80px) 60px;
 	}
 
 	@media ${({ theme }) => theme.mobile} {
