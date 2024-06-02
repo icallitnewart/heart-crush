@@ -30,12 +30,12 @@ const StageNumber = styled.span`
 	margin-bottom: -10px;
 	margin-left: -2px;
 
-	font-size: 26px;
-	line-height: 0.3;
+	font-size: 20px;
+	line-height: 0.8;
 	color: var(--main-color-yellow);
 	-webkit-text-stroke: 0.8px #333;
 	text-shadow: 1px 1px 0px #666;
-	font-family: var(--main-font); // TODO: 변경 예정
+	font-family: var(--sub-font);
 `;
 
 function Stage(): React.ReactElement {
