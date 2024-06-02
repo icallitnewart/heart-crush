@@ -22,6 +22,10 @@ const ControlButtons = styled.div`
 	align-items: center;
 	width: 140px;
 	height: 100%;
+
+	@media ${({ theme }) => theme.mobile} {
+		width: 130px;
+	}
 `;
 
 function Navigation(): React.ReactElement {

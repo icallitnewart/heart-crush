@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobileOnly } from 'react-device-detect';
 import styled, { css } from 'styled-components';
 
 interface ContainerStylePropsType {
@@ -21,6 +22,14 @@ const Container = styled.h1<ContainerStylePropsType>`
 	font-family: var(--main-font);
 	font-size: ${({ $fontSize }) => $fontSize};
 	letter-spacing: 1px;
+
+	@media ${({ theme }) => theme.mobile} {
+		${({ $fontSize }) =>
+			isMobileOnly &&
+			css`
+				font-size: calc(${$fontSize} * 0.85);
+			`}
+	}
 
 	span {
 		-webkit-text-stroke: ${({ $textStroke }) => $textStroke}px #333;

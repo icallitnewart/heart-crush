@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { RuleSet, css, keyframes } from 'styled-components';
+import { isMobileOnly } from 'react-device-detect';
 import { useAppSelector } from '../../redux/store';
 
 import { CellInfoType, CellType } from '../../types/board.type';
@@ -84,6 +85,10 @@ const Container = styled.div<ContainerStylePropsType>`
 	aspect-ratio: 1 / 1;
 	padding: 5px;
 	cursor: pointer;
+
+	@media ${({ theme }) => theme.mobile} {
+		${isMobileOnly && `padding: 3px`}
+	}
 
 	${({
 		$isMoving,

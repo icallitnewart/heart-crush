@@ -6,6 +6,7 @@ import React, {
 	useEffect,
 } from 'react';
 import styled from 'styled-components';
+import { isMobileOnly } from 'react-device-detect';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
@@ -60,6 +61,10 @@ const Wrapper = styled.div<WrapperStyleProps>`
 	border: 1px solid #888;
 	border-radius: 5px;
 	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+
+	@media ${({ theme }) => theme.mobile} {
+		${isMobileOnly && 'padding: 10px'}
+	}
 `;
 
 interface BoardBoxStyleProps {

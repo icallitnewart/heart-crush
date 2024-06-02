@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobileOnly } from 'react-device-detect';
 import styled from 'styled-components';
 
 interface InfoBoxStyleProps {
@@ -33,6 +34,14 @@ const Title = styled.div`
 	font-size: 16px;
 	font-family: var(--main-font);
 	text-shadow: 1px 1px 0px #333;
+
+	@media ${({ theme }) => theme.mobile} {
+		${isMobileOnly &&
+		`
+			height: 24px;
+			font-size: 14px;
+		`}
+	}
 `;
 
 const TextBox = styled.div`
@@ -50,6 +59,14 @@ const TextBox = styled.div`
 	font-family: var(--sub-font);
 	font-size: 32px;
 	letter-spacing: 2px;
+
+	@media ${({ theme }) => theme.mobile} {
+		${isMobileOnly &&
+		`
+			height: calc(100% - 16px);
+			font-size: 26px;
+		`}
+	}
 `;
 
 interface InfoBoxProps {

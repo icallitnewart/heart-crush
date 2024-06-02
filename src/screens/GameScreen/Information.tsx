@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { isMobileOnly } from 'react-device-detect';
 
 import Goal from './Goal';
 import Move from './Move';
@@ -12,6 +13,10 @@ const Container = styled.ul`
 	width: 100%;
 	height: 85px;
 	margin-bottom: 20px;
+
+	@media ${({ theme }) => theme.mobile} {
+		${isMobileOnly && `height: 65px;`}
+	}
 `;
 
 function Information(): React.ReactElement {

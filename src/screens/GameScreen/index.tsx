@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { isMobileOnly } from 'react-device-detect';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import { POPUP } from '../../constants/screen.constant';
@@ -31,6 +32,10 @@ const Wrapper = styled.div`
 	width: 100%;
 	height: calc(100% - 25px);
 	padding: 20px 20px 30px;
+
+	@media ${({ theme }) => theme.mobile} {
+		${isMobileOnly && 'padding: 20px 15px 30px'}
+	}
 `;
 
 function GameScreen(): React.ReactElement {
