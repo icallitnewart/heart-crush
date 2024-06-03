@@ -1,3 +1,4 @@
+import { BOARD_HIDDEN_ROWS_MULTIPLIER } from '../../constants/board.constant';
 import { BoardType, CellInfoType } from '../../types/board.type';
 import {
 	HeartDistanceType,
@@ -17,7 +18,7 @@ function isPositionValid(
 	return (
 		columnIndex >= 0 &&
 		columnIndex < columns &&
-		rowIndex >= rows / 2 &&
+		rowIndex >= rows - rows / BOARD_HIDDEN_ROWS_MULTIPLIER &&
 		rowIndex < rows
 	);
 }

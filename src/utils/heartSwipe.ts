@@ -1,3 +1,4 @@
+import { BOARD_HIDDEN_ROWS_MULTIPLIER } from '../constants/board.constant';
 import { MOVE_HEART } from '../constants/heart.constant';
 import { BoardType, CellPositionType } from '../types/board.type';
 import { HeartCoordsType, HeartMovingDirectionType } from '../types/heart.type';
@@ -69,9 +70,9 @@ export function getNearHeart(
 	const { rows } = getBoardSize(board);
 	let nearHeart;
 
-	// TODO: checkIsInVisibleArea 함수 만들기
 	const isNearHeartInVisibleArea = !(
-		direction === MOVE_HEART.UP && rowIndex - 1 <= rows / 2 - 1
+		direction === MOVE_HEART.UP &&
+		rowIndex - 1 <= rows / BOARD_HIDDEN_ROWS_MULTIPLIER - 1
 	);
 
 	if (isNearHeartInVisibleArea) {

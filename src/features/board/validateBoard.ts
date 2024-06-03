@@ -1,4 +1,5 @@
 import { MOVE_HEART } from '../../constants/heart.constant';
+import { BOARD_HIDDEN_ROWS_MULTIPLIER } from '../../constants/board.constant';
 import {
 	BoardType,
 	BoardStatusType,
@@ -41,7 +42,11 @@ function findValidSwap(board: BoardType) {
 	const { columns, rows } = getBoardSize(board);
 
 	for (let columnIndex = 0; columnIndex < columns - 1; columnIndex += 1) {
-		for (let rowIndex = rows / 2; rowIndex < rows - 1; rowIndex += 1) {
+		for (
+			let rowIndex = rows - rows / BOARD_HIDDEN_ROWS_MULTIPLIER;
+			rowIndex < rows - 1;
+			rowIndex += 1
+		) {
 			const currentCell = board[columnIndex].cells[rowIndex];
 			const position = { columnIndex, rowIndex };
 

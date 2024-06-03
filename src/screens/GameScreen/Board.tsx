@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import { ANIMATION_DURATION } from '../../constants/ui.constant';
 import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
+import { BOARD_HIDDEN_ROWS_MULTIPLIER } from '../../constants/board.constant';
 
 import { SoundEffectContext } from '../../context/SoundManager';
 import {
@@ -108,7 +109,7 @@ function Board() {
 	useLayoutEffect(() => {
 		if (!isMountedRef.current && board.length > 0 && columnRef.current) {
 			const columnHeight = columnRef.current.offsetHeight;
-			setBoardBoxHeight(columnHeight / 2);
+			setBoardBoxHeight(columnHeight / BOARD_HIDDEN_ROWS_MULTIPLIER);
 			isMountedRef.current = true;
 		}
 	}, [isMountedRef, columnRef, board]);

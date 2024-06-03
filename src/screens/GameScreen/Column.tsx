@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { ColumnType } from '../../types/board.type';
+import { BOARD_HIDDEN_ROWS_MULTIPLIER } from '../../constants/board.constant';
 
 import Cell from './Cell';
 
@@ -16,7 +17,9 @@ const Container = styled.li<ColumnStyleProps>`
 	width: ${({ $columns }) => `calc(100% / ${$columns})`};
 	height: 100%;
 	padding-bottom: 3px;
-	transform: translateY(calc(-50% + 5px));
+	transform: translateY(
+		calc(${-(BOARD_HIDDEN_ROWS_MULTIPLIER - 1) * 50}% + 7px)
+	);
 `;
 
 interface ColumnProps {
