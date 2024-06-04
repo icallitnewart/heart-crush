@@ -74,12 +74,13 @@ function findValidSwap(board: BoardType) {
 }
 
 function validateBoard(board: BoardType): BoardStatusType {
-	const validSwap = findValidSwap(board);
-	const isValid = validSwap !== null;
+	const swappableCells = findValidSwap(board);
+	const isValid = swappableCells !== null;
 
 	return {
 		isValid,
-		validSwap,
+		swappableCells,
+		isSwapHint: false,
 	};
 }
 

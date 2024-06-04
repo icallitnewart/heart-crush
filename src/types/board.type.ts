@@ -20,13 +20,16 @@ export type BoardType = ColumnType[];
 
 export type IsBoardValidType = boolean | null;
 
-export interface ValidSwapCellInfoType {
+type IsSwapHintType = boolean | null;
+
+export interface SwappableCellsInfoType {
 	[id: string]: CellType;
 }
 
-export type ValidSwapType = ValidSwapCellInfoType | null;
+export type SwappableCellsType = SwappableCellsInfoType | null;
 
 export interface BoardStatusType {
 	isValid: IsBoardValidType;
-	validSwap: ValidSwapType;
+	swappableCells: SwappableCellsType;
+	isSwapHint: IsSwapHintType;
 }

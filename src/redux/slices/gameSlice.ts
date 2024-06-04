@@ -28,7 +28,8 @@ const initialState: GameSliceStateType = {
 	board: [],
 	boardStatus: {
 		isValid: null,
-		validSwap: null,
+		swappableCells: null,
+		isSwapHint: null,
 	},
 	score: 0,
 	move: 0,
@@ -98,6 +99,11 @@ export const gameSlice = createSlice({
 			state.board = board;
 			state.boardStatus = boardStatus;
 		},
+		// 스왑 힌트 적용 여부 설정
+		setIsSwapHint: (state, action) => {
+			const isSwapHint = action.payload;
+			state.boardStatus.isSwapHint = isSwapHint;
+		},
 		// 하트 이동 (스와이프로 인해 임시로 이동)
 		moveHearts: (state, action) => {
 			const movingHearts = action.payload;
@@ -125,7 +131,7 @@ export const gameSlice = createSlice({
 			// 하트 매칭 성공시
 			if (isSwapValid) {
 				state.board = updatedBoard;
-				state.boardStatus.validSwap = null;
+				state.boardStatus.swappableCells = null;
 				state.move = move - 1;
 				state.crushedHearts = crushedHearts;
 				state.score = calculateScoreForCrushedHearts(score, crushedHearts);
@@ -207,6 +213,7 @@ export const {
 	clearGameError,
 	startGame,
 	resetBoard,
+	setIsSwapHint,
 	moveHearts,
 	swapHearts,
 	returnHearts,

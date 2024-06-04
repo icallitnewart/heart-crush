@@ -94,13 +94,14 @@ function Board() {
 	const dispatch = useAppDispatch();
 	const board = useAppSelector(state => state.game.board);
 	const isBoardValid = useAppSelector(state => state.game.boardStatus.isValid);
+	const isSwapHint = useAppSelector(state => state.game.boardStatus.isSwapHint);
 	const movingHearts = useAppSelector(state => state.game.movingHearts);
 	const crushedHearts = useAppSelector(state => state.game.crushedHearts);
 	const fallingHearts = useAppSelector(state => state.game.fallingHearts);
 	const matchingCandidates = useAppSelector(
 		state => state.game.matchingCandidates,
 	);
-	const { playSoundEffect } = useContext(SoundEffectContext);
+	const { playSoundEffect, stopSoundEffect } = useContext(SoundEffectContext);
 	const [resetAlert, setResetAlert] = useState<boolean>(false);
 	const [boardBoxHeight, setBoardBoxHeight] = useState<number>(0);
 	const columnRef = useRef<HTMLLIElement>(null);
@@ -202,6 +203,15 @@ function Board() {
 			if (alertTimer) clearTimeout(alertTimer);
 		};
 	}, [isBoardValid, dispatch]);
+
+	// 스왑 힌트 효과음 재생 및 중지
+	useEffect(() => {
+		if (isSwapHint) {
+			playSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
+		} else if (isSwapHint === false) {
+			stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
+		}
+	}, [isSwapHint, playSoundEffect, stopSoundEffect]);
 
 	return (
 		<Container>

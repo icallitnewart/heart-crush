@@ -143,6 +143,7 @@ function useSoundManager() {
 		(type: SoundEffectType) => {
 			const stopAudio = (targetAudio: HTMLAudioElement) => {
 				const audio = targetAudio;
+				if (audio.paused) return;
 
 				if (isIOS) {
 					// 개발 모드시 iOS 환경에서 strict mode로 인한 에러 발생 방지
@@ -163,7 +164,6 @@ function useSoundManager() {
 				const audio = soundEffectsAudioRef.current[type];
 
 				if (audio instanceof HTMLAudioElement) {
-					if (audio.paused) return;
 					stopAudio(audio);
 				} else if (Array.isArray(audio)) {
 					const availableAudio = audio.find(a => !a.paused);

@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled, { RuleSet, css, keyframes } from 'styled-components';
 import { isMobileOnly } from 'react-device-detect';
-import { useAppSelector } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import { CellInfoType, CellType } from '../../types/board.type';
 import { HeartMovingDirectionType } from '../../types/heart.type';
-import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import HEART_ICONS from '../../constants/heart.constant';
 import {
 	ANIMATION_DELAY,
 	ANIMATION_DURATION,
 } from '../../constants/ui.constant';
 
-import { SoundEffectContext } from '../../context/SoundManager';
 import useSwipeHearts from '../../hooks/useSwipeHearts';
+import { setIsSwapHint } from '../../redux/slices/gameSlice';
 import { calculateFallingSpeed } from '../../utils/heartFallingSpeed';
 
 import Heart from '../../components/Heart';
@@ -150,14 +149,16 @@ function Cell({
 		},
 	};
 
-	const { playSoundEffect, stopSoundEffect } = useContext(SoundEffectContext);
-	const [isSwapHint, setIsSwapHint] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
+	const isSwapHint = useAppSelector(state => state.game.boardStatus.isSwapHint);
 	const movingStatus = useAppSelector(state => state.game.movingHearts?.[id]);
 	const crushedHearts = useAppSelector(state => state.game.crushedHearts);
 	const fallingHearts = useAppSelector(state => state.game.fallingHearts);
-	const isValidSwap = useAppSelector(
-		state => state.game.boardStatus.validSwap?.[id],
+	const swappableCells = useAppSelector(
+		state => state.game.boardStatus.swappableCells,
 	);
+	const isSwappable = !!swappableCells?.[id];
+	const prevSwappableCellsRef = useRef(swappableCells);
 	const isCrushed = crushedHearts.find(cell => cell.id === id);
 	const isFalling = fallingHearts.find(cell => cell.id === id);
 	const fallingDistance = isFalling ? isFalling.distance : 1;
@@ -167,21 +168,21 @@ function Cell({
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;
 
-		if (isValidSwap) {
+		if (isSwappable) {
 			animationTimer = setTimeout(() => {
-				setIsSwapHint(true);
-				playSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
+				prevSwappableCellsRef.current = swappableCells;
+				dispatch(setIsSwapHint(true));
 			}, ANIMATION_DELAY.SWAP_HINT);
-		} else {
-			setIsSwapHint(false);
-			stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
+		} else if (prevSwappableCellsRef.current?.[id]) {
+			// 이전의 하트 스왑 힌트에 해당하는 셀이었다면 스왑 힌트 해제
+			prevSwappableCellsRef.current = swappableCells;
+			dispatch(setIsSwapHint(false));
 		}
 
 		return () => {
 			if (animationTimer) clearTimeout(animationTimer);
-			if (isValidSwap) stopSoundEffect(SOUND_EFFECT_TYPE.HEART_HIGHLIGHT);
 		};
-	}, [isValidSwap, playSoundEffect, stopSoundEffect]);
+	}, [isSwappable, id, swappableCells, dispatch]);
 
 	return (
 		<Container
@@ -189,7 +190,7 @@ function Cell({
 			$direction={movingStatus?.direction}
 			$isReturning={!!movingStatus?.isReturning}
 			$isFalling={!!isFalling}
-			$isSwapHint={isSwapHint}
+			$isSwapHint={!!isSwapHint && isSwappable}
 			$fallingDistance={fallingDistance}
 			onTouchStart={handleSwipeStart}
 			onTouchMove={handleSwipeMove}
