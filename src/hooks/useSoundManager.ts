@@ -11,14 +11,14 @@ import {
 } from '../constants/audio.constant';
 
 interface SoundEffectAudioRefType {
-	[SOUND_EFFECT_TYPE.MOUSE_HOVER]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.RESULT_WIN]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.RESULT_LOSE]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.GAME_CLEAR]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.HEART_SWAP_FAIL]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.BONUS_SCORE]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.HEART_HIGHLIGHT]: HTMLAudioElement;
-	[SOUND_EFFECT_TYPE.HEART_CRUSH]: HTMLAudioElement[];
+	[SOUND_EFFECT_TYPE.MOUSE_HOVER]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.RESULT_WIN]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.RESULT_LOSE]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.GAME_CLEAR]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.HEART_SWAP_FAIL]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.BONUS_SCORE]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.HEART_HIGHLIGHT]: HTMLAudioElement | null;
+	[SOUND_EFFECT_TYPE.HEART_CRUSH]: HTMLAudioElement[] | [];
 }
 
 function useSoundManager() {
@@ -29,22 +29,16 @@ function useSoundManager() {
 		state => state.sound.isSoundActivated,
 	);
 	const screen = useAppSelector(state => state.display.screen);
-	const bgMusicAudioRef = useRef(new Audio());
+	const bgMusicAudioRef = useRef<HTMLAudioElement | null>(null);
 	const soundEffectsAudioRef = useRef<SoundEffectAudioRefType>({
-		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: new Audio(SOUND_EFFECT_AUDIO.MOUSE_HOVER),
-		[SOUND_EFFECT_TYPE.RESULT_WIN]: new Audio(SOUND_EFFECT_AUDIO.RESULT_WIN),
-		[SOUND_EFFECT_TYPE.RESULT_LOSE]: new Audio(SOUND_EFFECT_AUDIO.RESULT_LOSE),
-		[SOUND_EFFECT_TYPE.GAME_CLEAR]: new Audio(SOUND_EFFECT_AUDIO.GAME_CLEAR),
-		[SOUND_EFFECT_TYPE.HEART_SWAP_FAIL]: new Audio(
-			SOUND_EFFECT_AUDIO.HEART_SWAP_FAIL,
-		),
-		[SOUND_EFFECT_TYPE.BONUS_SCORE]: new Audio(SOUND_EFFECT_AUDIO.BONUS_SCORE),
-		[SOUND_EFFECT_TYPE.HEART_HIGHLIGHT]: new Audio(
-			SOUND_EFFECT_AUDIO.HEART_HIGHLIGHT,
-		),
-		[SOUND_EFFECT_TYPE.HEART_CRUSH]: new Array(5)
-			.fill(null)
-			.map(() => new Audio(SOUND_EFFECT_AUDIO.HEART_CRUSH)),
+		[SOUND_EFFECT_TYPE.MOUSE_HOVER]: null,
+		[SOUND_EFFECT_TYPE.RESULT_WIN]: null,
+		[SOUND_EFFECT_TYPE.RESULT_LOSE]: null,
+		[SOUND_EFFECT_TYPE.GAME_CLEAR]: null,
+		[SOUND_EFFECT_TYPE.HEART_SWAP_FAIL]: null,
+		[SOUND_EFFECT_TYPE.BONUS_SCORE]: null,
+		[SOUND_EFFECT_TYPE.HEART_HIGHLIGHT]: null,
+		[SOUND_EFFECT_TYPE.HEART_CRUSH]: [],
 	});
 
 	const selectBgMusic = (
@@ -68,8 +62,46 @@ function useSoundManager() {
 		}
 	};
 
+	const initialiseAudio = useCallback(() => {
+		bgMusicAudioRef.current = new Audio();
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.MOUSE_HOVER] = new Audio(
+			SOUND_EFFECT_AUDIO.MOUSE_HOVER,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.RESULT_WIN] = new Audio(
+			SOUND_EFFECT_AUDIO.RESULT_WIN,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.RESULT_LOSE] = new Audio(
+			SOUND_EFFECT_AUDIO.RESULT_LOSE,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.GAME_CLEAR] = new Audio(
+			SOUND_EFFECT_AUDIO.GAME_CLEAR,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.HEART_SWAP_FAIL] = new Audio(
+			SOUND_EFFECT_AUDIO.HEART_SWAP_FAIL,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.BONUS_SCORE] = new Audio(
+			SOUND_EFFECT_AUDIO.BONUS_SCORE,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.HEART_HIGHLIGHT] = new Audio(
+			SOUND_EFFECT_AUDIO.HEART_HIGHLIGHT,
+		);
+
+		soundEffectsAudioRef.current[SOUND_EFFECT_TYPE.HEART_CRUSH] = new Array(5)
+			.fill(null)
+			.map(() => new Audio(SOUND_EFFECT_AUDIO.HEART_CRUSH));
+	}, []);
+
 	const stopBgMusic = useCallback(() => {
 		const audio = bgMusicAudioRef.current;
+		if (!audio) return;
+
 		audio.pause();
 		audio.currentTime = 0;
 	}, [bgMusicAudioRef]);
@@ -77,6 +109,7 @@ function useSoundManager() {
 	const playBgMusic = useCallback(
 		(src: string) => {
 			const audio = bgMusicAudioRef.current;
+			if (!audio) return;
 
 			if (bgMusic) {
 				if (audio.src !== src) {
@@ -126,6 +159,8 @@ function useSoundManager() {
 
 	const fadeOutBgMusic = useCallback(() => {
 		const audio = bgMusicAudioRef.current;
+		if (!audio) return;
+
 		const intervalTime = 10;
 		const duration = 2000;
 		const step = audio.volume / (duration / intervalTime);
@@ -142,29 +177,37 @@ function useSoundManager() {
 	}, [stopBgMusic]);
 
 	useEffect(() => {
+		// 오디오 객체 준비
+		if (isSoundActivated) initialiseAudio();
+	}, [isSoundActivated, initialiseAudio]);
+
+	useEffect(() => {
 		const audio = bgMusicAudioRef.current;
+		// TODO: 사운드 에러 처리
+		if (!audio || !isSoundActivated) return;
 
 		if (bgMusic) {
 			const src = selectBgMusic(screen, stage?.stageNumber);
 
 			if (audio.paused) {
-				if (isSoundActivated) {
-					audio.volume = 1;
-					audio.loop = true;
-					playBgMusic(src);
-				}
+				// 중지된 배경 음악 재생
+				audio.volume = 1;
+				audio.loop = true;
+				playBgMusic(src);
 			} else {
+				// 재생 중인 배경 음악 변경 (화면 및 스테이지 전환시)
 				const currentMusic = audio.src;
 				const selectedMusic = new URL(src, window.location.href).toString();
 
 				if (selectedMusic !== currentMusic) playBgMusic(selectedMusic);
 			}
 		} else if (!audio.paused) {
+			// 배경 음악 중지
 			stopBgMusic();
 		}
 	}, [bgMusic, screen, isSoundActivated, stage, playBgMusic, stopBgMusic]);
 
-	return { playSoundEffect, stopSoundEffect, fadeOutBgMusic };
+	return { playSoundEffect, stopSoundEffect, fadeOutBgMusic, initialiseAudio };
 }
 
 export default useSoundManager;
