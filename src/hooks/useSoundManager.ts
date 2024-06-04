@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { isIOS } from 'react-device-detect';
 import { useAppSelector } from '../redux/store';
 
 import { ScreenType, StageNumberType } from '../types/state.type';
@@ -164,6 +165,14 @@ function useSoundManager() {
 		const intervalTime = 10;
 		const duration = 2000;
 		const step = audio.volume / (duration / intervalTime);
+
+		if (isIOS) {
+			const stopTimeout = setTimeout(() => {
+				stopBgMusic();
+				clearTimeout(stopTimeout);
+			}, 1000);
+			return;
+		}
 
 		const fadeOutInterval = setInterval(() => {
 			if (audio.volume > step) {
