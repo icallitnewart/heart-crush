@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useAppSelector } from '../../redux/store';
 
@@ -7,6 +7,7 @@ import { SOUND_EFFECT_TYPE } from '../../constants/audio.constant';
 import { RESULT } from '../../constants/gameStatus.constant';
 import { ANIMATION_DURATION, TEXT } from '../../constants/ui.constant';
 import { LAST_STAGE } from '../../constants/stage.constant';
+import { ResultType } from '../../types/state.type';
 
 import BackgroundLayer from '../../components/BackgroundLayer';
 import PopupBox from '../../components/PopupBox';
@@ -99,9 +100,9 @@ function ResultPopup() {
 	const isGameClear = isVictory && isLastStage;
 	const resultText = getResultText(isVictory, isGameClear);
 
-	useEffect(() => {
-		const getSoundEffectType = () => {
-			switch (result) {
+	const getSoundEffectType = useCallback(
+		(resultType: ResultType) => {
+			switch (resultType) {
 				case RESULT.WIN:
 					return isLastStage
 						? SOUND_EFFECT_TYPE.GAME_CLEAR
@@ -111,15 +112,18 @@ function ResultPopup() {
 				default:
 					return null;
 			}
-		};
+		},
+		[isLastStage],
+	);
 
-		const soundEffectType = getSoundEffectType();
+	useEffect(() => {
+		const soundEffectType = getSoundEffectType(result);
 		if (soundEffectType) playSoundEffect(soundEffectType);
 
 		return () => {
 			if (soundEffectType) stopSoundEffect(soundEffectType);
 		};
-	}, [playSoundEffect, stopSoundEffect, result, isLastStage]);
+	}, [playSoundEffect, stopSoundEffect, getSoundEffectType, result]);
 
 	useEffect(() => {
 		let animationTimer: ReturnType<typeof setTimeout> | undefined;

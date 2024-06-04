@@ -141,17 +141,33 @@ function useSoundManager() {
 
 	const stopSoundEffect = useCallback(
 		(type: SoundEffectType) => {
-			if (soundEffect && isSoundActivated) {
-				const audio = soundEffectsAudioRef.current[type];
-				if (audio instanceof HTMLAudioElement) {
+			const stopAudio = (targetAudio: HTMLAudioElement) => {
+				const audio = targetAudio;
+
+				if (isIOS) {
+					// 개발 모드시 iOS 환경에서 strict mode로 인한 에러 발생 방지
+					// 단, 개발 모드에서 오디오 재생은 되지 않으나 프로덕션 모드에선 문제 없이 재생됨
+					audio.muted = true;
+					audio.onended = () => {
+						audio.pause();
+						audio.currentTime = 0;
+						audio.muted = false;
+					};
+				} else {
 					audio.pause();
 					audio.currentTime = 0;
+				}
+			};
+
+			if (soundEffect && isSoundActivated) {
+				const audio = soundEffectsAudioRef.current[type];
+
+				if (audio instanceof HTMLAudioElement) {
+					if (audio.paused) return;
+					stopAudio(audio);
 				} else if (Array.isArray(audio)) {
 					const availableAudio = audio.find(a => !a.paused);
-					if (availableAudio) {
-						availableAudio.pause();
-						availableAudio.currentTime = 0;
-					}
+					if (availableAudio) stopAudio(availableAudio);
 				}
 			}
 		},
