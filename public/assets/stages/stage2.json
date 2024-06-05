@@ -1,0 +1,9 @@
+{
+  "stageNumber": 2,
+  "move": 14,
+  "columns": 8,
+  "rows": 20,
+  "goal": {
+    "score": 365
+  }
+}

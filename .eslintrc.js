@@ -31,7 +31,21 @@ module.exports = {
 		sourceType: 'module',
 		project: './tsconfig.json',
 	},
-	// ignorePatterns: ['.eslintrc.js'],
+	ignorePatterns: ['.eslintrc.js'],
 	plugins: ['@typescript-eslint', 'react'],
-	rules: {},
+	rules: {
+		'@typescript-eslint/no-unused-vars': 'warn',
+		'react/no-unused-prop-types': 'warn',
+		'import/prefer-default-export': 'off',
+		"no-param-reassign": [
+			"error",
+			{
+				"props": true,
+				"ignorePropertyModificationsFor": [
+					"state",
+					"acc"
+				]
+			}
+		],
+	},
 };
