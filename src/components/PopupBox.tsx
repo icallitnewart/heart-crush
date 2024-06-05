@@ -1,5 +1,4 @@
 import React from 'react';
-import { isMobileOnly } from 'react-device-detect';
 import styled, { keyframes } from 'styled-components';
 
 const backgroundColorAnimation = keyframes`
@@ -65,7 +64,7 @@ const Container = styled.div`
 	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
 
 	@media ${({ theme }) => theme.mobile} {
-		${isMobileOnly && 'padding: 12px'}
+		padding: 12px;
 	}
 `;
 

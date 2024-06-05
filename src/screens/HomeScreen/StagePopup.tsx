@@ -12,6 +12,10 @@ const Container = styled.div`
 	width: 100%;
 	height: 100%;
 	padding: 25px 20px;
+
+	@media ${({ theme }) => theme.smallMobile} {
+		padding: 25px 10px;
+	}
 `;
 
 const Title = styled.h1`

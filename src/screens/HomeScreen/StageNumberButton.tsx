@@ -16,9 +16,18 @@ interface ButtonStylePropsType {
 }
 
 const Button = styled.button<ButtonStylePropsType>`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 42px;
 	height: 42px;
 	cursor: pointer;
+
+	@media ${({ theme }) => theme.smallMobile} {
+		width: 40px;
+		height: 40px;
+		font-size: 1.2em;
+	}
 
 	background-color: var(--sub-color-purple);
 	color: var(--main-color-yellow);
